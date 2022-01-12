@@ -1,0 +1,24 @@
+{
+    "name": "Unity_Hotfix",
+    "rootNamespace": "",
+    "references": [
+        "GUID:39ded888957c0d2409ecf12f04d85728",
+        "GUID:edcc4a26db34d044b8d22d368563c441",
+        "GUID:68765d262e2128e4ab49c983f3411946",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab",
+        "GUID:aa54c41afb67b0c4e9a51c27a1400902",
+        "GUID:073d02d159574444a902e5185d426dea",
+        "GUID:7a1fa966b0ea23f40a6a4dc4dab1e297",
+        "GUID:2482cad909dab2548af0f578c0be5140"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

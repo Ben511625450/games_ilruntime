@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 536f16b5edbd88c48a65409621b457c2
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Heiti TC
+  fontNames:
+  - Heiti TC
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: d015f15de9cd12b498e0786bd82bcd44, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

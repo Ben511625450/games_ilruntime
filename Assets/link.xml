@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<linker>
+    <assembly fullname="UnityEngine" preserve="all"/>
+    <assembly fullname="Assembly-CSharp" preserve="all"/>
+    <assembly fullname="System" preserve="all"/>
+    <assembly fullname="System.Collections.Generic" preserve="all"/>
+    <assembly fullname="System.Collections" preserve="all"/>
+    <assembly fullname="System.Thread" preserve="all"/>
+    <assembly fullname="ILRuntime" preserve="all"/>
+    <assembly fullname="Spine" preserve="all"/>
+    <assembly fullname="TMPro" preserve="all"/>
+    <assembly fullname="mscorlib">
+        <namespace fullname="System.Collections.Generic" preserve="all"/>
+    </assembly>
+</linker>
