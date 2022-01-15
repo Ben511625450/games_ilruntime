@@ -14,45 +14,45 @@ namespace Hotfix.TouKui
             public int Index;
             public int Count;
         }
-        private HierarchicalStateMachine hsm;
-        private List<IState> states;
-        private Transform animContent;
-        private Transform RollContent;
+        private HierarchicalStateMachine _hsm;
+        private List<IState> _states;
+        private Transform _animContent;
+        private Transform _rollContent;
 
-        private List<List<Transform>> lines;
-        private List<List<Transform>> anims;
-        private List<LineData> lineDatas;
+        private List<List<Transform>> _lines;
+        private List<List<Transform>> _anims;
+        private List<LineData> _lineDatas;
 
-        private List<int> fudongList;
+        private List<int> _fudongList;
 
         protected override void Start()
         {
             base.Start();
 
-            lines = new List<List<Transform>>();
-            anims = new List<List<Transform>>();
-            lineDatas = new List<LineData>();
-            fudongList = new List<int>();
+            _lines = new List<List<Transform>>();
+            _anims = new List<List<Transform>>();
+            _lineDatas = new List<LineData>();
+            _fudongList = new List<int>();
 
-            hsm = new HierarchicalStateMachine(false, gameObject);
-            states = new List<IState>();
-            states.Add(new IdleState(this, hsm));
-            states.Add(new ReceiveResultState(this, hsm));
-            states.Add(new ShowSingleState(this, hsm));
-            states.Add(new ShowTotalState(this, hsm));
-            states.Add(new CloseEffectState(this, hsm));
+            _hsm = new HierarchicalStateMachine(false, gameObject);
+            _states = new List<IState>();
+            _states.Add(new IdleState(this, _hsm));
+            _states.Add(new ReceiveResultState(this, _hsm));
+            _states.Add(new ShowSingleState(this, _hsm));
+            _states.Add(new ShowTotalState(this, _hsm));
+            _states.Add(new CloseEffectState(this, _hsm));
 
-            hsm.Init(states, nameof(IdleState));
+            _hsm.Init(_states, nameof(IdleState));
         }
         protected override void Update()
         {
             base.Update();
-            hsm?.Update();
+            _hsm?.Update();
         }
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            hsm?.CurrentState.OnExit();
+            _hsm?.CurrentState.OnExit();
         }
 
         protected override void AddEvent()
@@ -73,27 +73,28 @@ namespace Hotfix.TouKui
 
         private void EventHelper_ReconnectGame()
         {
-            hsm?.ChangeState(nameof(CloseEffectState));
+            _hsm?.ChangeState(nameof(CloseEffectState));
         }
         private void TouKui_Event_ShowResult()
         {
             if (TouKuiEntry.Instance.GameData.ResultData.nWinGold <= 0) return;
-            hsm?.ChangeState(nameof(ReceiveResultState));
+            _hsm?.ChangeState(nameof(ReceiveResultState));
         }
 
         private void TouKui_Event_StartRoll()
         {
-            hsm?.ChangeState(nameof(CloseEffectState));
+            _hsm?.ChangeState(nameof(CloseEffectState));
         }
 
         private void TouKui_Event_ExitSpecialMode()
         {
-            hsm?.ChangeState(nameof(CloseEffectState));
+            _hsm?.ChangeState(nameof(CloseEffectState));
         }
-        private void FindComponent()
+
+        protected override void FindComponent()
         {
-            RollContent = TouKuiEntry.Instance.MainContent.FindChildDepth("Content/RollContent"); //转动区域
-            animContent = TouKuiEntry.Instance.MainContent.FindChildDepth("Content/AnimContent"); //显示库
+            _rollContent = TouKuiEntry.Instance.MainContent.FindChildDepth("Content/RollContent"); //转动区域
+            _animContent = TouKuiEntry.Instance.MainContent.FindChildDepth("Content/AnimContent"); //显示库
         }
         /// <summary>
         /// 创建动画
@@ -107,7 +108,7 @@ namespace Hotfix.TouKui
             if (go != null) return go.gameObject;
 
             go = TouKuiEntry.Instance.effectList.Find(effectName);
-            GameObject _go = GameObject.Instantiate(go.gameObject);
+            GameObject _go = Object.Instantiate(go.gameObject);
             return _go;
         }
         /// <summary>
@@ -122,39 +123,39 @@ namespace Hotfix.TouKui
         }
         private void GetFudongList()
         {
-            fudongList.Clear();
+            _fudongList.Clear();
             if (TouKuiEntry.Instance.GameData.ResultData.cbType == 1)
             {
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
             }
             else if (TouKuiEntry.Instance.GameData.ResultData.cbType == 2)
             {
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
             }
             else if (TouKuiEntry.Instance.GameData.ResultData.cbType == 3)
             {
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
             }
             else if (TouKuiEntry.Instance.GameData.ResultData.cbType == 3)
             {
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
-                fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 2);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 2);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
-                fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 2);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add(TouKuiEntry.Instance.GameData.ResultData.nStartRow * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 2);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 1) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 2);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 1);
+                _fudongList.Add((TouKuiEntry.Instance.GameData.ResultData.nStartRow + 2) * 5 + TouKuiEntry.Instance.GameData.ResultData.nStartCol + 2);
             }
         }
         private class IdleState : State<TouKui_Line>
@@ -169,34 +170,29 @@ namespace Hotfix.TouKui
             {
             }
             List<int> scatterlist = new List<int>();
-            bool isComplete;
+            bool _isComplete;
             public override void OnEnter()
             {
                 base.OnEnter();
-                isComplete = false;
+                _isComplete = false;
                 scatterlist.Clear();
-                owner.lineDatas.Clear();
-                owner.lines.Clear();
-                owner.anims.Clear();
+                owner._lineDatas.Clear();
+                owner._lines.Clear();
+                owner._anims.Clear();
                 owner.GetFudongList();
                 TouKui_Struct.CMD_3D_SC_Result result = TouKuiEntry.Instance.GameData.ResultData;
                 for (int i = 0; i < result.cbHitIcon.Count; i++)
                 {
-                    if (result.cbHitIcon[i][0] > 0)//筛选中奖的位置
-                    {
-                        LineData data = new LineData();
-                        data.Index = i;
-                        List<byte> hits = result.cbHitIcon[i].FindAllItem(delegate (byte b)
-                          {
-                              return b > 0;
-                          });
-                        data.Count = hits.Count;
-                        owner.lineDatas.Add(data);
-                    }
+                    if (result.cbHitIcon[i][0] <= 0) continue;
+                    LineData data = new LineData();
+                    data.Index = i;
+                    List<byte> hits = result.cbHitIcon[i].FindAllItem(b => b > 0);
+                    data.Count = hits.Count;
+                    owner._lineDatas.Add(data);
                 }
-                for (int i = 0; i < owner.RollContent.childCount; i++)
+                for (int i = 0; i < owner._rollContent.childCount; i++)
                 {
-                    Transform tran = owner.RollContent.GetChild(i).GetComponent<ScrollRect>().content;
+                    Transform tran = owner._rollContent.GetChild(i).GetComponent<ScrollRect>().content;
                     for (int j = 0; j < tran.childCount; j++)
                     {
                         Image img = tran.GetChild(j).FindChildDepth<Image>("Icon");
@@ -207,9 +203,9 @@ namespace Hotfix.TouKui
             public override void Update()
             {
                 base.Update();
-                if (isComplete) return;
-                isComplete = true;
-                if (owner.lineDatas.Count <= 0)
+                if (_isComplete) return;
+                _isComplete = true;
+                if (owner._lineDatas.Count <= 0)
                 {
                     for (int i = 0; i < TouKuiEntry.Instance.GameData.ResultData.cbIcon.Count; i++)
                     {
@@ -224,7 +220,7 @@ namespace Hotfix.TouKui
                         {
                             int row = scatterlist[i] / 5;
                             int col = scatterlist[i] % 5;
-                            Transform animTrans = owner.animContent.GetChild(col).GetChild(0).GetChild(row);
+                            Transform animTrans = owner._animContent.GetChild(col).GetChild(0).GetChild(row);
                             if (animTrans.childCount <= 0)
                             {
                                 GameObject effectObj = owner.CreatHitEffect("Item12");
@@ -256,92 +252,88 @@ namespace Hotfix.TouKui
             public ShowSingleState(TouKui_Line owner, HierarchicalStateMachine hsm) : base(owner, hsm)
             {
             }
-            private int currentShowIndex = 0;
-            private float timer;
+            private int _currentShowIndex = 0;
+            private float _timer;
             public override void OnEnter()
             {
                 base.OnEnter();
-                currentShowIndex = 0;
-                timer = 0;
-                for (int i = 0; i < owner.RollContent.childCount; i++)
+                _currentShowIndex = 0;
+                _timer = 0;
+                for (int i = 0; i < owner._rollContent.childCount; i++)
                 {
-                    Transform tran = owner.RollContent.GetChild(i).GetComponent<ScrollRect>().content;
+                    Transform tran = owner._rollContent.GetChild(i).GetComponent<ScrollRect>().content;
                     for (int j = 0; j < tran.childCount; j++)
                     {
                         Image img = tran.GetChild(j).FindChildDepth<Image>("Icon");
                         img.enabled = true;
                     }
                 }
-                for (int i = 0; i < owner.anims.Count; i++)
+                for (int i = 0; i < owner._anims.Count; i++)
                 {
-                    for (int j = 0; j < owner.anims[i].Count; j++)
+                    for (int j = 0; j < owner._anims[i].Count; j++)
                     {
-                        owner.anims[i][j].gameObject.SetActive(false);
+                        owner._anims[i][j].gameObject.SetActive(false);
                     }
                 }
                 for (int i = 0; i < owner.transform.childCount; i++)
                 {
                     owner.transform.GetChild(i).gameObject.SetActive(false);
                 }
-                for (int i = 0; i < owner.lines[currentShowIndex].Count; i++)
+                for (int i = 0; i < owner._lines[_currentShowIndex].Count; i++)
                 {
-                    owner.lines[currentShowIndex][i].GetComponent<Image>().enabled = false;
+                    owner._lines[_currentShowIndex][i].GetComponent<Image>().enabled = false;
                 }
-                for (int i = 0; i < owner.anims[currentShowIndex].Count; i++)
+                for (int i = 0; i < owner._anims[_currentShowIndex].Count; i++)
                 {
-                    owner.anims[currentShowIndex][i].gameObject.SetActive(true);
+                    owner._anims[_currentShowIndex][i].gameObject.SetActive(true);
                 }
                 owner.transform.GetChild(0).gameObject.SetActive(true);
-                owner.transform.GetChild(0).GetComponent<UnityArmatureComponent>().dbAnimation.Play((owner.lineDatas[currentShowIndex].Index + 1).ToString());
+                owner.transform.GetChild(0).GetComponent<UnityArmatureComponent>().dbAnimation.Play((owner._lineDatas[_currentShowIndex].Index + 1).ToString());
                 ShowFudong();
             }
             private void ShowFudong()
             {
                 bool isShow = false;
-                List<int> lines = TouKui_DataConfig.Lines[owner.lineDatas[currentShowIndex].Index];//中奖线
+                List<int> lines = TouKui_DataConfig.Lines[owner._lineDatas[_currentShowIndex].Index];//中奖线
                 for (int i = 0; i < lines.Count; i++)
                 {
-                    if (owner.fudongList.Contains(lines[i] - 1))
-                    {
-                        isShow = true;
-                        break;
-                    }
+                    if (!owner._fudongList.Contains(lines[i] - 1)) continue;
+                    isShow = true;
+                    break;
                 }
                 TouKui_Event.DispatchShowFuDongWin(isShow);
             }
             public override void Update()
             {
                 base.Update();
-                timer += Time.deltaTime;
-                if (timer >= TouKui_DataConfig.cyclePlayLineTime)
+                _timer += Time.deltaTime;
+                if (_timer < TouKui_DataConfig.cyclePlayLineTime) return;
+                _timer = 0;
+                for (int i = 0; i < owner._lines[_currentShowIndex].Count; i++)
                 {
-                    timer = 0;
-                    for (int i = 0; i < owner.lines[currentShowIndex].Count; i++)
-                    {
-                        owner.lines[currentShowIndex][i].GetComponent<Image>().enabled = true;
-                    }
-                    for (int i = 0; i < owner.anims[currentShowIndex].Count; i++)
-                    {
-                        owner.anims[currentShowIndex][i].gameObject.SetActive(false);
-                    }
-                    currentShowIndex++;
-                    if (currentShowIndex >= owner.lines.Count)
-                    {
-                        currentShowIndex = 0;
-                    }
-
-                    owner.transform.GetChild(0).gameObject.SetActive(true);
-                    owner.transform.GetChild(0).GetComponent<UnityArmatureComponent>().dbAnimation.Play((owner.lineDatas[currentShowIndex].Index + 1).ToString());
-                    for (int i = 0; i < owner.lines[currentShowIndex].Count; i++)
-                    {
-                        owner.lines[currentShowIndex][i].GetComponent<Image>().enabled = false;
-                    }
-                    for (int i = 0; i < owner.anims[currentShowIndex].Count; i++)
-                    {
-                        owner.anims[currentShowIndex][i].gameObject.SetActive(true);
-                    }
-                    ShowFudong();
+                    owner._lines[_currentShowIndex][i].GetComponent<Image>().enabled = true;
                 }
+                for (int i = 0; i < owner._anims[_currentShowIndex].Count; i++)
+                {
+                    owner._anims[_currentShowIndex][i].gameObject.SetActive(false);
+                }
+                _currentShowIndex++;
+                if (_currentShowIndex >= owner._lines.Count)
+                {
+                    _currentShowIndex = 0;
+                }
+
+                owner.transform.GetChild(0).gameObject.SetActive(true);
+                owner.transform.GetChild(0).GetComponent<UnityArmatureComponent>().dbAnimation.Play((owner._lineDatas[_currentShowIndex].Index + 1).ToString());
+                for (int i = 0; i < owner._lines[_currentShowIndex].Count; i++)
+                {
+                    owner._lines[_currentShowIndex][i].GetComponent<Image>().enabled = false;
+                }
+                for (int i = 0; i < owner._anims[_currentShowIndex].Count; i++)
+                {
+                    owner._anims[_currentShowIndex][i].gameObject.SetActive(true);
+                }
+                ShowFudong();
             }
         }
         /// <summary>
@@ -352,34 +344,34 @@ namespace Hotfix.TouKui
             public ShowTotalState(TouKui_Line owner, HierarchicalStateMachine hsm) : base(owner, hsm)
             {
             }
-            float timer;
+            float _timer;
             public override void OnEnter()
             {
                 base.OnEnter();
-                timer = 0;
-                owner.lines.Clear();
-                owner.anims.Clear();
+                _timer = 0;
+                owner._lines.Clear();
+                owner._anims.Clear();
                 bool isShow = false;
-                for (int i = 0; i < owner.lineDatas.Count; i++)
+                for (int i = 0; i < owner._lineDatas.Count; i++)
                 {
-                    List<int> lines = TouKui_DataConfig.Lines[owner.lineDatas[i].Index];//中奖线
+                    List<int> lines = TouKui_DataConfig.Lines[owner._lineDatas[i].Index];//中奖线
                     GameObject child = owner.transform.gameObject.InstantiateChild(i);
                     child.transform.localScale = Vector2.one * 100;//龙骨动画本身就是100*100
                     child.SetActive(true);
-                    child.transform.GetComponent<UnityArmatureComponent>().dbAnimation.Play((owner.lineDatas[i].Index + 1).ToString());//播放线动画
+                    child.transform.GetComponent<UnityArmatureComponent>().dbAnimation.Play((owner._lineDatas[i].Index + 1).ToString());//播放线动画
                     List<Transform> showLine = new List<Transform>();
                     List<Transform> showAnim = new List<Transform>();
-                    for (int j = 0; j < owner.lineDatas[i].Count; j++)
+                    for (int j = 0; j < owner._lineDatas[i].Count; j++)
                     {
                         int hitIndex = lines[j] - 1;
                         int row = hitIndex / 5;
                         int col = hitIndex % 5;
-                        if (owner.fudongList.Contains(hitIndex))
+                        if (owner._fudongList.Contains(hitIndex))
                         {
                             isShow = true;
                         }
-                        Transform hitTrans = owner.RollContent.GetChild(col).GetComponent<ScrollRect>().content.GetChild(row);
-                        Transform animTrans = owner.animContent.GetChild(col).GetChild(0).GetChild(row);
+                        Transform hitTrans = owner._rollContent.GetChild(col).GetComponent<ScrollRect>().content.GetChild(row);
+                        Transform animTrans = owner._animContent.GetChild(col).GetChild(0).GetChild(row);
                         Image icon = hitTrans.FindChildDepth<Image>("Icon");
                         icon.enabled = false;
                         //获取中奖的动画图标
@@ -409,20 +401,18 @@ namespace Hotfix.TouKui
 
                         showLine.Add(icon.transform);
                     }
-                    owner.lines.Add(showLine);
-                    owner.anims.Add(showAnim);
+                    owner._lines.Add(showLine);
+                    owner._anims.Add(showAnim);
                 }
                 TouKui_Event.DispatchShowFuDongWin(isShow);
             }
             public override void Update()
             {
                 base.Update();
-                timer += Time.deltaTime;
-                if (timer >= TouKui_DataConfig.lineAllShowTime)
-                {
-                    timer = 0;
-                    hsm?.ChangeState(nameof(ShowSingleState));
-                }
+                _timer += Time.deltaTime;
+                if (_timer < TouKui_DataConfig.lineAllShowTime) return;
+                _timer = 0;
+                hsm?.ChangeState(nameof(ShowSingleState));
             }
         }
         /// <summary>
@@ -433,14 +423,14 @@ namespace Hotfix.TouKui
             public CloseEffectState(TouKui_Line owner, HierarchicalStateMachine hsm) : base(owner, hsm)
             {
             }
-            bool isComplete;
+            bool _isComplete;
             public override void OnEnter()
             {
                 base.OnEnter();
-                isComplete = false;
-                for (int i = 0; i < owner.RollContent.childCount; i++)
+                _isComplete = false;
+                for (int i = 0; i < owner._rollContent.childCount; i++)
                 {
-                    Transform tran = owner.RollContent.GetChild(i).GetComponent<ScrollRect>().content;
+                    Transform tran = owner._rollContent.GetChild(i).GetComponent<ScrollRect>().content;
                     for (int j = 0; j < tran.childCount; j++)
                     {
                         Image img = tran.GetChild(j).FindChildDepth<Image>("Icon");
@@ -448,10 +438,10 @@ namespace Hotfix.TouKui
                         img.enabled = true;
                     }
                 }
-                for (int i = 0; i < owner.animContent.childCount; i++)
+                for (int i = 0; i < owner._animContent.childCount; i++)
                 {
-                    if (owner.animContent.GetChild(i).childCount <= 0) continue;
-                    Transform child = owner.animContent.GetChild(i).GetChild(0);
+                    if (owner._animContent.GetChild(i).childCount <= 0) continue;
+                    Transform child = owner._animContent.GetChild(i).GetChild(0);
                     for (int j = 0; j < child.childCount; j++)
                     {
                         for (int k = 0; k < child.GetChild(j).childCount; k++)
@@ -469,8 +459,8 @@ namespace Hotfix.TouKui
             public override void Update()
             {
                 base.Update();
-                if (isComplete) return;
-                isComplete = true;
+                if (_isComplete) return;
+                _isComplete = true;
                 hsm?.ChangeState(nameof(IdleState));
             }
         }

@@ -16,20 +16,20 @@ namespace Hotfix.LTBY
     /// </summary>
     public class LTBYEntry : SingletonILEntity<LTBYEntry>
     {
-        public UnityEngine.Transform GameLayer { get; set; }
-        public Camera MainCam { get; set; }
-        public Camera UiCam { get; set; }
-        public UnityEngine.Transform UiLayer { get; set; }
+        private UnityEngine.Transform GameLayer { get; set; }
+        private Camera MainCam { get; set; }
+        private Camera UiCam { get; set; }
+        private UnityEngine.Transform UiLayer { get; set; }
         public UnityEngine.Transform UiTopLayer { get; set; }
-        private UnityEngine.Transform Bg;
-        public UnityEngine.Transform FishLayer { get; set; }
-        public UnityEngine.Transform BulletLayer { get; set; }
-        private UnityEngine.Transform Wave;
-        public bool SceneChange { get; set; }
+        private UnityEngine.Transform _bg;
+        private UnityEngine.Transform FishLayer { get; set; }
+        private UnityEngine.Transform BulletLayer { get; set; }
+        private UnityEngine.Transform _wave;
+        private bool SceneChange { get; set; }
 
-        Tweener ShakeKey;
-        UnityEngine.Transform ChangeSceneText;
-        private int SceneIndex;
+        Tweener _shakeKey;
+        UnityEngine.Transform _changeSceneText;
+        private int _sceneIndex;
 
         public Transform GetBulletLayer()
         {
@@ -59,11 +59,9 @@ namespace Hotfix.LTBY
 
             for (int i = 0; i < UnityEngine.QualitySettings.names.Length; i++)
             {
-                if (UnityEngine.QualitySettings.names[i].Equals("BuYuHighLevel"))
-                {
-                    UnityEngine.QualitySettings.SetQualityLevel(i);
-                    break;
-                }
+                if (!UnityEngine.QualitySettings.names[i].Equals("BuYuHighLevel")) continue;
+                UnityEngine.QualitySettings.SetQualityLevel(i);
+                break;
             }
 
             LTBY_WaitForServerView.Instance.Init();
@@ -125,17 +123,17 @@ namespace Hotfix.LTBY
 
             BulletLayer = GameLayer.FindChildDepth("BulletLayer");
 
-            Wave = GameLayer.FindChildDepth("Wave");
+            _wave = GameLayer.FindChildDepth("Wave");
 
-            SceneIndex = 1;
+            _sceneIndex = 1;
         }
 
-        private void AddEvent()
+        protected override void AddEvent()
         {
             LTBY_Event.OnYCPre += LTBY_Event_OnYCPre;
         }
 
-        private void RemoveEvent()
+        protected override void RemoveEvent()
         {
             LTBY_Event.OnYCPre -= LTBY_Event_OnYCPre;
         }
@@ -147,16 +145,16 @@ namespace Hotfix.LTBY
 
         private void SetSceneIndex(int index)
         {
-            SceneIndex = index;
+            _sceneIndex = index;
         }
 
         public void EnterGame()
         {
             AddEvent();
             SceneChange = false;
-            ShakeKey = null;
-            ChangeSceneText = null;
-            CreateBackground(SceneIndex);
+            _shakeKey = null;
+            _changeSceneText = null;
+            CreateBackground(_sceneIndex);
         }
 
         protected override void Update()
@@ -165,18 +163,18 @@ namespace Hotfix.LTBY
             Demo.Instance.Update();
         }
 
-        public void ExitGame()
+        private void ExitGame()
         {
             SetLowPower(4);
             RemoveEvent();
 
-            if (ChangeSceneText != null)
+            if (_changeSceneText != null)
             {
-                UnityEngine.Object.Destroy(ChangeSceneText.gameObject);
-                ChangeSceneText = null;
+                UnityEngine.Object.Destroy(_changeSceneText.gameObject);
+                _changeSceneText = null;
             }
 
-            Wave.gameObject.SetActive(false);
+            _wave.gameObject.SetActive(false);
             SceneChange = false;
             //退出游戏就删除背景
             RemoveBackground();
@@ -187,19 +185,19 @@ namespace Hotfix.LTBY
             if (SceneChange) return;
             SceneChange = true;
             if (nextIndex > 3) nextIndex -= 3;
-            SceneIndex = nextIndex;
-            Transform oldBg = Bg;
-            ChangeSceneText = LTBY_Extend.Instance.LoadPrefab("LTBY_TextWave", UiLayer);
+            _sceneIndex = nextIndex;
+            Transform oldBg = _bg;
+            _changeSceneText = LTBY_Extend.Instance.LoadPrefab("LTBY_TextWave", UiLayer);
             ToolHelper.DelayRun(1.5f, () =>
             {
                 LTBY_Audio.Instance.Play(LTBY_Audio.Wave);
-                Wave.gameObject.SetActive(true);
+                _wave.gameObject.SetActive(true);
 
                 LTBY_Extend.Instance.RendererFadeOut(oldBg, 1.5f);
 
                 CreateBackground(nextIndex);
 
-                LTBY_Extend.Instance.RendererFadeIn(Bg, 1.5f);
+                LTBY_Extend.Instance.RendererFadeIn(_bg, 1.5f);
 
                 ToolHelper.DelayRun(1.5f, () =>
                 {
@@ -208,12 +206,12 @@ namespace Hotfix.LTBY
 
                 ToolHelper.DelayRun(3f, () =>
                 {
-                    if (ChangeSceneText != null)
+                    if (_changeSceneText != null)
                     {
-                        LTBY_Extend.Destroy(ChangeSceneText.gameObject);
-                        ChangeSceneText = null;
+                        LTBY_Extend.Destroy(_changeSceneText.gameObject);
+                        _changeSceneText = null;
                     }
-                    if(Wave!=null) Wave.gameObject.SetActive(false);
+                    if(_wave!=null) _wave.gameObject.SetActive(false);
                     SceneChange = false;
                     GC.Collect();
                 });
@@ -225,20 +223,20 @@ namespace Hotfix.LTBY
         /// </summary>
         /// <param name="index">背景Id</param>
         /// <returns></returns>
-        public void CreateBackground(int index)
+        private void CreateBackground(int index)
         {
-            Bg = LTBY_Extend.Instance.LoadPrefab($"LTBY_Background_{index}", FishLayer, "BG");
+            _bg = LTBY_Extend.Instance.LoadPrefab($"LTBY_Background_{index}", FishLayer, "BG");
             Vector2 size = GetBackgroundWH();
-            Bg.localScale = new Vector3(size.x + 1, size.y + 1, 1);
-            Bg.localPosition = new Vector3(0, 0, 200);
+            _bg.localScale = new Vector3(size.x + 1, size.y + 1, 1);
+            _bg.localPosition = new Vector3(0, 0, 200);
         }
 
         /// <summary>
         /// 移除背景
         /// </summary>
-        public void RemoveBackground()
+        private void RemoveBackground()
         {
-            if (Bg != null) UnityEngine.Object.Destroy(Bg.gameObject);
+            if (_bg != null) UnityEngine.Object.Destroy(_bg.gameObject);
         }
 
         /// <summary>
@@ -292,37 +290,36 @@ namespace Hotfix.LTBY
         /// <param name="level">等级</param>
         public void SetLowPower(int level)
         {
-            if (level == 1)
+            switch (level)
             {
-                Application.targetFrameRate = 25;
-                GameLayer.FindChildDepth("Light").gameObject.SetActive(false);
-                GameLayer.FindChildDepth("ShadowProjector").gameObject.SetActive(false);
+                case 1:
+                    Application.targetFrameRate = 25;
+                    GameLayer.FindChildDepth("Light").gameObject.SetActive(false);
+                    GameLayer.FindChildDepth("ShadowProjector").gameObject.SetActive(false);
 
-                //GC.FishManager.ToggleDragonLight(false);
-            }
-            else if (level == 2)
-            {
-                Application.targetFrameRate = 35;
-                GameLayer.FindChildDepth("Light").gameObject.SetActive(false);
-                GameLayer.FindChildDepth("ShadowProjector").gameObject.SetActive(true);
+                    //GC.FishManager.ToggleDragonLight(false);
+                    break;
+                case 2:
+                    Application.targetFrameRate = 35;
+                    GameLayer.FindChildDepth("Light").gameObject.SetActive(false);
+                    GameLayer.FindChildDepth("ShadowProjector").gameObject.SetActive(true);
 
-                //GC.FishManager.ToggleDragonLight(false);
-            }
-            else if (level == 3)
-            {
-                Application.targetFrameRate = 45;
-                GameLayer.FindChildDepth("Light").gameObject.SetActive(true);
-                GameLayer.FindChildDepth("ShadowProjector").gameObject.SetActive(true);
+                    //GC.FishManager.ToggleDragonLight(false);
+                    break;
+                case 3:
+                    Application.targetFrameRate = 45;
+                    GameLayer.FindChildDepth("Light").gameObject.SetActive(true);
+                    GameLayer.FindChildDepth("ShadowProjector").gameObject.SetActive(true);
 
-                //GC.FishManager.ToggleDragonLight(true);
-            }
-            else
-            {
-                Application.targetFrameRate = 55;
-                GameLayer.FindChildDepth("Light").gameObject.SetActive(true);
-                GameLayer.FindChildDepth("ShadowProjector").gameObject.SetActive(true);
+                    //GC.FishManager.ToggleDragonLight(true);
+                    break;
+                default:
+                    Application.targetFrameRate = 55;
+                    GameLayer.FindChildDepth("Light").gameObject.SetActive(true);
+                    GameLayer.FindChildDepth("ShadowProjector").gameObject.SetActive(true);
 
-                //GC.FishManager.ToggleDragonLight(true);
+                    //GC.FishManager.ToggleDragonLight(true);
+                    break;
             }
         }
 
@@ -333,13 +330,13 @@ namespace Hotfix.LTBY
         /// <param name="strength">频率</param>
         public void ShakeFishLayer(float time, float strength = 1)
         {
-            if (ShakeKey != null) return;
-            ShakeKey = FishLayer.DOShakePosition(time, strength, 50, 90, false).SetEase(Ease.Linear).OnComplete(() =>
+            if (_shakeKey != null) return;
+            _shakeKey = FishLayer.DOShakePosition(time, strength, 50, 90, false).SetEase(Ease.Linear).OnComplete(() =>
             {
                 FishLayer.localPosition = Vector3.zero;
-                ShakeKey = null;
+                _shakeKey = null;
             });
-            ShakeKey?.SetAutoKill();
+            _shakeKey?.SetAutoKill();
         }
 
         public Vector3 GetUIPosFromWorld(Vector3 pos)
