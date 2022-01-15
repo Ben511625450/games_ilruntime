@@ -15,7 +15,7 @@ public class Startup :EditorWindow
 
     static Startup()
     {
-        CopyDll();
+        // CopyDll();
     }
 
     [MenuItem("ILRuntime/复制Hotfix.dll")]
