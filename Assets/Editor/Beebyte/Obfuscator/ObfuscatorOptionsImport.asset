@@ -209,7 +209,7 @@ MonoBehaviour:
   inheritBeebyteAttributes: 0
   treatScriptableObjectsAsSerializable: 1
   deriveNamesFromCryptoHash: 1
-  sha1seed: 
+  sha1seed: XFf2o3aF56
   numberOfDifferentCharactersAsPowerOfTwo: 4
   numberOfHashBitsToUse: 6
   allowCopyingOfAllAttributesInFakeCode: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
   equivalentAttributesForSkip: []
   equivalentAttributesForSkipRename:
   - Newtonsoft.Json.JsonPropertyAttribute
-  includeCompilationPipelineAssemblies: 0
+  includeCompilationPipelineAssemblies: 1
   assemblies:
   - Assembly-CSharp.dll
   compiledAssemblies: []

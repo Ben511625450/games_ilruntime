@@ -656,7 +656,7 @@ namespace Hotfix
                 {
                     luaPath = "Module19.Point21_2D.Point21ScenCtrlPanel",
                     luaRootName = "Point21ScenCtrlPanel",
-                    driveType = ScriptType.Lua,
+                    driveType = ScriptType.ILRuntime,
                     gameName = "二十一点",
                     uiName = "二十一点",
                     downFiles = new List<string>()
