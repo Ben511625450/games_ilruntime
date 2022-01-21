@@ -11,6 +11,7 @@ using ILRuntime.Runtime.Stack;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace LuaFramework
 {
@@ -52,7 +53,7 @@ namespace LuaFramework
             try
             {
 #if !UNITY_EDITOR
-                p = null;
+                _p = null;
 #endif
                 _appdomain?.LoadAssembly(_fs, _p, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
             }
@@ -126,6 +127,12 @@ namespace LuaFramework
             _appdomain.DelegateManager.RegisterMethodDelegate<System.String, LuaFramework.Session>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Scene, LoadSceneMode>();
             _appdomain.DelegateManager.RegisterMethodDelegate<GameObject, GameObject>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<Object, Object,Object>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<Object, Object>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<Object>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Object>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Object, Object>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Object, Object,Object>();
             _appdomain.DelegateManager.RegisterMethodDelegate<GameObject, PointerEventData>();
             _appdomain.DelegateManager.RegisterMethodDelegate<System.Single, System.Object>();
             _appdomain.DelegateManager

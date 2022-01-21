@@ -8,7 +8,6 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Heiti TC
   fontNames:
   - Heiti TC
   fallbackFontReferences:
@@ -20,5 +19,5 @@ TrueTypeFontImporter:
   useLegacyBoundsCalculation: 0
   shouldRoundAdvanceValue: 1
   userData: 
-  assetBundleName: font
-  assetBundleVariant: unity3d
+  assetBundleName: 
+  assetBundleVariant: 
