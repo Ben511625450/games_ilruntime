@@ -140,10 +140,7 @@ namespace LuaFramework
 				if (flag2)
 				{
 					UnityWebRequest www = this.pak.www;
-					if (www != null)
-					{
-						www.Dispose();
-					}
+					www?.Dispose();
 					this.pak = null;
 				}
 				string text = string.Empty;

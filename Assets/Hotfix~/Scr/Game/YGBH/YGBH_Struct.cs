@@ -215,7 +215,6 @@ namespace Hotfix.YGBH
                 }
                 if (count>YGBHEntry.Instance.smallSPCount)
                 {
-                    Time.timeScale = 0;
                     YGBHEntry.Instance.GameData.hasNewSP = true;
                     YGBHEntry.Instance.smallSPCount = count;
                 }

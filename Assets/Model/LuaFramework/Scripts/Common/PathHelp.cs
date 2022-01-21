@@ -17,13 +17,13 @@ namespace LuaFramework
             {
                 string result = string.Empty;
                 RuntimePlatform platform = Application.platform;
-                if (platform != RuntimePlatform.IPhonePlayer)
+                if (platform == RuntimePlatform.IPhonePlayer) return result;
+                if (platform != RuntimePlatform.Android)
                 {
-                    if (platform != RuntimePlatform.Android)
-                    {
-                        result = Application.dataPath.Replace("/Assets", "/Library/ScriptAssemblies/Assembly-CSharp.dll");
-                    }
+                    result = Application.dataPath.Replace("/Assets",
+                        "/Library/ScriptAssemblies/Assembly-CSharp.dll");
                 }
+
                 return result;
             }
         }
@@ -49,13 +49,13 @@ namespace LuaFramework
             {
                 string result = string.Empty;
                 RuntimePlatform platform = Application.platform;
-                if (platform != RuntimePlatform.IPhonePlayer)
+                if (platform == RuntimePlatform.IPhonePlayer) return result;
+                if (platform != RuntimePlatform.Android)
                 {
-                    if (platform != RuntimePlatform.Android)
-                    {
-                        result = Application.dataPath.Replace("/Assets", "/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll");
-                    }
+                    result = Application.dataPath.Replace("/Assets",
+                        "/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll");
                 }
+
                 return result;
             }
         }
@@ -76,7 +76,7 @@ namespace LuaFramework
                 else
                 {
                     bool isMobilePlatform = Application.isMobilePlatform;
-                    if (isMobilePlatform)
+                    if (isMobilePlatform && !Application.isEditor)
                     {
                         text = Application.persistentDataPath + "/" + Application.identifier + "/";
                     }
@@ -89,8 +89,10 @@ namespace LuaFramework
                             text = "c:/" + identifier + "/";
                         }
                     }
+
                     result = text;
                 }
+
                 return result;
             }
         }
@@ -103,7 +105,7 @@ namespace LuaFramework
             {
                 string result = string.Empty;
                 RuntimePlatform platform = Application.platform;
-                if (platform != RuntimePlatform.Android)
+                if (platform != RuntimePlatform.Android || Util.isEditor)
                 {
                     result = Application.streamingAssetsPath + "/";
                 }
@@ -111,6 +113,7 @@ namespace LuaFramework
                 {
                     result = "jar:file://" + Application.dataPath + "!/assets/";
                 }
+
                 return result;
             }
         }
@@ -127,16 +130,16 @@ namespace LuaFramework
                 {
                     str = "file://";
                 }
+
                 bool flag = Util.isOSXEditor || Util.isOSXPlayer;
-                if (flag)
+                if (!flag) return (str + PathHelp.AppHotfixResPath).Trim();
+                str = "file://" + Application.dataPath.Replace("Assets", "");
+                bool debugMode = AppConst.DebugMode;
+                if (debugMode)
                 {
-                    str = "file://" + Application.dataPath.Replace("Assets", "");
-                    bool debugMode = AppConst.DebugMode;
-                    if (debugMode)
-                    {
-                        str = "file://";
-                    }
+                    str = "file://";
                 }
+
                 return (str + PathHelp.AppHotfixResPath).Trim();
             }
         }
@@ -145,10 +148,7 @@ namespace LuaFramework
         // (get) Token: 0x060002B3 RID: 691 RVA: 0x0000AF08 File Offset: 0x00009108
         public static string PathPrefix
         {
-            get
-            {
-                return "file://";
-            }
+            get { return "file://"; }
         }
 
         // Token: 0x060002B4 RID: 692 RVA: 0x0000AF24 File Offset: 0x00009124
@@ -159,6 +159,7 @@ namespace LuaFramework
             {
                 files = new List<string>();
             }
+
             DirectoryInfo directoryInfo = new DirectoryInfo(path);
             FileInfo[] files2 = directoryInfo.GetFiles();
             DirectoryInfo[] directories = directoryInfo.GetDirectories();
@@ -166,10 +167,12 @@ namespace LuaFramework
             {
                 files.Add(fileInfo.FullName.FormatPath());
             }
+
             foreach (DirectoryInfo directoryInfo2 in directories)
             {
                 PathHelp.GetAllFiles(directoryInfo2.FullName, files);
             }
+
             return files;
         }
 
@@ -187,6 +190,7 @@ namespace LuaFramework
             {
                 result = fileInfo.Length;
             }
+
             return result;
         }
     }

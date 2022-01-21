@@ -383,7 +383,7 @@ namespace Hotfix.Hall
                     id = id,
                     mark = mark,
                     gold = gold,
-                    pwd = pw
+                    pwd = MD5Helper.MD5String(pw)
                 };
                 HotfixGameComponent.Instance.Send(DataStruct.BankStruct.MDM_GP_USER,
                     DataStruct.BankStruct.SUB_GP_USER_BANK_OPERATE, saveGold.ByteBuffer, SocketType.Hall);
@@ -583,7 +583,7 @@ namespace Hotfix.Hall
                     gold = gold,
                     id = id,
                     mark = mark,
-                    pwd = pw
+                    pwd = MD5Helper.MD5String(pw)
                 };
                 HotfixGameComponent.Instance.Send(DataStruct.BankStruct.MDM_GP_USER,
                     DataStruct.BankStruct.SUB_GP_USER_BANK_OPERATE, getGold.ByteBuffer, SocketType.Hall);
