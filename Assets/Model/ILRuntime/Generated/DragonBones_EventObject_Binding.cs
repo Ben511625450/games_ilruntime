@@ -52,7 +52,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_animationState_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            DragonBones.AnimationState @animationState = (DragonBones.AnimationState)typeof(DragonBones.AnimationState).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            DragonBones.AnimationState @animationState = (DragonBones.AnimationState)typeof(DragonBones.AnimationState).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             ((DragonBones.EventObject)o).animationState = @animationState;
             return ptr_of_this_method;
         }

@@ -76,7 +76,7 @@ namespace LuaFramework
                 else
                 {
                     bool isMobilePlatform = Application.isMobilePlatform;
-                    if (isMobilePlatform && !Application.isEditor)
+                    if (isMobilePlatform)
                     {
                         text = Application.persistentDataPath + "/" + Application.identifier + "/";
                     }
@@ -105,7 +105,7 @@ namespace LuaFramework
             {
                 string result = string.Empty;
                 RuntimePlatform platform = Application.platform;
-                if (platform != RuntimePlatform.Android || Util.isEditor)
+                if (platform != RuntimePlatform.Android)
                 {
                     result = Application.streamingAssetsPath + "/";
                 }

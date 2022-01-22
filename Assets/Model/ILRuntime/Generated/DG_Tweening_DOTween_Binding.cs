@@ -55,7 +55,7 @@ namespace ILRuntime.Runtime.Generated
             System.Single @startValue = *(float*)&ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 4);
-            DG.Tweening.Core.DOSetter<System.Single> @setter = (DG.Tweening.Core.DOSetter<System.Single>)typeof(DG.Tweening.Core.DOSetter<System.Single>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            DG.Tweening.Core.DOSetter<System.Single> @setter = (DG.Tweening.Core.DOSetter<System.Single>)typeof(DG.Tweening.Core.DOSetter<System.Single>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             __intp.Free(ptr_of_this_method);
 
 
@@ -95,7 +95,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_defaultEaseType_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            DG.Tweening.Ease @defaultEaseType = (DG.Tweening.Ease)typeof(DG.Tweening.Ease).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            DG.Tweening.Ease @defaultEaseType = (DG.Tweening.Ease)typeof(DG.Tweening.Ease).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)20);
             DG.Tweening.DOTween.defaultEaseType = @defaultEaseType;
             return ptr_of_this_method;
         }

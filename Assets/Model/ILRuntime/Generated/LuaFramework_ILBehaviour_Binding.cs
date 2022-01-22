@@ -23,18 +23,18 @@ namespace ILRuntime.Runtime.Generated
             Type[] args;
             Type type = typeof(LuaFramework.ILBehaviour);
 
-            field = type.GetField("BehaviourName", flag);
-            app.RegisterCLRFieldGetter(field, get_BehaviourName_0);
-            app.RegisterCLRFieldSetter(field, set_BehaviourName_0);
-            app.RegisterCLRFieldBinding(field, CopyToStack_BehaviourName_0, AssignFromStack_BehaviourName_0);
-            field = type.GetField("Behaviour", flag);
-            app.RegisterCLRFieldGetter(field, get_Behaviour_1);
-            app.RegisterCLRFieldSetter(field, set_Behaviour_1);
-            app.RegisterCLRFieldBinding(field, CopyToStack_Behaviour_1, AssignFromStack_Behaviour_1);
             field = type.GetField("UpdateEvent", flag);
-            app.RegisterCLRFieldGetter(field, get_UpdateEvent_2);
-            app.RegisterCLRFieldSetter(field, set_UpdateEvent_2);
-            app.RegisterCLRFieldBinding(field, CopyToStack_UpdateEvent_2, AssignFromStack_UpdateEvent_2);
+            app.RegisterCLRFieldGetter(field, get_UpdateEvent_0);
+            app.RegisterCLRFieldSetter(field, set_UpdateEvent_0);
+            app.RegisterCLRFieldBinding(field, CopyToStack_UpdateEvent_0, AssignFromStack_UpdateEvent_0);
+            field = type.GetField("BehaviourName", flag);
+            app.RegisterCLRFieldGetter(field, get_BehaviourName_1);
+            app.RegisterCLRFieldSetter(field, set_BehaviourName_1);
+            app.RegisterCLRFieldBinding(field, CopyToStack_BehaviourName_1, AssignFromStack_BehaviourName_1);
+            field = type.GetField("Behaviour", flag);
+            app.RegisterCLRFieldGetter(field, get_Behaviour_2);
+            app.RegisterCLRFieldSetter(field, set_Behaviour_2);
+            app.RegisterCLRFieldBinding(field, CopyToStack_Behaviour_2, AssignFromStack_Behaviour_2);
             field = type.GetField("FixedUpdateEvent", flag);
             app.RegisterCLRFieldGetter(field, get_FixedUpdateEvent_3);
             app.RegisterCLRFieldSetter(field, set_FixedUpdateEvent_3);
@@ -129,36 +129,60 @@ namespace ILRuntime.Runtime.Generated
 
 
 
-        static object get_BehaviourName_0(ref object o)
+        static object get_UpdateEvent_0(ref object o)
+        {
+            return ((LuaFramework.ILBehaviour)o).UpdateEvent;
+        }
+
+        static StackObject* CopyToStack_UpdateEvent_0(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        {
+            var result_of_this_method = ((LuaFramework.ILBehaviour)o).UpdateEvent;
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static void set_UpdateEvent_0(ref object o, object v)
+        {
+            ((LuaFramework.ILBehaviour)o).UpdateEvent = (System.Action)v;
+        }
+
+        static StackObject* AssignFromStack_UpdateEvent_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            System.Action @UpdateEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
+            ((LuaFramework.ILBehaviour)o).UpdateEvent = @UpdateEvent;
+            return ptr_of_this_method;
+        }
+
+        static object get_BehaviourName_1(ref object o)
         {
             return ((LuaFramework.ILBehaviour)o).BehaviourName;
         }
 
-        static StackObject* CopyToStack_BehaviourName_0(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        static StackObject* CopyToStack_BehaviourName_1(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
         {
             var result_of_this_method = ((LuaFramework.ILBehaviour)o).BehaviourName;
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
 
-        static void set_BehaviourName_0(ref object o, object v)
+        static void set_BehaviourName_1(ref object o, object v)
         {
             ((LuaFramework.ILBehaviour)o).BehaviourName = (System.String)v;
         }
 
-        static StackObject* AssignFromStack_BehaviourName_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        static StackObject* AssignFromStack_BehaviourName_1(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.String @BehaviourName = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.String @BehaviourName = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             ((LuaFramework.ILBehaviour)o).BehaviourName = @BehaviourName;
             return ptr_of_this_method;
         }
 
-        static object get_Behaviour_1(ref object o)
+        static object get_Behaviour_2(ref object o)
         {
             return ((LuaFramework.ILBehaviour)o).Behaviour;
         }
 
-        static StackObject* CopyToStack_Behaviour_1(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        static StackObject* CopyToStack_Behaviour_2(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
         {
             var result_of_this_method = ((LuaFramework.ILBehaviour)o).Behaviour;
             object obj_result_of_this_method = result_of_this_method;
@@ -169,40 +193,16 @@ namespace ILRuntime.Runtime.Generated
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method, true);
         }
 
-        static void set_Behaviour_1(ref object o, object v)
+        static void set_Behaviour_2(ref object o, object v)
         {
             ((LuaFramework.ILBehaviour)o).Behaviour = (System.Object)v;
         }
 
-        static StackObject* AssignFromStack_Behaviour_1(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        static StackObject* AssignFromStack_Behaviour_2(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Object @Behaviour = (System.Object)typeof(System.Object).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Object @Behaviour = (System.Object)typeof(System.Object).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             ((LuaFramework.ILBehaviour)o).Behaviour = @Behaviour;
-            return ptr_of_this_method;
-        }
-
-        static object get_UpdateEvent_2(ref object o)
-        {
-            return ((LuaFramework.ILBehaviour)o).UpdateEvent;
-        }
-
-        static StackObject* CopyToStack_UpdateEvent_2(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
-        {
-            var result_of_this_method = ((LuaFramework.ILBehaviour)o).UpdateEvent;
-            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
-        }
-
-        static void set_UpdateEvent_2(ref object o, object v)
-        {
-            ((LuaFramework.ILBehaviour)o).UpdateEvent = (System.Action)v;
-        }
-
-        static StackObject* AssignFromStack_UpdateEvent_2(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
-        {
-            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @UpdateEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
-            ((LuaFramework.ILBehaviour)o).UpdateEvent = @UpdateEvent;
             return ptr_of_this_method;
         }
 
@@ -225,7 +225,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_FixedUpdateEvent_3(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @FixedUpdateEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action @FixedUpdateEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).FixedUpdateEvent = @FixedUpdateEvent;
             return ptr_of_this_method;
         }
@@ -249,7 +249,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnEnableEvent_4(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @OnEnableEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action @OnEnableEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnEnableEvent = @OnEnableEvent;
             return ptr_of_this_method;
         }
@@ -273,7 +273,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnDisableEvent_5(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @OnDisableEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action @OnDisableEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnDisableEvent = @OnDisableEvent;
             return ptr_of_this_method;
         }
@@ -297,7 +297,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_LateUpdateEvent_6(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @LateUpdateEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action @LateUpdateEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).LateUpdateEvent = @LateUpdateEvent;
             return ptr_of_this_method;
         }
@@ -321,7 +321,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnDestroyEvent_7(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @OnDestroyEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action @OnDestroyEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnDestroyEvent = @OnDestroyEvent;
             return ptr_of_this_method;
         }
@@ -345,7 +345,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnApplicationFocusEvent_8(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<System.Boolean> @OnApplicationFocusEvent = (System.Action<System.Boolean>)typeof(System.Action<System.Boolean>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<System.Boolean> @OnApplicationFocusEvent = (System.Action<System.Boolean>)typeof(System.Action<System.Boolean>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnApplicationFocusEvent = @OnApplicationFocusEvent;
             return ptr_of_this_method;
         }
@@ -369,7 +369,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnApplicationPauseEvent_9(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<System.Boolean> @OnApplicationPauseEvent = (System.Action<System.Boolean>)typeof(System.Action<System.Boolean>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<System.Boolean> @OnApplicationPauseEvent = (System.Action<System.Boolean>)typeof(System.Action<System.Boolean>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnApplicationPauseEvent = @OnApplicationPauseEvent;
             return ptr_of_this_method;
         }
@@ -393,7 +393,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnApplicationQuitEvent_10(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @OnApplicationQuitEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action @OnApplicationQuitEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnApplicationQuitEvent = @OnApplicationQuitEvent;
             return ptr_of_this_method;
         }
@@ -417,7 +417,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnCollisionEnterEvent_11(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collision> @OnCollisionEnterEvent = (System.Action<UnityEngine.Collision>)typeof(System.Action<UnityEngine.Collision>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collision> @OnCollisionEnterEvent = (System.Action<UnityEngine.Collision>)typeof(System.Action<UnityEngine.Collision>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnCollisionEnterEvent = @OnCollisionEnterEvent;
             return ptr_of_this_method;
         }
@@ -441,7 +441,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnCollisionStayEvent_12(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collision> @OnCollisionStayEvent = (System.Action<UnityEngine.Collision>)typeof(System.Action<UnityEngine.Collision>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collision> @OnCollisionStayEvent = (System.Action<UnityEngine.Collision>)typeof(System.Action<UnityEngine.Collision>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnCollisionStayEvent = @OnCollisionStayEvent;
             return ptr_of_this_method;
         }
@@ -465,7 +465,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnCollisionExitEvent_13(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collision> @OnCollisionExitEvent = (System.Action<UnityEngine.Collision>)typeof(System.Action<UnityEngine.Collision>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collision> @OnCollisionExitEvent = (System.Action<UnityEngine.Collision>)typeof(System.Action<UnityEngine.Collision>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnCollisionExitEvent = @OnCollisionExitEvent;
             return ptr_of_this_method;
         }
@@ -489,7 +489,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnTriggerEnterEvent_14(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collider> @OnTriggerEnterEvent = (System.Action<UnityEngine.Collider>)typeof(System.Action<UnityEngine.Collider>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collider> @OnTriggerEnterEvent = (System.Action<UnityEngine.Collider>)typeof(System.Action<UnityEngine.Collider>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnTriggerEnterEvent = @OnTriggerEnterEvent;
             return ptr_of_this_method;
         }
@@ -513,7 +513,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnTriggerStayEvent_15(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collider> @OnTriggerStayEvent = (System.Action<UnityEngine.Collider>)typeof(System.Action<UnityEngine.Collider>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collider> @OnTriggerStayEvent = (System.Action<UnityEngine.Collider>)typeof(System.Action<UnityEngine.Collider>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnTriggerStayEvent = @OnTriggerStayEvent;
             return ptr_of_this_method;
         }
@@ -537,7 +537,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnTriggerExitEvent_16(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collider> @OnTriggerExitEvent = (System.Action<UnityEngine.Collider>)typeof(System.Action<UnityEngine.Collider>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collider> @OnTriggerExitEvent = (System.Action<UnityEngine.Collider>)typeof(System.Action<UnityEngine.Collider>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnTriggerExitEvent = @OnTriggerExitEvent;
             return ptr_of_this_method;
         }
@@ -561,7 +561,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnCollisionEnter2DEvent_17(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collision2D> @OnCollisionEnter2DEvent = (System.Action<UnityEngine.Collision2D>)typeof(System.Action<UnityEngine.Collision2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collision2D> @OnCollisionEnter2DEvent = (System.Action<UnityEngine.Collision2D>)typeof(System.Action<UnityEngine.Collision2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnCollisionEnter2DEvent = @OnCollisionEnter2DEvent;
             return ptr_of_this_method;
         }
@@ -585,7 +585,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnCollisionExit2DEvent_18(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collision2D> @OnCollisionExit2DEvent = (System.Action<UnityEngine.Collision2D>)typeof(System.Action<UnityEngine.Collision2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collision2D> @OnCollisionExit2DEvent = (System.Action<UnityEngine.Collision2D>)typeof(System.Action<UnityEngine.Collision2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnCollisionExit2DEvent = @OnCollisionExit2DEvent;
             return ptr_of_this_method;
         }
@@ -609,7 +609,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnCollisionStay2DEvent_19(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collision2D> @OnCollisionStay2DEvent = (System.Action<UnityEngine.Collision2D>)typeof(System.Action<UnityEngine.Collision2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collision2D> @OnCollisionStay2DEvent = (System.Action<UnityEngine.Collision2D>)typeof(System.Action<UnityEngine.Collision2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnCollisionStay2DEvent = @OnCollisionStay2DEvent;
             return ptr_of_this_method;
         }
@@ -633,7 +633,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnTriggerEnter2DEvent_20(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collider2D> @OnTriggerEnter2DEvent = (System.Action<UnityEngine.Collider2D>)typeof(System.Action<UnityEngine.Collider2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collider2D> @OnTriggerEnter2DEvent = (System.Action<UnityEngine.Collider2D>)typeof(System.Action<UnityEngine.Collider2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnTriggerEnter2DEvent = @OnTriggerEnter2DEvent;
             return ptr_of_this_method;
         }
@@ -657,7 +657,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnTriggerExit2DEvent_21(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collider2D> @OnTriggerExit2DEvent = (System.Action<UnityEngine.Collider2D>)typeof(System.Action<UnityEngine.Collider2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collider2D> @OnTriggerExit2DEvent = (System.Action<UnityEngine.Collider2D>)typeof(System.Action<UnityEngine.Collider2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnTriggerExit2DEvent = @OnTriggerExit2DEvent;
             return ptr_of_this_method;
         }
@@ -681,7 +681,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_OnTriggerStay2DEvent_22(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.Collider2D> @OnTriggerStay2DEvent = (System.Action<UnityEngine.Collider2D>)typeof(System.Action<UnityEngine.Collider2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.Collider2D> @OnTriggerStay2DEvent = (System.Action<UnityEngine.Collider2D>)typeof(System.Action<UnityEngine.Collider2D>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).OnTriggerStay2DEvent = @OnTriggerStay2DEvent;
             return ptr_of_this_method;
         }
@@ -705,7 +705,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_AwakeEvent_23(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @AwakeEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action @AwakeEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).AwakeEvent = @AwakeEvent;
             return ptr_of_this_method;
         }
@@ -729,7 +729,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_StartEvent_24(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action @StartEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action @StartEvent = (System.Action)typeof(System.Action).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.ILBehaviour)o).StartEvent = @StartEvent;
             return ptr_of_this_method;
         }

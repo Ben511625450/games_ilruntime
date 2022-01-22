@@ -40,11 +40,11 @@ namespace ILRuntime.Runtime.Generated
             System.Int32 @index = ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            DG.Tweening.Tween[] @array = (DG.Tweening.Tween[])typeof(DG.Tweening.Tween[]).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            DG.Tweening.Tween[] @array = (DG.Tweening.Tween[])typeof(DG.Tweening.Tween[]).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            System.Collections.Generic.Dictionary<System.Int32, DG.Tweening.Tween>.ValueCollection instance_of_this_method = (System.Collections.Generic.Dictionary<System.Int32, DG.Tweening.Tween>.ValueCollection)typeof(System.Collections.Generic.Dictionary<System.Int32, DG.Tweening.Tween>.ValueCollection).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Collections.Generic.Dictionary<System.Int32, DG.Tweening.Tween>.ValueCollection instance_of_this_method = (System.Collections.Generic.Dictionary<System.Int32, DG.Tweening.Tween>.ValueCollection)typeof(System.Collections.Generic.Dictionary<System.Int32, DG.Tweening.Tween>.ValueCollection).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.CopyTo(@array, @index);

@@ -75,13 +75,13 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 3);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            ILRuntime.Runtime.Intepreter.ILTypeInstance @comparand = (ILRuntime.Runtime.Intepreter.ILTypeInstance)typeof(ILRuntime.Runtime.Intepreter.ILTypeInstance).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            ILRuntime.Runtime.Intepreter.ILTypeInstance @comparand = (ILRuntime.Runtime.Intepreter.ILTypeInstance)typeof(ILRuntime.Runtime.Intepreter.ILTypeInstance).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            ILRuntime.Runtime.Intepreter.ILTypeInstance @value = (ILRuntime.Runtime.Intepreter.ILTypeInstance)typeof(ILRuntime.Runtime.Intepreter.ILTypeInstance).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            ILRuntime.Runtime.Intepreter.ILTypeInstance @value = (ILRuntime.Runtime.Intepreter.ILTypeInstance)typeof(ILRuntime.Runtime.Intepreter.ILTypeInstance).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            ILRuntime.Runtime.Intepreter.ILTypeInstance @location1 = (ILRuntime.Runtime.Intepreter.ILTypeInstance)typeof(ILRuntime.Runtime.Intepreter.ILTypeInstance).CheckCLRTypes(__intp.RetriveObject(ptr_of_this_method, __mStack));
+            ILRuntime.Runtime.Intepreter.ILTypeInstance @location1 = (ILRuntime.Runtime.Intepreter.ILTypeInstance)typeof(ILRuntime.Runtime.Intepreter.ILTypeInstance).CheckCLRTypes(__intp.RetriveObject(ptr_of_this_method, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
 
 
             var result_of_this_method = System.Threading.Interlocked.CompareExchange<ILRuntime.Runtime.Intepreter.ILTypeInstance>(ref @location1, @value, @comparand);
@@ -155,13 +155,13 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 3);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            System.Action<System.String, System.String> @comparand = (System.Action<System.String, System.String>)typeof(System.Action<System.String, System.String>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<System.String, System.String> @comparand = (System.Action<System.String, System.String>)typeof(System.Action<System.String, System.String>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            System.Action<System.String, System.String> @value = (System.Action<System.String, System.String>)typeof(System.Action<System.String, System.String>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<System.String, System.String> @value = (System.Action<System.String, System.String>)typeof(System.Action<System.String, System.String>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            System.Action<System.String, System.String> @location1 = (System.Action<System.String, System.String>)typeof(System.Action<System.String, System.String>).CheckCLRTypes(__intp.RetriveObject(ptr_of_this_method, __mStack));
+            System.Action<System.String, System.String> @location1 = (System.Action<System.String, System.String>)typeof(System.Action<System.String, System.String>).CheckCLRTypes(__intp.RetriveObject(ptr_of_this_method, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
 
 
             var result_of_this_method = System.Threading.Interlocked.CompareExchange<System.Action<System.String, System.String>>(ref @location1, @value, @comparand);

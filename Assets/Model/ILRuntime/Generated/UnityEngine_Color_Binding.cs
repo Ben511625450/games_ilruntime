@@ -30,22 +30,22 @@ namespace ILRuntime.Runtime.Generated
             method = type.GetMethod("get_white", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, get_white_1);
 
-            field = type.GetField("r", flag);
-            app.RegisterCLRFieldGetter(field, get_r_0);
-            app.RegisterCLRFieldSetter(field, set_r_0);
-            app.RegisterCLRFieldBinding(field, CopyToStack_r_0, AssignFromStack_r_0);
-            field = type.GetField("g", flag);
-            app.RegisterCLRFieldGetter(field, get_g_1);
-            app.RegisterCLRFieldSetter(field, set_g_1);
-            app.RegisterCLRFieldBinding(field, CopyToStack_g_1, AssignFromStack_g_1);
-            field = type.GetField("b", flag);
-            app.RegisterCLRFieldGetter(field, get_b_2);
-            app.RegisterCLRFieldSetter(field, set_b_2);
-            app.RegisterCLRFieldBinding(field, CopyToStack_b_2, AssignFromStack_b_2);
             field = type.GetField("a", flag);
-            app.RegisterCLRFieldGetter(field, get_a_3);
-            app.RegisterCLRFieldSetter(field, set_a_3);
-            app.RegisterCLRFieldBinding(field, CopyToStack_a_3, AssignFromStack_a_3);
+            app.RegisterCLRFieldGetter(field, get_a_0);
+            app.RegisterCLRFieldSetter(field, set_a_0);
+            app.RegisterCLRFieldBinding(field, CopyToStack_a_0, AssignFromStack_a_0);
+            field = type.GetField("r", flag);
+            app.RegisterCLRFieldGetter(field, get_r_1);
+            app.RegisterCLRFieldSetter(field, set_r_1);
+            app.RegisterCLRFieldBinding(field, CopyToStack_r_1, AssignFromStack_r_1);
+            field = type.GetField("g", flag);
+            app.RegisterCLRFieldGetter(field, get_g_2);
+            app.RegisterCLRFieldSetter(field, set_g_2);
+            app.RegisterCLRFieldBinding(field, CopyToStack_g_2, AssignFromStack_g_2);
+            field = type.GetField("b", flag);
+            app.RegisterCLRFieldGetter(field, get_b_3);
+            app.RegisterCLRFieldSetter(field, set_b_3);
+            app.RegisterCLRFieldBinding(field, CopyToStack_b_3, AssignFromStack_b_3);
 
             app.RegisterCLRCreateDefaultInstance(type, () => new UnityEngine.Color());
 
@@ -124,12 +124,42 @@ namespace ILRuntime.Runtime.Generated
         }
 
 
-        static object get_r_0(ref object o)
+        static object get_a_0(ref object o)
+        {
+            return ((UnityEngine.Color)o).a;
+        }
+
+        static StackObject* CopyToStack_a_0(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        {
+            var result_of_this_method = ((UnityEngine.Color)o).a;
+            __ret->ObjectType = ObjectTypes.Float;
+            *(float*)&__ret->Value = result_of_this_method;
+            return __ret + 1;
+        }
+
+        static void set_a_0(ref object o, object v)
+        {
+            UnityEngine.Color ins =(UnityEngine.Color)o;
+            ins.a = (System.Single)v;
+            o = ins;
+        }
+
+        static StackObject* AssignFromStack_a_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            System.Single @a = *(float*)&ptr_of_this_method->Value;
+            UnityEngine.Color ins =(UnityEngine.Color)o;
+            ins.a = @a;
+            o = ins;
+            return ptr_of_this_method;
+        }
+
+        static object get_r_1(ref object o)
         {
             return ((UnityEngine.Color)o).r;
         }
 
-        static StackObject* CopyToStack_r_0(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        static StackObject* CopyToStack_r_1(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
         {
             var result_of_this_method = ((UnityEngine.Color)o).r;
             __ret->ObjectType = ObjectTypes.Float;
@@ -137,14 +167,14 @@ namespace ILRuntime.Runtime.Generated
             return __ret + 1;
         }
 
-        static void set_r_0(ref object o, object v)
+        static void set_r_1(ref object o, object v)
         {
             UnityEngine.Color ins =(UnityEngine.Color)o;
             ins.r = (System.Single)v;
             o = ins;
         }
 
-        static StackObject* AssignFromStack_r_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        static StackObject* AssignFromStack_r_1(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             System.Single @r = *(float*)&ptr_of_this_method->Value;
@@ -154,12 +184,12 @@ namespace ILRuntime.Runtime.Generated
             return ptr_of_this_method;
         }
 
-        static object get_g_1(ref object o)
+        static object get_g_2(ref object o)
         {
             return ((UnityEngine.Color)o).g;
         }
 
-        static StackObject* CopyToStack_g_1(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        static StackObject* CopyToStack_g_2(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
         {
             var result_of_this_method = ((UnityEngine.Color)o).g;
             __ret->ObjectType = ObjectTypes.Float;
@@ -167,14 +197,14 @@ namespace ILRuntime.Runtime.Generated
             return __ret + 1;
         }
 
-        static void set_g_1(ref object o, object v)
+        static void set_g_2(ref object o, object v)
         {
             UnityEngine.Color ins =(UnityEngine.Color)o;
             ins.g = (System.Single)v;
             o = ins;
         }
 
-        static StackObject* AssignFromStack_g_1(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        static StackObject* AssignFromStack_g_2(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             System.Single @g = *(float*)&ptr_of_this_method->Value;
@@ -184,12 +214,12 @@ namespace ILRuntime.Runtime.Generated
             return ptr_of_this_method;
         }
 
-        static object get_b_2(ref object o)
+        static object get_b_3(ref object o)
         {
             return ((UnityEngine.Color)o).b;
         }
 
-        static StackObject* CopyToStack_b_2(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        static StackObject* CopyToStack_b_3(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
         {
             var result_of_this_method = ((UnityEngine.Color)o).b;
             __ret->ObjectType = ObjectTypes.Float;
@@ -197,49 +227,19 @@ namespace ILRuntime.Runtime.Generated
             return __ret + 1;
         }
 
-        static void set_b_2(ref object o, object v)
+        static void set_b_3(ref object o, object v)
         {
             UnityEngine.Color ins =(UnityEngine.Color)o;
             ins.b = (System.Single)v;
             o = ins;
         }
 
-        static StackObject* AssignFromStack_b_2(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        static StackObject* AssignFromStack_b_3(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             System.Single @b = *(float*)&ptr_of_this_method->Value;
             UnityEngine.Color ins =(UnityEngine.Color)o;
             ins.b = @b;
-            o = ins;
-            return ptr_of_this_method;
-        }
-
-        static object get_a_3(ref object o)
-        {
-            return ((UnityEngine.Color)o).a;
-        }
-
-        static StackObject* CopyToStack_a_3(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
-        {
-            var result_of_this_method = ((UnityEngine.Color)o).a;
-            __ret->ObjectType = ObjectTypes.Float;
-            *(float*)&__ret->Value = result_of_this_method;
-            return __ret + 1;
-        }
-
-        static void set_a_3(ref object o, object v)
-        {
-            UnityEngine.Color ins =(UnityEngine.Color)o;
-            ins.a = (System.Single)v;
-            o = ins;
-        }
-
-        static StackObject* AssignFromStack_a_3(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
-        {
-            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Single @a = *(float*)&ptr_of_this_method->Value;
-            UnityEngine.Color ins =(UnityEngine.Color)o;
-            ins.a = @a;
             o = ins;
             return ptr_of_this_method;
         }

@@ -1,6 +1,6 @@
 {
-    "SystemInfoSimulation": false,
-    "ApplicationSimulation": false,
+    "SystemInfoSimulation": true,
+    "ApplicationSimulation": true,
     "SystemInfoDefaultAssembly": true,
     "SystemInfoAssemblies": []
 }

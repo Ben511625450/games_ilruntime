@@ -52,7 +52,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_DicSession_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Collections.Generic.Dictionary<System.Int32, LuaFramework.Session> @DicSession = (System.Collections.Generic.Dictionary<System.Int32, LuaFramework.Session>)typeof(System.Collections.Generic.Dictionary<System.Int32, LuaFramework.Session>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Collections.Generic.Dictionary<System.Int32, LuaFramework.Session> @DicSession = (System.Collections.Generic.Dictionary<System.Int32, LuaFramework.Session>)typeof(System.Collections.Generic.Dictionary<System.Int32, LuaFramework.Session>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             LuaFramework.NetworkManager.DicSession = @DicSession;
             return ptr_of_this_method;
         }

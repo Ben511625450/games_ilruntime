@@ -20,6 +20,7 @@ namespace ILRuntime.Runtime.Generated
         {
             BindingFlags flag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
             MethodBase method;
+            FieldInfo field;
             Type[] args;
             Type type = typeof(UnityEngine.Vector4);
             MethodInfo[] methods = type.GetMethods(flag).Where(t => !t.IsGenericMethod).ToArray();
@@ -27,8 +28,28 @@ namespace ILRuntime.Runtime.Generated
             method = methods.Where(t => t.Name.Equals("op_Implicit") && t.ReturnType == typeof(UnityEngine.Vector4) && t.CheckMethodParams(args)).Single();
             app.RegisterCLRMethodRedirection(method, op_Implicit_0);
 
+            field = type.GetField("x", flag);
+            app.RegisterCLRFieldGetter(field, get_x_0);
+            app.RegisterCLRFieldSetter(field, set_x_0);
+            app.RegisterCLRFieldBinding(field, CopyToStack_x_0, AssignFromStack_x_0);
+            field = type.GetField("y", flag);
+            app.RegisterCLRFieldGetter(field, get_y_1);
+            app.RegisterCLRFieldSetter(field, set_y_1);
+            app.RegisterCLRFieldBinding(field, CopyToStack_y_1, AssignFromStack_y_1);
+            field = type.GetField("z", flag);
+            app.RegisterCLRFieldGetter(field, get_z_2);
+            app.RegisterCLRFieldSetter(field, set_z_2);
+            app.RegisterCLRFieldBinding(field, CopyToStack_z_2, AssignFromStack_z_2);
+            field = type.GetField("w", flag);
+            app.RegisterCLRFieldGetter(field, get_w_3);
+            app.RegisterCLRFieldSetter(field, set_w_3);
+            app.RegisterCLRFieldBinding(field, CopyToStack_w_3, AssignFromStack_w_3);
+
             app.RegisterCLRCreateDefaultInstance(type, () => new UnityEngine.Vector4());
 
+            args = new Type[]{typeof(System.Single), typeof(System.Single), typeof(System.Single), typeof(System.Single)};
+            method = type.GetConstructor(flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, Ctor_0);
 
         }
 
@@ -85,7 +106,7 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 1);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            UnityEngine.Vector3 @v = (UnityEngine.Vector3)typeof(UnityEngine.Vector3).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            UnityEngine.Vector3 @v = (UnityEngine.Vector3)typeof(UnityEngine.Vector3).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)16);
             __intp.Free(ptr_of_this_method);
 
 
@@ -94,6 +115,157 @@ namespace ILRuntime.Runtime.Generated
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
 
+
+        static object get_x_0(ref object o)
+        {
+            return ((UnityEngine.Vector4)o).x;
+        }
+
+        static StackObject* CopyToStack_x_0(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        {
+            var result_of_this_method = ((UnityEngine.Vector4)o).x;
+            __ret->ObjectType = ObjectTypes.Float;
+            *(float*)&__ret->Value = result_of_this_method;
+            return __ret + 1;
+        }
+
+        static void set_x_0(ref object o, object v)
+        {
+            UnityEngine.Vector4 ins =(UnityEngine.Vector4)o;
+            ins.x = (System.Single)v;
+            o = ins;
+        }
+
+        static StackObject* AssignFromStack_x_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            System.Single @x = *(float*)&ptr_of_this_method->Value;
+            UnityEngine.Vector4 ins =(UnityEngine.Vector4)o;
+            ins.x = @x;
+            o = ins;
+            return ptr_of_this_method;
+        }
+
+        static object get_y_1(ref object o)
+        {
+            return ((UnityEngine.Vector4)o).y;
+        }
+
+        static StackObject* CopyToStack_y_1(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        {
+            var result_of_this_method = ((UnityEngine.Vector4)o).y;
+            __ret->ObjectType = ObjectTypes.Float;
+            *(float*)&__ret->Value = result_of_this_method;
+            return __ret + 1;
+        }
+
+        static void set_y_1(ref object o, object v)
+        {
+            UnityEngine.Vector4 ins =(UnityEngine.Vector4)o;
+            ins.y = (System.Single)v;
+            o = ins;
+        }
+
+        static StackObject* AssignFromStack_y_1(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            System.Single @y = *(float*)&ptr_of_this_method->Value;
+            UnityEngine.Vector4 ins =(UnityEngine.Vector4)o;
+            ins.y = @y;
+            o = ins;
+            return ptr_of_this_method;
+        }
+
+        static object get_z_2(ref object o)
+        {
+            return ((UnityEngine.Vector4)o).z;
+        }
+
+        static StackObject* CopyToStack_z_2(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        {
+            var result_of_this_method = ((UnityEngine.Vector4)o).z;
+            __ret->ObjectType = ObjectTypes.Float;
+            *(float*)&__ret->Value = result_of_this_method;
+            return __ret + 1;
+        }
+
+        static void set_z_2(ref object o, object v)
+        {
+            UnityEngine.Vector4 ins =(UnityEngine.Vector4)o;
+            ins.z = (System.Single)v;
+            o = ins;
+        }
+
+        static StackObject* AssignFromStack_z_2(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            System.Single @z = *(float*)&ptr_of_this_method->Value;
+            UnityEngine.Vector4 ins =(UnityEngine.Vector4)o;
+            ins.z = @z;
+            o = ins;
+            return ptr_of_this_method;
+        }
+
+        static object get_w_3(ref object o)
+        {
+            return ((UnityEngine.Vector4)o).w;
+        }
+
+        static StackObject* CopyToStack_w_3(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        {
+            var result_of_this_method = ((UnityEngine.Vector4)o).w;
+            __ret->ObjectType = ObjectTypes.Float;
+            *(float*)&__ret->Value = result_of_this_method;
+            return __ret + 1;
+        }
+
+        static void set_w_3(ref object o, object v)
+        {
+            UnityEngine.Vector4 ins =(UnityEngine.Vector4)o;
+            ins.w = (System.Single)v;
+            o = ins;
+        }
+
+        static StackObject* AssignFromStack_w_3(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            System.Single @w = *(float*)&ptr_of_this_method->Value;
+            UnityEngine.Vector4 ins =(UnityEngine.Vector4)o;
+            ins.w = @w;
+            o = ins;
+            return ptr_of_this_method;
+        }
+
+
+        static StackObject* Ctor_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 4);
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            System.Single @w = *(float*)&ptr_of_this_method->Value;
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
+            System.Single @z = *(float*)&ptr_of_this_method->Value;
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
+            System.Single @y = *(float*)&ptr_of_this_method->Value;
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 4);
+            System.Single @x = *(float*)&ptr_of_this_method->Value;
+
+
+            var result_of_this_method = new UnityEngine.Vector4(@x, @y, @z, @w);
+
+            if(!isNewObj)
+            {
+                __ret--;
+                WriteBackInstance(__domain, __ret, __mStack, ref result_of_this_method);
+                return __ret;
+            }
+
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
 
 
     }
