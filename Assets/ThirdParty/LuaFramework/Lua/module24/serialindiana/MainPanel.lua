@@ -175,7 +175,7 @@ function MainPanel:Awake(obj)
     MainPanel.Send_Logon();--发送登录
     do
         GlobalGame._otherUI = GameObject.Find("HallScenPanel");--其他UI界面
-        GlobalGame._otherUI:SetActive(false);--先隐藏他们的UI界面
+        if GlobalGame._otherUI~=nil then GlobalGame._otherUI:SetActive(false); end--先隐藏他们的UI界面
     end
     local MainPanel = GlobalGame._gameObjManager:CreateMainPanel();
     local MainPanelTransform = MainPanel.transform;
@@ -220,7 +220,7 @@ function MainPanel:Awake(obj)
     bg.transform:SetSiblingIndex(4);
     bg.transform.localPosition = Vector3(0, 0, 50);
     bg.transform.localScale = Vector3(1, 1, 1);
-    bg.sprite = HallScenPanel.moduleBg:Find("module24"):GetComponent("Image").sprite;
+    --bg.sprite = HallScenPanel.moduleBg:Find("module24"):GetComponent("Image").sprite;
     bg:GetComponent("RectTransform").sizeDelta = Vector2.New((Screen.width / Screen.height) * 750 + 20, 750 + 20);
     GlobalGame._gamePanel:Init(gamePanel);
     GlobalGame._gameObjManager:GetMusic(SI_MUSIC_TYPE.StoneFallDown_BG_1);
@@ -376,7 +376,9 @@ function MainPanel.GameQuit()
     GlobalGame._gameControl:_Zero()
     do
         --显示他们的UI界面
-        GlobalGame._otherUI:SetActive(true);
+        if  GlobalGame._otherUI~=nil then
+            GlobalGame._otherUI:SetActive(true);
+        end
     end
     GlobalGame._gamePanel:Destroy();
     GlobalGame._gamePanel = nil;

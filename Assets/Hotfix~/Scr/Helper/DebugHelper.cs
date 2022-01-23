@@ -9,7 +9,7 @@ namespace Hotfix
             get
             {
                 if (Application.isEditor) return true;
-                return false;
+                return true;
             }
         }
         public static void Log(object msg)

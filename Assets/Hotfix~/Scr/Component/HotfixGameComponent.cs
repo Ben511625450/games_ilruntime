@@ -255,7 +255,12 @@ namespace Hotfix
                 }
                 else
                 {
-                    connectHallSuccess = false;
+                    DebugHelper.LogError($"connectHallSuccess:{connectHallSuccess}");
+                    if(connectHallSuccess)
+                    {
+                        connectHallSuccess = false;
+                        ReconnectHall();
+                    }
                     ToolHelper.PopSmallWindow($"网络连接失败");
                 }
 
@@ -771,6 +776,32 @@ namespace Hotfix
                 case DataStruct.GoldMineStruct.SUB_2D_SC_GIVE_RECORD_LIST:
                     HallEvent.DispatchSC_Give_Record_List(buffer);
                     break;
+                case DataStruct.GoldMineStruct.SUB_3D_SC_UPDATEBANKERSAVEGOLD:
+                {
+                    HallStruct.ACP_SC_UPDATEBANKERSAVEGOLD updatebankersavegold =
+                        new HallStruct.ACP_SC_UPDATEBANKERSAVEGOLD(buffer);
+                    long gold = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_STRONG) + updatebankersavegold.gold;
+                    GameLocalMode.Instance.ChangProp(gold, Prop_Id.E_PROP_STRONG);
+                    HallEvent.DispatchChangeGoldTicket();
+                    break;
+                }
+                case DataStruct.GoldMineStruct.SUB_3D_SC_WITHDRAW:
+                {
+                    HallStruct.ACP_SC_WITHDRAW recall = new HallStruct.ACP_SC_WITHDRAW(buffer);
+                    long gold = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_STRONG);
+                    if (recall.recallUserID == GameLocalMode.Instance.SCPlayerInfo.DwUser_Id)
+                    {
+                        GameLocalMode.Instance.ChangProp(gold - recall.recallGold, Prop_Id.E_PROP_STRONG);
+                    }
+                    else
+                    {
+                        GameLocalMode.Instance.ChangProp(gold + recall.recallGold, Prop_Id.E_PROP_STRONG);
+                    }
+
+                    HallEvent.DispatchChangeGoldTicket();
+                    ToolHelper.PopSmallWindow(recall.recallMsg);
+                    break;
+                }
             }
         }
 

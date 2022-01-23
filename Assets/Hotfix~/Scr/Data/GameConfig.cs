@@ -512,7 +512,7 @@ namespace Hotfix
                 {
                     luaPath = "Module06.OneWPBY.OneWPBYEntry",
                     luaRootName = "OneWPBYEntry",
-                    driveType = ScriptType.ILRuntime,
+                    driveType = ScriptType.Lua,
                     gameName = "万炮捕鱼",
                     uiName = "万炮捕鱼",
                     downFiles = new List<string>()
@@ -656,7 +656,7 @@ namespace Hotfix
                 {
                     luaPath = "Module19.Point21_2D.Point21ScenCtrlPanel",
                     luaRootName = "Point21ScenCtrlPanel",
-                    driveType = ScriptType.ILRuntime,
+                    driveType = ScriptType.Lua,
                     gameName = "二十一点",
                     uiName = "二十一点",
                     downFiles = new List<string>()

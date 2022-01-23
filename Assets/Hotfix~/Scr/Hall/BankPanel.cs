@@ -36,6 +36,7 @@ namespace Hotfix.Hall
         public override void Create(params object[] args)
         {
             base.Create(args);
+            ILGameManager.isOpenBank = true;
             HallEvent.DispatchChangeGoldTicket();
             states = new List<IState>();
             hsm = new HierarchicalStateMachine(false, gameObject);
@@ -46,6 +47,7 @@ namespace Hotfix.Hall
             states.Add(new GiveState(this, hsm));
             states.Add(new GiveCardState(this, hsm));
             hsm.Init(states, nameof(IdleState));
+            ILGameManager.isOpenBank = false;
         }
 
         protected override void OnDestroy()
@@ -166,6 +168,13 @@ namespace Hotfix.Hall
             UIManager.Instance.Close();
         }
 
+        private void QueryBank()
+        {
+            HallStruct.REQ_CS_Bank_Query bankQuery = new HallStruct.REQ_CS_Bank_Query();
+            bankQuery.dwUser_Id = GameLocalMode.Instance.SCPlayerInfo.DwUser_Id;
+            HotfixGameComponent.Instance.Send(DataStruct.BankStruct.MDM_GP_USER,
+                DataStruct.BankStruct.SUB_GP_USER_BANK_Query_RESULT, bankQuery.ByteBuffer, SocketType.Hall);
+        }
         /// <summary>
         /// 闲置
         /// </summary>
@@ -175,7 +184,7 @@ namespace Hotfix.Hall
             {
             }
 
-            private bool isComplete;
+            private bool _isComplete;
 
             public override void OnEnter()
             {
@@ -183,14 +192,14 @@ namespace Hotfix.Hall
                 owner.getSavePanel.gameObject.SetActive(false);
                 owner.transferPanel.gameObject.SetActive(false);
                 owner.queryPanel.gameObject.SetActive(false);
-                isComplete = false;
+                _isComplete = false;
             }
 
             public override void Update()
             {
                 base.Update();
-                if (isComplete) return;
-                isComplete = true;
+                if (_isComplete) return;
+                _isComplete = true;
                 InputPwdGetGold();
                 hsm?.ChangeState(nameof(SaveState));
             }
@@ -205,6 +214,7 @@ namespace Hotfix.Hall
                 bankInit.password = MD5Helper.MD5String(str);
                 HotfixGameComponent.Instance.Send(DataStruct.PersonalStruct.MDM_3D_PERSONAL_INFO,
                     DataStruct.PersonalStruct.SUB_3D_CS_OPEN_BANK, bankInit.ByteBuffer, SocketType.Hall);
+                owner.QueryBank();
             }
         }
 
@@ -703,11 +713,10 @@ namespace Hotfix.Hall
                         //child.transform.SetParent(transferGroup);
                         child.name = GameLocalMode.Instance.GWData.TransferConfig[i].ToString();
                         int transferData = GameLocalMode.Instance.GWData.TransferConfig[i];
-                        int _rate = GameLocalMode.Instance.GWData.MoneyRate;
-                        child.transform.FindChildDepth<Text>("Text").text = (_rate * transferData).ToString();
+                        child.transform.FindChildDepth<Text>("Text").text = $"{transferData}元";
                         Button btn = child.GetComponent<Button>();
                         btn.onClick.RemoveAllListeners();
-                        btn.onClick.Add(() => { OnClickSelectMoneyCall(_rate); });
+                        btn.onClick.Add(() => { OnClickSelectMoneyCall(transferData); });
                         child.SetActive(true);
                     }
                 }
@@ -746,6 +755,7 @@ namespace Hotfix.Hall
                 giveGoldUpperNum.text = "";
                 giveGoldBtn.interactable = true;
                 giveCardBtn.interactable = true;
+                transferMoney = 0;
             }
 
             private void HallEventOnChangeGoldTicket()
@@ -883,7 +893,7 @@ namespace Hotfix.Hall
                 }
                 else
                 {
-                    if (long.Parse(value) >= long.Parse(bankGoldNum.text))
+                    if (long.Parse(value) > long.Parse(bankGoldNum.text))
                     {
                         value = bankGoldNum.text;
                         giveGoldNum.text = bankGoldNum.text;
@@ -905,6 +915,7 @@ namespace Hotfix.Hall
                 {
                     GiveGoldFill();
                 }
+                transferMoney = 0;
             }
 
             /// <summary>
@@ -912,11 +923,11 @@ namespace Hotfix.Hall
             /// </summary>
             private void GiveGoldSuccess()
             {
-                ILGameManager.Instance.QuerySelfGold();
+                owner.QueryBank();
                 //self.Gold.text = gameData.GetProp(enum_Prop_Id.E_PROP_STRONG)
                 string str =
                     $"{GameLocalMode.Instance.SCPlayerInfo.BeautifulID}赠送给{givePlayerNickName.text}\n金币:{giveGoldNum.text}\n大写:{giveGoldUpperNum.text}\n时间:{DateTime.Now.ToString("yyyyMMddhhmmss")}\n成功!";
-                UIManager.Instance.OpenUI<BankInfo>(true, str);
+                UIManager.Instance.OpenUI<BankInfo>(str);
             }
 
             /// <summary>
@@ -928,6 +939,7 @@ namespace Hotfix.Hall
                 givePlayerNickName.text = "";
                 giveGoldNum.text = "";
                 giveGoldUpperNum.text = "";
+                transferMoney = 0;
             }
 
             /// <summary>

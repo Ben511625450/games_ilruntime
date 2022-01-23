@@ -9,10 +9,13 @@ namespace Hotfix.Hall
         private Text info;
         private Button maskCloseBtn;
 
+        public BankInfo() : base(UIType.Middle, nameof(BankInfo))
+        {
+        }
         public override void Create(params object[] args)
         {
             base.Create(args);
-            info = transform.FindChildDepth<Text>("Info");
+            info = transform.FindChildDepth<Text>("Info/Text");
             closeBtn = transform.FindChildDepth<Button>("CloseBtn");
             maskCloseBtn = transform.FindChildDepth<Button>("Mask");
 

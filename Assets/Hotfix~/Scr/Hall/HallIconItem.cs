@@ -109,10 +109,15 @@ namespace Hotfix.Hall
                 return;
             }
 
-            var list = GameLocalMode.Instance.AllSCGameRoom.FindAllItem(p => p._2wGameID == Id);
+            GameData data= GameConfig.GetGameData(Id);
+            if (data == null)
+            {
+                ToolHelper.PopSmallWindow($"没有找到游戏配置！");
+                return;
+            }
+            var list = GameLocalMode.Instance.AllSCGameRoom.FindAllItem(p => p._2wGameID == data.clientId);
             if (list == null || list.Count <= 0)
             {
-                GameData data= GameConfig.GetGameData(Id);
                 list = GameLocalMode.Instance.AllSCGameRoom.FindAllItem(p => p._2wGameID == data.otherClientId);
                 if (list == null || list.Count <= 0)
                 {

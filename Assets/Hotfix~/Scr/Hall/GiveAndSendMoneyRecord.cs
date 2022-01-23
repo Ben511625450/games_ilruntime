@@ -67,8 +67,8 @@ namespace Hotfix.Hall
             giveScorll = RightPanel.FindChildDepth<ScrollRect>("ScrollViewsend");
             sendScorll = RightPanel.FindChildDepth<ScrollRect>("ScrollViewsendgive");
             titlehandId1 = RightPanel.FindChildDepth("titlehand/id1");
-            titlehandId2 = RightPanel.FindChildDepth("titlehand/id1");
-            recordItem = RightPanel.FindChildDepth("recorditem");
+            titlehandId2 = RightPanel.FindChildDepth("titlehand/id2");
+            recordItem = transform.FindChildDepth("recorditem");
 
             CloseBtn = mainPanel.FindChildDepth<Button>("CloseBtn");
         }
@@ -284,8 +284,8 @@ namespace Hotfix.Hall
         {
             sendScorll.gameObject.SetActive(!isShow);
             giveScorll.gameObject.SetActive(isShow);
-            titlehandId1.gameObject.SetActive(!isShow);
-            titlehandId2.gameObject.SetActive(isShow);
+            titlehandId1.gameObject.SetActive(isShow);
+            titlehandId2.gameObject.SetActive(!isShow);
             //turnOutBtn.transform.FindChildDepth("Light").gameObject.SetActive(!isShow);
             //turnInBtn.transform.FindChildDepth("Light").gameObject.SetActive(isShow);
             turnOutBtn.interactable = isShow;

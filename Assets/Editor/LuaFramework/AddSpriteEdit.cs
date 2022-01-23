@@ -1180,7 +1180,7 @@ public class AddSpriteEdit : EditorWindow, IActiveBuildTargetChanged
     [MenuItem("Tools/加密单个bundle")]
     public static void ESSingleAssetBundle()
     {
-        List<string> bundlenames = new List<string>() {"module57"};
+        List<string> bundlenames = new List<string>() {"module42"};
         string path = $"{Application.dataPath}/../UpdateRes";
         string newPath = $"{Application.dataPath}/../EnUpdateRes";
         if (!Directory.Exists(newPath))
@@ -1204,6 +1204,7 @@ public class AddSpriteEdit : EditorWindow, IActiveBuildTargetChanged
                     Directory.CreateDirectory(dirName);
                 }
 
+                DebugTool.Log(dirName);
                 string[] files =
                     Directory.GetFiles(dirName, "*.unity3d", SearchOption.AllDirectories);
                 DebugTool.Log(files.Length);
@@ -1543,7 +1544,7 @@ public class AddSpriteEdit : EditorWindow, IActiveBuildTargetChanged
     {
         AssetBundle.UnloadAllAssetBundles(true);
         dic.Clear();
-        string[] files = Directory.GetFiles($"{Application.dataPath}/OtherScene/module62/bundle", "*.u3d",
+        string[] files = Directory.GetFiles($"{Application.dataPath}/OtherScene/module06", "*.unity3d",
             SearchOption.AllDirectories);
         for (int i = 0; i < files.Length; i++)
         {
@@ -1551,7 +1552,7 @@ public class AddSpriteEdit : EditorWindow, IActiveBuildTargetChanged
             dic.Add(bundle.name, bundle);
             DebugTool.Log(bundle.name);
         }
-        SceneManager.LoadScene($"BuYu", LoadSceneMode.Additive);
+        SceneManager.LoadScene($"module06", LoadSceneMode.Additive);
     }
 
     [MenuItem("文件助手/LoadSingleBundle")]

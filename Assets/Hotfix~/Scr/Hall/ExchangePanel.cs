@@ -49,11 +49,11 @@ namespace Hotfix.Hall
         {
             ReceiveBtn = transform.FindChildDepth<Button>("Content/ReceiveBtn");
 
-            idText = transform.FindChildDepth<Text>("Content/right/IDText");
-            timeText = transform.FindChildDepth<Text>("Content/right/TimeText");
-            cardText = transform.FindChildDepth<Text>("Content/right/CardText");
-            goldText = transform.FindChildDepth<Text>("Content/right/GoldText");
             GrouoItem = transform.FindChildDepth("Content/Group/Item");
+            idText = GrouoItem.FindChildDepth<Text>("ID");
+            timeText = GrouoItem.FindChildDepth<Text>("Time");
+            cardText = GrouoItem.FindChildDepth<Text>("Card");
+            goldText = GrouoItem.FindChildDepth<Text>("Gold");
 
             closeBtn = transform.FindChildDepth<Button>("Mask");
             maskCloseBtn = transform.FindChildDepth<Button>("Content/Close");
@@ -74,22 +74,24 @@ namespace Hotfix.Hall
 
         private void InitData(HallStruct.ACP_SC_DIANKA_QUERY data)
         {
-            HallEvent.DIANKA_QUERY -= InitData;
-            GrouoItem.gameObject.SetActive(true);
             ReceiveBtn.gameObject.SetActive(data.Count > 0);
 
             if (data.Count <= 0) return;
+            GrouoItem.gameObject.SetActive(true);
 
             var dt = data.Timer.StampToDatetime();
+            DebugHelper.LogError($"idtext:{idText}");
             idText.text = data.ID.ToString();
+            DebugHelper.LogError($"timeText:{timeText}");
             timeText.text = $"{dt:yyyy-MM-dd}";
+            DebugHelper.LogError($"cardText:{cardText}");
             cardText.text = data.Card;
+            DebugHelper.LogError($"goldText:{goldText}");
             goldText.text = data.Gold.ToString();
         }
 
         private void OnReceiveData(HallStruct.ACP_SC_DIANKA_RECEIVE data)
         {
-            HallEvent.DIANKA_RECEIVE -= OnReceiveData;
             ToolHelper.PopSmallWindow(data.Msg);
             ILGameManager.Instance.QuerySelfGold();
             GrouoItem.gameObject.SetActive(false);
