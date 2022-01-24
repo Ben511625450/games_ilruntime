@@ -15,7 +15,7 @@ namespace Hotfix.LTBY
         private RawImage ShieldingLayer;
         private Transform WaitContent;
         private Color hideColor = new Color(0, 0, 0, 0);
-        private Color showColor = new Color(0, 0, 0, 0.5f);
+        private Color showColor = new Color(0, 0, 0, 0.8f);
 
         //这个主要为了不同功能的等待而加的  防止func1取消了func2的等待
         private Dictionary<string, bool> WaitKeyWords;

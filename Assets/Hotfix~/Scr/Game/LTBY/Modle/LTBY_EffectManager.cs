@@ -5196,7 +5196,7 @@ namespace Hotfix.LTBY
 
 
             this.numNode = this.effect.FindChildDepth("Num");
-            this.numNode.gameObject.SetActive(false);
+            this.numNode.gameObject.SetActive(true);
             this.num = this.num!=null ? this.num : this.numNode.GetILComponent<NumberRoller>();
             this.num = this.num!=null ? this.num : this.numNode.AddILComponent<NumberRoller>();
             this.num.Init();

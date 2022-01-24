@@ -636,7 +636,7 @@ public class AddSpriteEdit : EditorWindow, IActiveBuildTargetChanged
         }
 
         m_bundlename = "";
-        string bundlename = obj.name;
+        string bundlename = obj.name.ToLower();
         Debug.LogError(bundlename);
         List<AssetBundleBuild> list = new List<AssetBundleBuild>();
         AssetBundleBuild build = new AssetBundleBuild();
@@ -1180,7 +1180,7 @@ public class AddSpriteEdit : EditorWindow, IActiveBuildTargetChanged
     [MenuItem("Tools/加密单个bundle")]
     public static void ESSingleAssetBundle()
     {
-        List<string> bundlenames = new List<string>() {"module42"};
+        List<string> bundlenames = new List<string>() {"module62"};
         string path = $"{Application.dataPath}/../UpdateRes";
         string newPath = $"{Application.dataPath}/../EnUpdateRes";
         if (!Directory.Exists(newPath))
