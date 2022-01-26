@@ -1759,7 +1759,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2658668454455436685}
   m_Layer: 23
-  m_Name: Main
+  m_Name: games_Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

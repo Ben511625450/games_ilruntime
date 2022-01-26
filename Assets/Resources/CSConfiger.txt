@@ -23,7 +23,7 @@
             "http://139.155.12.34:8010"
            ],
     "SaveLogMode": true,
-    "CdnDirectoryName": "ZY999Res",
+    "CdnDirectoryName": "XJYRes",
     "SocketOutTimer": 10000,
     "UpdateMode": true,
     "Ip": "",
