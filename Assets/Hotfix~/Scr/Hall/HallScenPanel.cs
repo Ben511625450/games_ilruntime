@@ -54,7 +54,6 @@ namespace Hotfix.Hall
             headIcon.sprite = ILGameManager.Instance.GetHeadIcon();
             showContent = midNode.AddILComponent<HallGameShow>();
             HallEvent.DispatchEnterGamePre(false);
-            DelayRun(0.1f, () => { midNode.GetComponent<ScrollRect>().horizontalNormalizedPosition = 0; });
         }
 
         protected override void OnDestroy()
@@ -150,6 +149,7 @@ namespace Hotfix.Hall
 
         private void HallGameShowOnOpenSubPlatform(bool isOpen,string platformName)
         {
+            if (platformName == HallGameShow.DefaultPlatform) return;
             gwBtn.gameObject.SetActive(!isOpen);
         }
 

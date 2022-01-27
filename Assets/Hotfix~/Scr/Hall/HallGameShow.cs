@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using LuaFramework;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Hotfix.Hall
 {
@@ -19,62 +22,23 @@ namespace Hotfix.Hall
         private GameObject h_Prefab;
         private GameObject s_Prefab;
 
-        private Transform showContent;
-        private Transform viewContent;
+        private ScrollRect showRect;
 
-        public static Dictionary<string, List<string>> IconList = new Dictionary<string, List<string>>()
+        public static Dictionary<string, HttpGame> IconList = new Dictionary<string,HttpGame>()
         {
+            {DefaultPlatform,new HttpGame()
             {
-                "games_hc", new List<string>()
-                {
-                    "62", "24", "3", "20", "51", "19", "6", "22", "42", "48", "50", "-71", "-72", "-73", "-74"
-                }
-            },
-            {
-                "games_339", new List<string>()
-                {
-                    "6", "51", "54", "42", "48", "47", "41", "3", "46", "19", "55", "53"
-                }
-            },
-            {
-                "games_ttcm", new List<string>()
-                {
-                    "6", "49", "46", "40", "47", "51", "16", "19", "41", "55", "42", "48", "43", "20", "50"
-                }
-            },
-            {
-                "games_lldzz", new List<string>()
-                {
-                    "22", "28", "39", "32", "27", "16", "38", "33", "24", "19", "25", "3", "17", "-13", "6", "20"
-                }
-            },
-            {
-                "games_yh", new List<string>()
-                {
-                    "6", "51", "47", "42", "16", "41", "19", "53", "50", "55"
-                }
-            },
-            {
-                "games_dcr", new List<string>()
-                {
-                    "51", "42", "47", "48", "41", "16", "19", "6", "54", "20"
-                }
-            },
-            {
-                "games_hy888", new List<string>()
-                {
-                    "51", "47", "-64", "-65", "-66", "40", "27", "-67", "-68", "62", "-70", "6", "-13", "18", "43", "19"
-                }
-            },
+                hasFix = true,
+                group =new List<string>(){"6","16","18","51","22","27","28","39","41","45","54","56","58","59","62","-64"} 
+            }}
         };
 
-        public const string DefaultPlatform = "Main";
+        public const string DefaultPlatform = "games_Main";
         public List<int> noShowList = new List<int>();
         public List<int> showList = new List<int>();
 
         private bool isShowLocal = false;
 
-        private ScrollRect _rect;
         private GameObject iconGroup;
         private EventTriggerHelper trigger;
         private Vector3 startPos;
@@ -86,7 +50,7 @@ namespace Hotfix.Hall
         private Button backBtn;
         private Transform mutipleContent;
         private const float spaceDistance = 450;
-        public Dictionary<string, RectTransform> contentDic = new Dictionary<string, RectTransform>();
+        public Dictionary<string, ScrollRect> contentDic = new Dictionary<string, ScrollRect>();
 
         public static event CAction<bool, string> OpenSubPlatform;
 
@@ -95,7 +59,7 @@ namespace Hotfix.Hall
             OpenSubPlatform?.Invoke(isOpen, platformName);
         }
 
-        private RectTransform currentShowContent;
+        private ScrollRect currentShowContent;
 
         protected override void Awake()
         {
@@ -108,31 +72,38 @@ namespace Hotfix.Hall
             if (IconList.Count == 1) //单平台处理
             {
                 mutipleContent.gameObject.SetActive(false);
-                viewContent.gameObject.SetActive(true);
+                showRect.gameObject.SetActive(true);
+                showRect.movementType = ScrollRect.MovementType.Elastic;
                 if (!IconList.ContainsKey(DefaultPlatform))
                 {
                     DebugHelper.LogError($"没有找到：{DefaultPlatform} 的配置");
                     return;
                 }
-
-                List<string> list = IconList[DefaultPlatform];
-                InitHallIcon(list, showContent, iconGroup.transform.FindChildDepth(DefaultPlatform));
+                
+                HttpGame list = IconList[DefaultPlatform];
+                GameLocalMode.Instance.CurrentSelectPlatform = DefaultPlatform;
+                currentShowContent = showRect;
+                InitHallIcon(list, showRect, iconGroup.transform.FindChildDepth(DefaultPlatform));
+                DispatchOpenSubPlatform(true, DefaultPlatform);
             }
             else
             {
                 contentDic.Clear();
                 mutipleContent.gameObject.SetActive(true);
-                viewContent.gameObject.SetActive(false);
-                for (int i = 0; i < viewContent.childCount; i++)
+                showRect.gameObject.SetActive(false);
+                foreach (var httpGame in IconList)
                 {
-                    Transform child = viewContent.GetChild(i);
+                    Transform child = transform.FindChildDepth(httpGame.Key);
+                    if (child == null) continue;
                     GameObject o;
                     (o = child.gameObject).SetActive(false);
-                    contentDic.Add(o.name, child.GetComponent<RectTransform>());
+                    ScrollRect rect = child.GetComponent<ScrollRect>();
+                    contentDic.Add(o.name, rect);
+                    rect.movementType = ScrollRect.MovementType.Elastic;
                 }
+                DispatchOpenSubPlatform(false, null);
             }
 
-            DispatchOpenSubPlatform(false, null);
         }
 
         protected override void AddEvent()
@@ -149,17 +120,18 @@ namespace Hotfix.Hall
 
         private void OnOpenSubPlatform(bool isOpen, string platformName)
         {
-            viewContent.gameObject.SetActive(isOpen);
+            currentShowContent?.gameObject.SetActive(isOpen);
             mutipleContent.gameObject.SetActive(!isOpen);
-            backBtn.gameObject.SetActive(isOpen);
+            backBtn.gameObject.SetActive(isOpen && platformName != DefaultPlatform);
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            for (int i = 0; i < viewContent.childCount; i++)
+            ScrollRect[] list = contentDic.GetDictionaryValues();
+            for (int i = 0; i < list.Length; i++)
             {
-                Transform con = viewContent.GetChild(i);
+                Transform con = list[i].content.GetChild(i);
                 for (int j = con.childCount - 1; j >= 0; j--)
                 {
                     HallExtend.Destroy(con.GetChild(j).gameObject);
@@ -171,13 +143,10 @@ namespace Hotfix.Hall
         {
             base.FindComponent();
             // trigger = EventTriggerHelper.Get(gameObject);
-            _rect = transform.GetComponent<ScrollRect>();
-            _rect.movementType = ScrollRect.MovementType.Elastic;
-            viewContent = _rect.transform.FindChildDepth($"View");
             h_Prefab = transform.FindChildDepth($"prefeb_H").gameObject;
             s_Prefab = transform.FindChildDepth($"prefeb_S").gameObject;
 
-            showContent = transform.FindChildDepth(DefaultPlatform);
+            showRect = transform.FindChildDepth<ScrollRect>(DefaultPlatform);
             // fixContent = transform.FindChildDepth($"Fixed/Mask");
 
             leftBtn = transform.FindChildDepth<Button>($"LeftBtn");
@@ -217,130 +186,24 @@ namespace Hotfix.Hall
             GameLocalMode.Instance.CurrentSelectPlatform = gameObjectName;
             if (currentShowContent != null) currentShowContent.gameObject.SetActive(false);
             currentShowContent = contentDic[gameObjectName];
-            _rect.content = currentShowContent;
             Transform showIconContent = iconGroup.transform.FindChildDepth(gameObjectName);
             var list = IconList[gameObjectName];
             currentShowContent.gameObject.SetActive(true);
             InitHallIcon(list, currentShowContent, showIconContent);
-            _rect.horizontalNormalizedPosition = 0;
         }
 
-        private void OnClickRightCall()
+        IEnumerator DelayRun(float timer, Action action = null)
         {
-            leftBtn.interactable = false;
-            rightBtn.interactable = false;
-            FindNearestPos(DragDirection.Left);
+            if(timer<=0) yield return new WaitForEndOfFrame();
+            else  yield return new WaitForSeconds(timer);
+            action?.Invoke();
         }
-
-        private void OnClickLeftCall()
-        {
-            leftBtn.interactable = false;
-            rightBtn.interactable = false;
-            FindNearestPos(DragDirection.Right);
-        }
-
-        private void OnEndDrag(GameObject go, PointerEventData data)
-        {
-            endPos = _rect.content.localPosition;
-            if (endPos.x - startPos.x < -50) //往左滑
-            {
-                FindNearestPos(DragDirection.Left);
-            }
-            else if (endPos.x - startPos.x > 50) //往右滑
-            {
-                FindNearestPos(DragDirection.Right);
-            }
-            else //滑动力度不大
-            {
-                FindNearestPos(DragDirection.None);
-            }
-
-            isMove = false;
-        }
-
-        private void OnBeginDrag(GameObject go, PointerEventData data)
-        {
-            leftBtn.interactable = false;
-            rightBtn.interactable = false;
-            isMove = true;
-            startPos = _rect.content.localPosition;
-            HallEvent.DispatchOnMoveHallIcon(false);
-        }
-
-        private void FindNearestPos(DragDirection direction)
-        {
-            _rect.content.DOKill();
-            switch (direction)
-            {
-                case DragDirection.None:
-                {
-                    int v = (int) _rect.content.localPosition.x / 450;
-                    _rect.content.DOLocalMoveX(450 * v, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
-                    {
-                        HallEvent.DispatchOnMoveHallIcon(true);
-                        leftBtn.interactable = true;
-                        rightBtn.interactable = true;
-                    });
-                    break;
-                }
-                case DragDirection.Right:
-                {
-                    int v = (int) _rect.content.localPosition.x / 450;
-                    if (isMove)
-                    {
-                        if ((int) _rect.content.localPosition.x % spaceDistance != 0) v++;
-                    }
-                    else
-                    {
-                        v++;
-                    }
-
-                    _rect.content.DOLocalMoveX(450 * v, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
-                    {
-                        HallEvent.DispatchOnMoveHallIcon(true);
-                        Vector3 pos = new Vector3(_rect.content.GetChild(0).localPosition.x - spaceDistance, 0, 0);
-                        _rect.content.GetChild(_rect.content.childCount - 1).localPosition = pos;
-                        _rect.content.GetChild(_rect.content.childCount - 1).SetAsFirstSibling();
-                        leftBtn.interactable = true;
-                        rightBtn.interactable = true;
-                    });
-                }
-                    break;
-                case DragDirection.Left:
-                {
-                    int v = (int) _rect.content.localPosition.x / 450;
-                    if (isMove)
-                    {
-                        if ((int) _rect.content.localPosition.x % spaceDistance != 0) v--;
-                    }
-                    else
-                    {
-                        v--;
-                    }
-
-                    _rect.content.DOLocalMoveX(450 * v, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
-                    {
-                        HallEvent.DispatchOnMoveHallIcon(true);
-                        Vector3 pos =
-                            new Vector3(
-                                _rect.content.GetChild(_rect.content.childCount - 1).localPosition.x + spaceDistance, 0,
-                                0);
-                        _rect.content.GetChild(0).localPosition = pos;
-                        _rect.content.GetChild(0).SetAsLastSibling();
-                        leftBtn.interactable = true;
-                        rightBtn.interactable = true;
-                    });
-                }
-                    break;
-            }
-        }
-
-        private void InitHallIcon(List<string> list, Transform content, Transform showIconContent)
+        private void InitHallIcon(HttpGame httpGame, ScrollRect itemRect, Transform showIconContent)
         {
             List<int> _list = new List<int>();
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < httpGame.group.Count; i++)
             {
-                int id = int.Parse(list[i]);
+                int id = int.Parse(httpGame.group[i]);
                 if (id > 0)
                 {
                     showList.Add(id);
@@ -354,12 +217,19 @@ namespace Hotfix.Hall
             }
 
             int count = _list.Count;
+            Transform fix = itemRect.transform.Find($"FixItem");
             for (int i = 0; i < count; i++)
             {
-                // GameObject go = i == 0
-                //     ? Object.Instantiate(h_Prefab, fixContent)
-                //     : Object.Instantiate(s_Prefab, showContent);
-                Transform parent = content.GetChild(i);
+                Transform parent = null;
+                if (httpGame.hasFix )
+                {
+                    parent = i == 0 ? fix : itemRect.content.GetChild(i - 1);
+                }
+                else
+                {
+                    parent = itemRect.content.GetChild(i);
+                }
+
                 if (parent.childCount > 0)
                 {
                     for (int j = parent.childCount - 1; j >= 0; j--)
@@ -368,26 +238,32 @@ namespace Hotfix.Hall
                     }
                 }
 
-                GameObject go = Object.Instantiate(s_Prefab, parent,false);
-                parent.gameObject.SetActive(true);
-                // go.transform.localPosition = new Vector3((i - count / 2) * spaceDistance, 0, 0);
-                go.transform.localPosition = Vector3.zero;
-                go.transform.localScale = Vector3.one;
-                go.transform.localRotation = Quaternion.identity;
-                RectTransform rect = go.GetComponent<RectTransform>();
-                rect.anchorMax = Vector2.one;
-                rect.anchorMin = Vector2.zero;
-                rect.offsetMax = Vector2.zero;
-                rect.offsetMin = Vector2.zero;
-                HallIconItem item = go.AddILComponent<HallIconItem>();
-                int id = _list[i];
-                item.SetItem(id, noShowList.Contains(id), showIconContent);
+                CreateItem(showIconContent, parent, _list, i);
             }
 
-            for (int i = count; i < content.childCount; i++)
+            for (int i = count; i < itemRect.content.childCount; i++)
             {
-                content.GetChild(i).gameObject.SetActive(false);
+                itemRect.content.GetChild(i).gameObject.SetActive(false);
             }
+            Behaviour.StartCoroutine(DelayRun(0.1f, () => { currentShowContent.horizontalNormalizedPosition = 0; }));
+        }
+
+        private void CreateItem(Transform showIconContent, Transform parent, List<int> _list, int i)
+        {
+            GameObject go = Object.Instantiate(s_Prefab, parent, false);
+            parent.gameObject.SetActive(true);
+            // go.transform.localPosition = new Vector3((i - count / 2) * spaceDistance, 0, 0);
+            go.transform.localPosition = Vector3.zero;
+            go.transform.localScale = Vector3.one;
+            go.transform.localRotation = Quaternion.identity;
+            RectTransform rect = go.GetComponent<RectTransform>();
+            rect.anchorMax = Vector2.one;
+            rect.anchorMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.offsetMin = Vector2.zero;
+            HallIconItem item = go.AddILComponent<HallIconItem>();
+            int id = _list[i];
+            item.SetItem(id, noShowList.Contains(id), showIconContent);
         }
     }
 }

@@ -328,7 +328,7 @@ public class AddSpriteEdit : EditorWindow, IActiveBuildTargetChanged
         valueConfiger.Version = 100;
         valueConfiger.Extend = null;
         valueConfiger.UpdateUrl = null;
-        valueConfiger.AuditPak = null;
+        valueConfiger.AuditPak = null; 
         foreach (string p in files)
         {
             string fileNameExtension = Path.GetExtension(p);

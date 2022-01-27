@@ -80,13 +80,9 @@ namespace Hotfix.Hall
             GrouoItem.gameObject.SetActive(true);
 
             var dt = data.Timer.StampToDatetime();
-            DebugHelper.LogError($"idtext:{idText}");
             idText.text = data.ID.ToString();
-            DebugHelper.LogError($"timeText:{timeText}");
             timeText.text = $"{dt:yyyy-MM-dd}";
-            DebugHelper.LogError($"cardText:{cardText}");
             cardText.text = data.Card;
-            DebugHelper.LogError($"goldText:{goldText}");
             goldText.text = data.Gold.ToString();
         }
 

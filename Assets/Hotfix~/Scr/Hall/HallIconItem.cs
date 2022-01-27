@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Coffee.UIExtensions;
+using DG.Tweening;
 using LuaFramework;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ namespace Hotfix.Hall
 {
     public class HallIconItem : ILHotfixEntity
     {
-        private bool isHide;
+        private bool _isHide;
 
         private Transform hideMask;
         private Button enterGameBtn;
@@ -130,11 +131,11 @@ namespace Hotfix.Hall
             UIManager.Instance.OpenUI<GameRoomListPanel>(Id, list);
         }
 
-        public void SetItem(int i, bool _isHide, Transform iconGroup)
+        public void SetItem(int i, bool isHide, Transform iconGroup)
         {
-            isHide = _isHide;
+            this._isHide = isHide;
             Id = i;
-            hideMask.gameObject.SetActive(isHide);
+            hideMask.gameObject.SetActive(this._isHide);
             GameData data = GameConfig.GetGameData(Id);
             if (data == null)
             {
@@ -165,6 +166,8 @@ namespace Hotfix.Hall
             go.transform.localPosition = Vector3.zero;
             go.transform.localScale = Vector3.one;
             go.transform.localRotation = Quaternion.identity;
+            EffectMode mode = _isHide ? EffectMode.Grayscale : EffectMode.None;
+            ToolHelper.SetImageEffect(go, mode);
         }
     }
 }
