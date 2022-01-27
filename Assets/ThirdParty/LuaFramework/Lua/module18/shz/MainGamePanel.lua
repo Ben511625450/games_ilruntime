@@ -544,10 +544,10 @@ end
 
 -- 开始方法(需要得到结果再开始游戏)
 function MainGamePanel.StartBtnOnClick(obj)
-    if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
-        if GameManager.IsStopGame then
-            return 
-         end
+    -- if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
+    --     if GameManager.IsStopGame then
+    --         return 
+    --      end
 
         Time.timeScale = 1
         if SHZGameMangerTable[1].iWinScore > 0 then
@@ -601,7 +601,7 @@ function MainGamePanel.StartBtnOnClick(obj)
         end
         self.ShowAutoNum.text = s
 
-    end
+    --end
 end
 -- 显示隐藏结果动画和线
 function MainGamePanel.ShowLineAndResult()
@@ -911,7 +911,7 @@ end
 
 -- 手动方法
 function MainGamePanel.HandBtnOnClick(obj)
-    if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
+    --if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
 
         obj.transform:GetComponent("Button").interactable = false
         self.FreeOrHand = false
@@ -920,24 +920,24 @@ function MainGamePanel.HandBtnOnClick(obj)
         self.BtnAuto.transform.localPosition = Vector3.New(2000, 2000, 0)
         obj.transform:GetComponent("Button").interactable = true
 
-    end
+   -- end
 end
 
 -- 自动方法
 function MainGamePanel.FreeBtnOnClick()
-    if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
+    --if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
 
         self.BtnAuto.transform.localPosition = Vector3.New(540, 176, 0)
         self.HandBtn:SetActive(true)
 
-    end
+    --end
 end
 
 function MainGamePanel.FreeStart()
     self.BtnAuto.transform.localPosition = Vector3.New(2000, 2000, 0)
     self.FreeOrHand = true
     self.SetMainBtnShow(1)
-    if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
+    --if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
 
         -- 如果是需要结算（先发送结算）
         if SHZGameMangerTable[1].byMaryCount > 0 then
@@ -950,19 +950,19 @@ function MainGamePanel.FreeStart()
             self.StartBtnOnClick(self.StartBtn)
         end
 
-    end
+    --end
 end
 
 -- 选择比倍方法
 function MainGamePanel.ChipInBtnOnClick(obj)
-    if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
+   -- if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
         -- 界面出现遮罩,不能点击然后再判断家宅界面
         -- 给服务器发送选择比倍
         obj.transform:GetComponent("Button").interactable = false
         SHZSCInfo.ChipOrGetSendInfo(1)
         obj.transform:GetComponent("Button").interactable = true
 
-    end
+   -- end
 end
 
 -- 押注加方法

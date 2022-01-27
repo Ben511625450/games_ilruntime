@@ -117,13 +117,13 @@ function SHZPanel:Begin(obj)
     bg.transform.localPosition = Vector3(0, 0, 0);
     bg.transform.localRotation = Quaternion.identity;
     bg.transform.localScale = Vector3(1, 1, 1);
-    bg.sprite = HallScenPanel.moduleBg:Find("module17-20/module18"):GetComponent("Image").sprite;
+    --bg.sprite = HallScenPanel.moduleBg:Find("module17-20/module18"):GetComponent("Image").sprite;
     bg:GetComponent("RectTransform").sizeDelta = Vector2.New((Screen.width / Screen.height) * 750 + 20, 750 + 20);
 
     self.shzcanvas.transform:Find("Canvas/Image").gameObject:SetActive(false)
     --BG
-    self.shzcanvas.transform:Find("Canvas/Prefeb/MainPanel/Bg/left"):GetComponent("Image").sprite=HallScenPanel.moduleBg:Find("module17-20/module18/frame"):GetComponent("Image").sprite;
-    self.shzcanvas.transform:Find("Canvas/Prefeb/MainPanel/Bg/Right"):GetComponent("Image").sprite=HallScenPanel.moduleBg:Find("module17-20/module18/frame"):GetComponent("Image").sprite;
+    --self.shzcanvas.transform:Find("Canvas/Prefeb/MainPanel/Bg/left"):GetComponent("Image").sprite=HallScenPanel.moduleBg:Find("module17-20/module18/frame"):GetComponent("Image").sprite;
+    --self.shzcanvas.transform:Find("Canvas/Prefeb/MainPanel/Bg/Right"):GetComponent("Image").sprite=HallScenPanel.moduleBg:Find("module17-20/module18/frame"):GetComponent("Image").sprite;
      local RoteTran=self.shzcanvas.transform:Find("Canvas/Prefeb/MainPanel/Rote");
      local newprefeb=newobject(self.shzcanvas.transform:Find("Canvas/Prefeb").gameObject) 
      newprefeb.transform:SetParent(self.shzcanvas.transform:Find("Canvas/Prefeb/MainPanel"));
@@ -140,11 +140,11 @@ function SHZPanel:Begin(obj)
      --bibei
      self.shzcanvas.transform:Find("Canvas/Prefeb"):GetComponent("RectTransform").sizeDelta=Vector2.New(2000,750);
      local chipBG=self.shzcanvas.transform.parent:Find("ChipInPanel/Bg"):GetComponent("Image");
-    chipBG.sprite=HallScenPanel.moduleBg:Find("module17-20/module18/TIME"):GetComponent("Image").sprite;
-    chipBG:GetComponent("RectTransform").sizeDelta=Vector2.New(chipBG.sprite.textureRect.width,chipBG.sprite.textureRect.height);
+    --chipBG.sprite=HallScenPanel.moduleBg:Find("module17-20/module18/TIME"):GetComponent("Image").sprite;
+    --chipBG:GetComponent("RectTransform").sizeDelta=Vector2.New(chipBG.sprite.textureRect.width,chipBG.sprite.textureRect.height);
     --xiaomali
-    self.shzcanvas.transform.parent:Find("MaryPanel/Bg/Left"):GetComponent("Image").sprite=HallScenPanel.moduleBg:Find("module17-20/module18/mariobgmariobg-1"):GetComponent("Image").sprite;
-    self.shzcanvas.transform.parent:Find("MaryPanel/Bg/Right"):GetComponent("Image").sprite=HallScenPanel.moduleBg:Find("module17-20/module18/mariobgmariobg-2"):GetComponent("Image").sprite;
+    --self.shzcanvas.transform.parent:Find("MaryPanel/Bg/Left"):GetComponent("Image").sprite=HallScenPanel.moduleBg:Find("module17-20/module18/mariobgmariobg-1"):GetComponent("Image").sprite;
+    --self.shzcanvas.transform.parent:Find("MaryPanel/Bg/Right"):GetComponent("Image").sprite=HallScenPanel.moduleBg:Find("module17-20/module18/mariobgmariobg-2"):GetComponent("Image").sprite;
 
 
     self.shzcanvas.name = "Game_SHZ"
@@ -232,7 +232,7 @@ function SHZPanel:ScenInfo()
     self.iWinScore = SHZSCInfo.ScenInfoTable[9]
     -- 比倍历史点数
     self.byHisBigSma = SHZSCInfo.ScenInfoTable[10]
-    error(11111)
+    error(tostring(self.changepanel == nil))
     --    --加载切换场景
     if self.changepanel == nil then
         -- LoadAssetCacheAsync('module18/game_luashzmain', 'ChangePanel', handler(self, self.CreatChangePanel))

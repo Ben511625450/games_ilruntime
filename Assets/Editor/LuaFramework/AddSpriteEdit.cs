@@ -1180,7 +1180,7 @@ public class AddSpriteEdit : EditorWindow, IActiveBuildTargetChanged
     [MenuItem("Tools/加密单个bundle")]
     public static void ESSingleAssetBundle()
     {
-        List<string> bundlenames = new List<string>() {"module62"};
+        List<string> bundlenames = new List<string>() {"module59"};
         string path = $"{Application.dataPath}/../UpdateRes";
         string newPath = $"{Application.dataPath}/../EnUpdateRes";
         if (!Directory.Exists(newPath))
