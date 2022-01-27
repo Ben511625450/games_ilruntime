@@ -157,8 +157,11 @@ namespace Hotfix
             DebugHelper.Log($"ip:{ip} port:{port}");
             var session1 = new Session(ip, port, id, timeOut, (state, session) =>
             {
-                DebugHelper.Log($"session:{id}connect net:{state}");
-                callBack?.Invoke(state);
+                ActionComponent.Instance.Add(() =>
+                {
+                    DebugHelper.Log($"session:{id}connect net:{state}");
+                    callBack?.Invoke(state);
+                });
             });
         }
 
@@ -247,24 +250,28 @@ namespace Hotfix
 
             void CallBack(string _state)
             {
-                if (_state == "Yes")
+                ActionComponent.Instance.Add(() =>
                 {
-                    connectHallSuccess = true;
-                    reHallConnectCount = 0;
-                    isHallReconnect = false;
-                }
-                else
-                {
-                    DebugHelper.LogError($"connectHallSuccess:{connectHallSuccess}");
-                    if(connectHallSuccess)
+                    if (_state == "Yes")
                     {
-                        connectHallSuccess = false;
-                        ReconnectHall();
+                        connectHallSuccess = true;
+                        reHallConnectCount = 0;
+                        isHallReconnect = false;
                     }
-                    ToolHelper.PopSmallWindow($"网络连接失败");
-                }
+                    else
+                    {
+                        DebugHelper.LogError($"connectHallSuccess:{connectHallSuccess}");
+                        if (connectHallSuccess)
+                        {
+                            connectHallSuccess = false;
+                            ReconnectHall();
+                        }
 
-                fun?.Invoke(connectHallSuccess);
+                        ToolHelper.PopSmallWindow($"网络连接失败");
+                    }
+
+                    fun?.Invoke(connectHallSuccess);
+                });
             }
 
             if (State(SocketType.Hall))
@@ -575,6 +582,7 @@ namespace Hotfix
                 for (int i = 0; i < _SC_ROOM_INFO.SubInfo.Count; i++) //筛选房间列表
                 {
                     HallStruct.RoomInfo info = _SC_ROOM_INFO.SubInfo[i];
+                    // DebugHelper.LogError($"Room:{JsonMapper.ToJson(info)}");
                     int index = GameLocalMode.Instance.AllSCGameRoom.FindListIndex(p =>
                         p._2wGameID == info._2wGameID && p._1byFloorID == info._1byFloorID);
                     if (index >= 0)

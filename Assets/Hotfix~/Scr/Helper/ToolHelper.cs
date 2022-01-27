@@ -56,7 +56,7 @@ namespace Hotfix
         /// </summary>
         public static void PopBigWindow(BigMessage message)
         {
-            PopComponent.Instance.ShowBig(message);
+            PopComponent.Instance?.ShowBig(message);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Hotfix
         /// </summary>
         public static void PopSmallWindow(string message)
         {
-            PopComponent.Instance.ShowSmall(message);
+            PopComponent.Instance?.ShowSmall(message);
         }
 
         /// <summary>

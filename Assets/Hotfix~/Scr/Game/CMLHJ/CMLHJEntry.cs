@@ -118,6 +118,8 @@ namespace Hotfix.CMLHJ
             CMLHJ_Event.RollFailed += CMLHJ_Event_RollFailed;
             CMLHJ_Event.StartRoll += CMLHJEvent_ShowResult;
             CMLHJ_Event.ShowSingleLine += CMLHJ_Event_ShowResult;
+            HotfixActionHelper.LoadGameRule += ShowRulePanel;
+            HotfixActionHelper.LoadGameExit += CloseGameCall;
         }
         protected override void RemoveEvent()
         {
@@ -130,6 +132,8 @@ namespace Hotfix.CMLHJ
             CMLHJ_Event.RollFailed -= CMLHJ_Event_RollFailed;
             CMLHJ_Event.StartRoll -= CMLHJEvent_ShowResult;
             CMLHJ_Event.ShowSingleLine -= CMLHJ_Event_ShowResult;
+            HotfixActionHelper.LoadGameRule -= ShowRulePanel;
+            HotfixActionHelper.LoadGameExit -= CloseGameCall;
         }
 
         protected override void FindComponent()
