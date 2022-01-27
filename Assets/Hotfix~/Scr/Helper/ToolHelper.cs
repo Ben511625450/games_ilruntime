@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Coffee.UIExtensions;
 using DG.Tweening;
 using LuaFramework;
 using TMPro;
@@ -405,7 +406,7 @@ namespace Hotfix
         {
             if (isShow)
             {
-                WaitPanel waitPanel= UIManager.Instance.GetUI<WaitPanel>();
+                WaitPanel waitPanel = UIManager.Instance.GetUI<WaitPanel>();
                 if (waitPanel != null)
                 {
                     if (content != null)
@@ -627,6 +628,30 @@ namespace Hotfix
             }
 
             return UnityEngine.Object.Instantiate<T>(original, parent);
+        }
+
+        /// <summary>
+        /// 设置图片颜色模式
+        /// </summary>
+        /// <param name="go"></param>
+        /// <param name="mode"></param>
+        public static void SetImageEffect(GameObject go, EffectMode mode)
+        {
+            Image img = go.GetComponent<Image>();
+            if (img == null)
+            {
+                DebugHelper.LogError($"该节点{go.name}缺少Image组件，无法设置颜色模式");
+                return;
+            }
+
+            UIEffect e = img.GetComponent<UIEffect>();
+            if (e == null)
+            {
+                DebugHelper.LogError($"该节点{go.name}缺少UIEffect组件，无法设置颜色模式");
+                return;
+            }
+
+            e.effectFactor = mode == EffectMode.Grayscale ? 1 : 0;
         }
     }
 }
