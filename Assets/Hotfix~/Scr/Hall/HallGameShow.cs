@@ -69,11 +69,11 @@ namespace Hotfix.Hall
             noShowList.Clear();
             iconGroup = Util.LoadAsset("module02/Pool/gameimg", $"GameImg");
             if (!isShowLocal) IconList = GameLocalMode.Instance.GWData.GameList;
+            showRect.movementType = ScrollRect.MovementType.Elastic;
             if (IconList.Count == 1) //单平台处理
             {
                 mutipleContent.gameObject.SetActive(false);
                 showRect.gameObject.SetActive(true);
-                showRect.movementType = ScrollRect.MovementType.Elastic;
                 if (!IconList.ContainsKey(DefaultPlatform))
                 {
                     DebugHelper.LogError($"没有找到：{DefaultPlatform} 的配置");
@@ -119,7 +119,7 @@ namespace Hotfix.Hall
 
         private void OnOpenSubPlatform(bool isOpen, string platformName)
         {
-            showRect.gameObject.SetActive(isOpen);
+            currentShowContent?.gameObject.SetActive(isOpen);
             mutipleContent.gameObject.SetActive(!isOpen);
             backBtn.gameObject.SetActive(isOpen && platformName != DefaultPlatform);
         }
