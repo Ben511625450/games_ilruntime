@@ -545,9 +545,9 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: 
-  locationUsageDescription: 
-  microphoneUsageDescription: 
+  cameraUsageDescription: "\u83B7\u53D6\u76F8\u673A\u6743\u9650"
+  locationUsageDescription: "\u83B7\u53D6\u5B9A\u4F4D\u6743\u9650"
+  microphoneUsageDescription: "\u83B7\u53D6\u9EA6\u514B\u98CE\u6743\u9650"
   switchNMETAOverride: 
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144
