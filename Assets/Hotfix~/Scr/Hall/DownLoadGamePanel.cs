@@ -105,6 +105,10 @@ namespace Hotfix.Hall
                 owner.downProgress.value = 0;
                 GameLocalMode.Instance.GameHost = owner.info._4dwServerAddr;
                 GameLocalMode.Instance.GamePort = owner.info._5wServerPort;
+                if (GameLocalMode.Instance.GWData.isUseGameIP)
+                {
+                    GameLocalMode.Instance.GameHost = GameLocalMode.Instance.GWData.GameIP;
+                }
                 HotfixGameComponent.Instance.ConnectGameServer(isSuccess =>
                 {
                     if (isSuccess)

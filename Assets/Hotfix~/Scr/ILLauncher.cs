@@ -26,6 +26,7 @@ namespace Hotfix
         {
             ILRumtimeObj.AddILComponent<EntityComponent>();
             ILRumtimeObj.AddILComponent<HotfixGameComponent>();
+            ILRumtimeObj.AddILComponent<ActionComponent>();
             ILRumtimeObj.AddILComponent<PopComponent>();
             ILRumtimeObj.AddILComponent<LoadGameComponent>();
             ILRumtimeObj.AddILComponent<ILGameManager>();            

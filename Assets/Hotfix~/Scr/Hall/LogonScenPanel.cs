@@ -164,19 +164,19 @@ namespace Hotfix.Hall
             {
             }
 
-            bool isComplete;
+            bool _isComplete;
 
             public override void OnEnter()
             {
                 base.OnEnter();
-                isComplete = false;
+                _isComplete = false;
             }
 
             public override void Update()
             {
                 base.Update();
-                if (isComplete) return;
-                isComplete = true;
+                if (_isComplete) return;
+                _isComplete = true;
                 if (!GameLocalMode.Instance.AccountList.isAuto ||
                     GameLocalMode.Instance.AccountList.LoginType == 0) //普通登录
                 {
@@ -282,13 +282,13 @@ namespace Hotfix.Hall
                     DebugHelper.Log($"IP:{GameLocalMode.Instance.IP}");
                     reqLoginIndex = 0;
                     reqLoginCount = 0;
-                    // ReqLoginConfig();
+                    ReqLoginConfig();
                     
                     GameLocalMode.Instance.HallHost = GameLocalMode.Instance.GWData.isUseLoginIP
                         ? GameLocalMode.Instance.GWData.LoginIP
                         : GameLocalMode.Instance.M_HttpData.login_ip;
-                    GameLocalMode.Instance.HallPort = $"{28101}";
-                    hsm?.ChangeState(nameof(CheckAutoLogin));
+                    // GameLocalMode.Instance.HallPort = $"{28101}";
+                    // hsm?.ChangeState(nameof(CheckAutoLogin));
                 });
             }
 
@@ -500,6 +500,7 @@ namespace Hotfix.Hall
             private int codeAllTime = 60;
             private float timer;
             private bool isStart;
+            private Transform timeUnderLine;
 
             public override void OnEnter()
             {
@@ -556,8 +557,9 @@ namespace Hotfix.Hall
                 RegisterCloseBtn = owner.RegisterBg.FindChildDepth<Button>("QuitBtn"); //关闭注册
 
                 // codeImg = RegisterGetCodeBtn.transform.FindChildDepth("Image");
-                codeTimeTxt = RegisterGetCodeBtn.transform.FindChildDepth<Text>("Image");
-
+                codeTimeTxt = RegisterGetCodeBtn.transform.FindChildDepth<Text>($"BtnShow");
+                timeUnderLine = RegisterGetCodeBtn.transform.FindChildDepth($"Image");
+                RegisterGetCodeBtn.transform.FindChildDepth($"Time").gameObject.SetActive(false);
                 RegisterSureBtn.onClick.RemoveAllListeners();
                 RegisterSureBtn.onClick.Add(() => { RegisterSureBtnOnClick(RegisterSureBtn); });
 
@@ -665,10 +667,13 @@ namespace Hotfix.Hall
             /// </summary>
             private void RegisterGetCodeBtnOnClick(Button args)
             {
+                timeUnderLine.gameObject.SetActive(false);
                 var phonenum = RegisterMobileNumInput.text;
                 if (phonenum == "" || phonenum.Length != 11)
                 {
                     ToolHelper.PopSmallWindow("请输入正确手机号码");
+                    codeTimeTxt.text = "获取验证码";
+                    timeUnderLine.gameObject.SetActive(true);
                     return;
                 }
 
@@ -713,6 +718,7 @@ namespace Hotfix.Hall
             private void CountDownComplete()
             {
                 codeTimeTxt.text = "获取验证码";
+                timeUnderLine.gameObject.SetActive(true);
                 // codeTimeTxt.gameObject.SetActive(false);
                 // codeImg.gameObject.SetActive(true);
                 RegisterGetCodeBtn.interactable = true;
@@ -927,11 +933,13 @@ namespace Hotfix.Hall
             /// </summary>
             private void FindPwdGetCodeBtnOnClick(Button args)
             {
+                FindPwdGetCodeBtn.GetComponent<Text>().enabled = false;
                 var phonenum = FindPwdMobileNumInput.text;
 
                 if (phonenum == "" || phonenum.Length != 11)
                 {
                     ToolHelper.PopSmallWindow("请输入正确手机号码");
+                    FindPwdGetCodeBtn.GetComponent<Text>().enabled = true;
                     return;
                 }
 
@@ -957,6 +965,7 @@ namespace Hotfix.Hall
                 // findBtnImg.gameObject.SetActive(true);
                 // findBtnTimeTxt.gameObject.SetActive(false);
                 FindPwdGetCodeBtn.interactable = true;
+                FindPwdGetCodeBtn.GetComponent<Text>().enabled = true;
             }
         }
 
