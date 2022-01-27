@@ -16,7 +16,7 @@ namespace Hotfix
         private IPEndPoint gameIpEndPoint;
 
         private IPEndPoint loginIpEndPoint;
-        public byte PlatformID = 6;
+        public byte PlatformID = 7;
 
         public static GameLocalMode Instance
         {
