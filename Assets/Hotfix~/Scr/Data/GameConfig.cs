@@ -324,7 +324,7 @@ namespace Hotfix
             },
             new GameData() //龙腾捕鱼
             {
-                scenName = "module62", uiName = "万炮捕鱼", serverId = "21", clientId = 62,
+                scenName = "module62", uiName = "龙腾捕鱼", serverId = "21", clientId = 62,
                 configer = GameModuleConfiger.GetModule("module62"),
                 BL = new List<string>(){"1", "10", "100", "10000"},
                 entry = go => go.AddILComponent<LTBY.LTBYEntry>()
