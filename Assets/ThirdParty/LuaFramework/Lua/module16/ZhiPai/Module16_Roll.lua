@@ -96,7 +96,11 @@ function Module16_Roll.Update()
                 self.SingleRollStop();
                 if self.StopIndex == #self.rollList then
                     self.currentState = 0;
-                    Module16Entry.OnStop();
+                    local function f()
+                        coroutine.wait(0.8);
+                        Module16Entry.OnStop();
+                    end
+                    coroutine.start(f);
                 end
             end
         end

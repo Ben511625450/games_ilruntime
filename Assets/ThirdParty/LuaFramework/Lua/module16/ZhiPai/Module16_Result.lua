@@ -70,7 +70,7 @@ function Module16_Result.ShowResult()
 
         if rate < 5 then
             --普通奖  不做显示
-            Module16_Result.ShowNormalEffect()
+            self.ShowNormalEffect()
         elseif rate >= 5 then
             self.ShowBigWinEffect();
         end
@@ -358,6 +358,7 @@ end
 function Module16_Result.ShowNormalEffect()
     self.timer = 0;
     self.currentRunGold = 0;
+    Module16_Audio.PlaySound(Module16_Audio.SoundList.WSGame);
     Module16Entry.SetSelfGold(Module16Entry.myGold);
     Module16Entry.WinGoldText.text = Module16Entry.ShowText(Module16Entry.ResultData.WinScore)
     Module16Entry.WinGold.gameObject:SetActive(true)
