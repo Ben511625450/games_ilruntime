@@ -40,15 +40,15 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 3);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            DragonBones.ListenerDelegate<DragonBones.EventObject> @listener = (DragonBones.ListenerDelegate<DragonBones.EventObject>)typeof(DragonBones.ListenerDelegate<DragonBones.EventObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            DragonBones.ListenerDelegate<DragonBones.EventObject> @listener = (DragonBones.ListenerDelegate<DragonBones.EventObject>)typeof(DragonBones.ListenerDelegate<DragonBones.EventObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             __intp.Free(ptr_of_this_method);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            System.String @type = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.String @type = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            DragonBones.DragonBoneEventDispatcher instance_of_this_method = (DragonBones.DragonBoneEventDispatcher)typeof(DragonBones.DragonBoneEventDispatcher).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            DragonBones.DragonBoneEventDispatcher instance_of_this_method = (DragonBones.DragonBoneEventDispatcher)typeof(DragonBones.DragonBoneEventDispatcher).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.AddDBEventListener(@type, @listener);
@@ -63,15 +63,15 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 3);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            DragonBones.ListenerDelegate<DragonBones.EventObject> @listener = (DragonBones.ListenerDelegate<DragonBones.EventObject>)typeof(DragonBones.ListenerDelegate<DragonBones.EventObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            DragonBones.ListenerDelegate<DragonBones.EventObject> @listener = (DragonBones.ListenerDelegate<DragonBones.EventObject>)typeof(DragonBones.ListenerDelegate<DragonBones.EventObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             __intp.Free(ptr_of_this_method);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            System.String @type = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.String @type = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            DragonBones.DragonBoneEventDispatcher instance_of_this_method = (DragonBones.DragonBoneEventDispatcher)typeof(DragonBones.DragonBoneEventDispatcher).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            DragonBones.DragonBoneEventDispatcher instance_of_this_method = (DragonBones.DragonBoneEventDispatcher)typeof(DragonBones.DragonBoneEventDispatcher).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.RemoveDBEventListener(@type, @listener);

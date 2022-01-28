@@ -35,12 +35,8 @@ namespace Hotfix.Hall
             mainPanel = transform.FindChildDepth("mainPanel");
             closeBtn = mainPanel.FindChildDepth<Button>("CloseBtn");
 
-            //MusicSlider = mainPanel.FindChildDepth<Slider>("Image/Music/Slider");
-            //SoundSlider = mainPanel.FindChildDepth<Slider>("Image/Sound/Slider");
-            Musictog= mainPanel.FindChildDepth<Toggle>("Image/Image1/BgMusic/dk");
-            Musictog2 = mainPanel.FindChildDepth<Toggle>("Image/Image1/BgMusic/gb");
-            Soundtog = mainPanel.FindChildDepth<Toggle>("Image/Image2/BgSound/dk");
-            Soundtog2 = mainPanel.FindChildDepth<Toggle>("Image/Image2/BgSound/gb");
+            MusicSlider = mainPanel.FindChildDepth<Slider>("Image/Image1/Slider");
+            SoundSlider = mainPanel.FindChildDepth<Slider>("Image/Image2/Slider");
 
         }
 
@@ -49,39 +45,17 @@ namespace Hotfix.Hall
             closeBtn.onClick.RemoveAllListeners();
             closeBtn.onClick.Add(CloseMusicPanel);
 
-            //MusicSlider.onValueChanged.RemoveAllListeners();
-            //MusicSlider.onValueChanged.Add(OnMusicValueChanged);
+            MusicSlider.onValueChanged.RemoveAllListeners();
+            MusicSlider.onValueChanged.Add(OnMusicValueChanged);
 
-            //SoundSlider.onValueChanged.RemoveAllListeners();
-            //SoundSlider.onValueChanged.Add(OnSoundValueChanged);
-
-            Musictog.onValueChanged.RemoveAllListeners();
-            Musictog.onValueChanged.Add((value)=> 
-            {
-                OnMusicToggleChanged(value);
-            });
-
-            Soundtog.onValueChanged.RemoveAllListeners();
-            Soundtog.onValueChanged.Add((value) =>
-            {
-                OnSoundToggleChanged(value);
-            });
+            SoundSlider.onValueChanged.RemoveAllListeners();
+            SoundSlider.onValueChanged.Add(OnSoundValueChanged);
         }
 
         private void Init()
         {
-            Musictog2.isOn=!ILMusicManager.Instance.isPlayMV;
-            Soundtog2.isOn =!ILMusicManager.Instance.isPlaySV;
-        }
-
-        private void OnMusicToggleChanged(bool value)
-        {
-            ILMusicManager.Instance.SetMusicMute(!value);
-        }
-
-        private void OnSoundToggleChanged(bool value)
-        {
-            ILMusicManager.Instance.SetSoundMute(!value);
+            MusicSlider.value = ILMusicManager.Instance.GetMusicValue();
+            SoundSlider.value = ILMusicManager.Instance.GetSoundValue();
         }
 
         private void OnMusicValueChanged(float value)

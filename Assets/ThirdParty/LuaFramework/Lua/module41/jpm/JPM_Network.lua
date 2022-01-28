@@ -115,7 +115,9 @@ function JPM_Network.OnHandleSceneInfo(wMainID, wSubID, buffer, wSize)
     end
     
     JPMEntry.SceneData.bet = buffer:ReadInt32(); --下注
-
+    if JPMEntry.SceneData.bet==0 then
+        JPMEntry.SceneData.bet=JPMEntry.SceneData.chipList[1];
+    end
     JPMEntry.SceneData.freeNumber = buffer:ReadInt32(); --免费次数
     JPMEntry.SceneData.cbBouns = buffer:ReadByte();--小游戏轮数
     JPMEntry.SceneData.nBounsNo = buffer:ReadByte();--小游戏底图

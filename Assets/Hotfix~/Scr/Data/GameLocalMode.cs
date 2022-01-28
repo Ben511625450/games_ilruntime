@@ -318,7 +318,7 @@ namespace Hotfix
     {
         public string CNameGold;
 
-        public Dictionary<string, List<string>> GameList;
+        public Dictionary<string, HttpGame> GameList;
         public string GWUrl;
         public List<string> IPUrls;
         public int MoneyRate;
@@ -332,6 +332,12 @@ namespace Hotfix
         public List<string> Urls;
         public bool isUseLoginIP;
         public bool isUseGameIP;
+    }
+
+    public class HttpGame
+    {
+        public bool hasFix;
+        public List<string> group;
     }
 
     public class gameServerName

@@ -700,6 +700,7 @@ namespace Hotfix
                 Error = byteBuffer.ReadString(Length);
             }
         }
+
         /// <summary>
         /// 登录验证查询返回
         /// </summary>
@@ -715,10 +716,53 @@ namespace Hotfix
                 type = buffer.ReadByte();
                 isOn = buffer.ReadByte() != 0;
             }
+
             public byte state;
             public byte type;
             public bool isOn;
         }
+        /// <summary>
+        /// 刷新银行
+        /// </summary>
+        public class ACP_SC_UPDATEBANKERSAVEGOLD
+        {
+            
+            public long gold;
+
+            public ACP_SC_UPDATEBANKERSAVEGOLD(ByteBuffer buffer)
+            {
+                gold = buffer.ReadUInt64();
+            }
+
+            public ACP_SC_UPDATEBANKERSAVEGOLD()
+            {
+                
+            }
+        }
+        /// <summary>
+        /// 撤回
+        /// </summary>
+        public class ACP_SC_WITHDRAW
+        {
+            public ACP_SC_WITHDRAW()
+            {
+                
+            }
+            public ACP_SC_WITHDRAW(ByteBuffer buffer)
+            {
+                recallResult = buffer.ReadByte() == 1;
+                recallGold = buffer.ReadUInt64();
+                recallUserID = buffer.ReadUInt32();
+                recallMsg = buffer.ReadString(100);
+                recallMsg = recallMsg.Trim();
+            }
+
+            public bool recallResult;
+            public long recallGold;
+            public uint recallUserID;
+            public string recallMsg;
+        }
+
         /// <summary>
         /// 初始化银行
         /// </summary>
@@ -1238,6 +1282,36 @@ namespace Hotfix
                     buffer.WriteInt(count);
                     return buffer;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 银行查询
+        /// </summary>
+        public class REQ_CS_Bank_Query
+        {
+            private ByteBuffer buffer;
+
+            public ByteBuffer ByteBuffer
+            {
+                get
+                {
+                    buffer?.Close();
+                    buffer = new ByteBuffer();
+                    buffer.WriteUInt32(dwUser_Id);
+                    return buffer;
+                }
+            }
+
+            public uint dwUser_Id;
+
+            public REQ_CS_Bank_Query()
+            {
+            }
+
+            public REQ_CS_Bank_Query(uint _dwUser_Id)
+            {
+                dwUser_Id = _dwUser_Id;
             }
         }
 

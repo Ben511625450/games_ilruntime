@@ -40,11 +40,11 @@ namespace ILRuntime.Runtime.Generated
             System.Int32 @index = ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            System.String[] @array = (System.String[])typeof(System.String[]).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.String[] @array = (System.String[])typeof(System.String[]).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            System.Collections.Generic.Dictionary<System.String, System.Boolean>.KeyCollection instance_of_this_method = (System.Collections.Generic.Dictionary<System.String, System.Boolean>.KeyCollection)typeof(System.Collections.Generic.Dictionary<System.String, System.Boolean>.KeyCollection).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Collections.Generic.Dictionary<System.String, System.Boolean>.KeyCollection instance_of_this_method = (System.Collections.Generic.Dictionary<System.String, System.Boolean>.KeyCollection)typeof(System.Collections.Generic.Dictionary<System.String, System.Boolean>.KeyCollection).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.CopyTo(@array, @index);

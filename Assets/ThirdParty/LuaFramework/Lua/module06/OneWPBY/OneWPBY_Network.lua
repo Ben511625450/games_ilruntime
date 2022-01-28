@@ -211,6 +211,7 @@ function OneWPBY_Network.OnHandleGameInfo(wMainID, wSubID, buffer, wSize)
             fish.score = buffer:ReadInt32();
             table.insert(fishdead.fish, fish);
         end
+        logErrorTable(fishdead);
         fishdead.score = tonumber(buffer:ReadInt64Str()); --当前分数
         OneWPBY_FishController.FishDead(fishdead);
     elseif sid == self.SUB_S_CHANGEBULLETLEVEL then

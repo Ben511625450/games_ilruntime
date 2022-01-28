@@ -71,7 +71,7 @@ namespace LuaFramework
             Debugger.useLog = false;
             Caching.ClearCache();
 
-            HandleConfig.InitConfiger();
+            // HandleConfig.InitConfiger();
 
             //加载本地缓存设置
             //SaveManager.OnInitialize();
@@ -89,7 +89,7 @@ namespace LuaFramework
         /// </summary>
         public override void UnInitialize()
         {
-            HandleConfig.SaveConfiger();
+            // HandleConfig.SaveConfiger();
             //加载本地缓存设置
             // SaveManager.UnInitialize();
             StopAllCoroutines();
@@ -104,7 +104,7 @@ namespace LuaFramework
         {
             ConfigHelp.SaveAppInfoConfiger();
             ConfigHelp.SaveValueConfiger();
-            HandleConfig.SaveConfiger();
+            // HandleConfig.SaveConfiger();
         }
 
         private void AddManager()
@@ -145,11 +145,11 @@ namespace LuaFramework
         {
             this.CheckLocalVersion();
             bool flag = !File.Exists(PathHelp.AppHotfixResPath + AppConst.ValueConfigerName) && !AppConst.DebugMode;
-            if (flag)
-            {
-                Main.UpdateUIDesc("正在解压文件，请稍等");
-                await this.OnUnzip();
-            }
+            // if (flag)
+            // {
+            //     Main.UpdateUIDesc("正在解压文件，请稍等");
+            //     await this.OnUnzip();
+            // }
 
             Main.UpdateUIDesc("正在获取版本文件，请稍等");
             bool isOk = true;
@@ -165,13 +165,6 @@ namespace LuaFramework
                         string text2 = Util.DecryptDES(result, "89219417");
                         AppConst.csConfiger = JsonMapper.ToObject<CSConfiger>(text2);
                         //AppConst.csConfiger.UpdateMode = false;
-                        LuaFramework.Main main = (Main) Main;
-                        if (main.reporter != null)
-                        {
-                            bool isShow = Application.isEditor;
-                            isShow = AppConst.csConfiger.ShowLogTool || isShow;
-                            main.reporter.SetActive(isShow);
-                        }
                     }
 
                     taskTool.SetResult(true);
@@ -191,7 +184,7 @@ namespace LuaFramework
                 Main.UpdateUIDesc("正在更新中，请稍等");
                 for (int i = 0; i < count; i++)
                 {
-                    bool flag3 = await this.OnUpdateResource();
+                    bool flag3 = await this.OnUpdateResource(flag);
                     isOk = flag3;
                     if (isOk && i < count)
                     {
@@ -249,11 +242,11 @@ namespace LuaFramework
 
         public async Task InitConfiger()
         {
-            await ConfigHelp.InitAppInfoConfiger();
+            // await ConfigHelp.InitAppInfoConfiger();
             await ConfigHelp.InitGameValueConfiger();
         }
 
-        public async Task<bool> OnUpdateResource()
+        public async Task<bool> OnUpdateResource(bool isFirst=false)
         {
             bool flag = !AppConst.UpdateMode;
             bool result;

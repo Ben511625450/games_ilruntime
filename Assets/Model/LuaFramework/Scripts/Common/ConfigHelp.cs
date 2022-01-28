@@ -122,7 +122,7 @@ namespace LuaFramework
 		
 		public static void SaveConfig()
 		{
-			HandleConfig.SaveConfiger();
+			// HandleConfig.SaveConfiger();
 		}
 
 		

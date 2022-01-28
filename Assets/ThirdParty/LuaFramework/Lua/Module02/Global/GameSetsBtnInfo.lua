@@ -51,18 +51,25 @@ function GameSetsBtnInfo.Init(obj, LuaBehaviour)
     self.mainPanel = self.musicPanel.transform:Find("mainPanel")
     self.CloseBtn = self.mainPanel:Find("CloseBtn")
 
-    self.BgMusicOpenBtn = self.mainPanel:Find("Image/Image1/BgMusic/dk"):GetComponent("Toggle");
-    self.BgMusicCloseBtn = self.mainPanel:Find("Image/Image1/BgMusic/gb"):GetComponent("Toggle");
+    --self.BgMusicOpenBtn = self.mainPanel:Find("Image/Image1/BgMusic/dk"):GetComponent("Toggle");
+    --self.BgMusicCloseBtn = self.mainPanel:Find("Image/Image1/BgMusic/gb"):GetComponent("Toggle");
+    self.BgMusicSlider = self.mainPanel:Find("Image/Image1/Slider"):GetComponent("Slider");
     
-    self.BgSoundOpenBtn = self.mainPanel:Find("Image/Image2/BgSound/dk"):GetComponent("Toggle");
-    self.BgSoundCloseBtn = self.mainPanel:Find("Image/Image2/BgSound/gb"):GetComponent("Toggle");
+    --self.BgSoundOpenBtn = self.mainPanel:Find("Image/Image2/BgSound/dk"):GetComponent("Toggle");
+    --self.BgSoundCloseBtn = self.mainPanel:Find("Image/Image2/BgSound/gb"):GetComponent("Toggle");
+    self.BgSoundSlider = self.mainPanel:Find("Image/Image2/Slider"):GetComponent("Slider");
     -- 用户头像的点击事件
     LuaBehaviour:AddClick(self.CloseBtn.gameObject, self.RenWuPanelClose);
-    self.BgMusicOpenBtn.onValueChanged:RemoveAllListeners();
-    self.BgMusicOpenBtn.onValueChanged:AddListener(self.BgMusicBtnOnClick);
-
-    self.BgSoundOpenBtn.onValueChanged:RemoveAllListeners();
-    self.BgSoundOpenBtn.onValueChanged:AddListener(self.BgSoundBtnOnClick);
+    --self.BgMusicOpenBtn.onValueChanged:RemoveAllListeners();
+    --self.BgMusicOpenBtn.onValueChanged:AddListener(self.BgMusicBtnOnClick);
+    self.BgMusicSlider.value=MusicManager:GetMusicVolume();
+    self.BgSoundSlider.value=MusicManager:GetSoundVolume();
+    self.BgMusicSlider.onValueChanged:RemoveAllListeners();
+    self.BgMusicSlider.onValueChanged:AddListener(self.BgMusicBtnOnClick);
+    self.BgSoundSlider.onValueChanged:RemoveAllListeners();
+    self.BgSoundSlider.onValueChanged:AddListener(self.BgSoundBtnOnClick);
+    --self.BgSoundOpenBtn.onValueChanged:RemoveAllListeners();
+    --self.BgSoundOpenBtn.onValueChanged:AddListener(self.BgSoundBtnOnClick);
     --self.RecFrameBtns.transform.localPosition = Vector3.New(1200, self.RecFrameBtns.transform.localPosition.y, self.RecFrameBtns.transform.localPosition.z)
     self.RecFrameBtns:SetActive(false);
     -- if AllSetGameInfo._5IsPlayAudio == false or AllSetGameInfo._6IsPlayEffect == false then
@@ -127,12 +134,12 @@ function GameSetsBtnInfo.BgMusicBtnOnClick(value1)
         return 
     end
     HallScenPanel.PlayeBtnMusic()
-    local value=0
-    if value1 then
-        value=1
-    else
-        value=0
-    end ;
+    local value=value1;
+    --if value1 then
+    --    value=1
+    --else
+    --    value=0
+    --end ;
 
     local isplay = AllSetGameInfo._5IsPlayAudio;
     if value == 0 then
@@ -160,13 +167,13 @@ function GameSetsBtnInfo.BgSoundBtnOnClick(value1)
         isInitS = false
         return 
     end
-    local value=0
+    local value=value1
 
-    if value1 then
-        value=1
-    else
-        value=0
-    end ;
+    --if value1 then
+    --    value=1
+    --else
+    --    value=0
+    --end ;
     if value == 0 then
         AllSetGameInfo._6IsPlayEffect = false;
     else
@@ -252,22 +259,22 @@ function GameSetsBtnInfo.SetBtnOnClick()
         end
     end
     logYellow("_5IsPlayAudio=="..tostring(AllSetGameInfo._5IsPlayAudio))
-    if AllSetGameInfo._5IsPlayAudio == false then
-        self.BgMusicOpenBtn.isOn=false
-        self.BgMusicCloseBtn.isOn=true
-    else
-        self.BgMusicOpenBtn.isOn=true
-        self.BgMusicCloseBtn.isOn=false
-    end
+    --if AllSetGameInfo._5IsPlayAudio == false then
+    --    self.BgMusicOpenBtn.isOn=false
+    --    self.BgMusicCloseBtn.isOn=true
+    --else
+    --    self.BgMusicOpenBtn.isOn=true
+    --    self.BgMusicCloseBtn.isOn=false
+    --end
     logYellow("_6IsPlayEffect=="..tostring(AllSetGameInfo._6IsPlayEffect))
 
-    if AllSetGameInfo._6IsPlayEffect == false then
-        self.BgSoundOpenBtn.isOn=false
-        self.BgSoundCloseBtn.isOn=true
-    else
-        self.BgSoundOpenBtn.isOn=true
-        self.BgSoundCloseBtn.isOn=false
-    end
+    --if AllSetGameInfo._6IsPlayEffect == false then
+    --    self.BgSoundOpenBtn.isOn=false
+    --    self.BgSoundCloseBtn.isOn=true
+    --else
+    --    self.BgSoundOpenBtn.isOn=true
+    --    self.BgSoundCloseBtn.isOn=false
+    --end
     self.musicPanel:SetActive(true);
 end
 

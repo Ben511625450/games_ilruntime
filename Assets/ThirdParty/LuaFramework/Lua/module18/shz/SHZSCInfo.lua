@@ -299,7 +299,7 @@ function SHZSCInfo.RoteMarySendInfo()
 end
 -- 押大小 1小 2中 3大
 function SHZSCInfo.BigOrSmaSendInfo(num)
-    if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
+   -- if HallScenPanel.IsConnectGame and HallScenPanel.restConnectCount <= 0 and not HallScenPanel.OnReConnnect then
 
         SHZSCInfo.SendUserReady()
         local b = ByteBuffer.New()
@@ -309,7 +309,7 @@ function SHZSCInfo.BigOrSmaSendInfo(num)
         b:WriteByte(0)
         b:WriteByte(0)
         Network.Send(MH.MDM_GF_GAME, MH_SHZ.SUB_CS_BIG_OR_SMA, b, gameSocketNumber.GameSocket)
-    end
+   -- end
 end
 
 function SHZSCInfo.WaitTimeSetInfo()

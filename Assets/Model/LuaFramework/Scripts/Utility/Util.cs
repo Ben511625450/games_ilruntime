@@ -850,13 +850,14 @@ namespace LuaFramework
 
         public static string Read(string key)
         {
-            return HandleConfig.Read(key);
+            return SaveHelper.GetString(key);
         }
 
 
         public static bool Write(string key, string val)
         {
-            return HandleConfig.Write(key, val);
+            SaveHelper.SaveCommon(key, val);
+            return true;
         }
 
         public static string PakNameVersion

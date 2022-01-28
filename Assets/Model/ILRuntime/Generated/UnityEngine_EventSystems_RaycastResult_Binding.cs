@@ -85,7 +85,7 @@ namespace ILRuntime.Runtime.Generated
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
             ptr_of_this_method = ILIntepreter.GetObjectAndResolveReference(ptr_of_this_method);
-            UnityEngine.EventSystems.RaycastResult instance_of_this_method = (UnityEngine.EventSystems.RaycastResult)typeof(UnityEngine.EventSystems.RaycastResult).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            UnityEngine.EventSystems.RaycastResult instance_of_this_method = (UnityEngine.EventSystems.RaycastResult)typeof(UnityEngine.EventSystems.RaycastResult).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)16);
 
             var result_of_this_method = instance_of_this_method.gameObject;
 

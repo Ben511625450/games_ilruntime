@@ -324,7 +324,7 @@ namespace Hotfix
             },
             new GameData() //龙腾捕鱼
             {
-                scenName = "module62", uiName = "万炮捕鱼", serverId = "21", clientId = 62,
+                scenName = "module62", uiName = "龙腾捕鱼", serverId = "21", clientId = 62,
                 configer = GameModuleConfiger.GetModule("module62"),
                 BL = new List<string>(){"1", "10", "100", "10000"},
                 entry = go => go.AddILComponent<LTBY.LTBYEntry>()
@@ -512,7 +512,7 @@ namespace Hotfix
                 {
                     luaPath = "Module06.OneWPBY.OneWPBYEntry",
                     luaRootName = "OneWPBYEntry",
-                    driveType = ScriptType.ILRuntime,
+                    driveType = ScriptType.Lua,
                     gameName = "万炮捕鱼",
                     uiName = "万炮捕鱼",
                     downFiles = new List<string>()
@@ -656,7 +656,7 @@ namespace Hotfix
                 {
                     luaPath = "Module19.Point21_2D.Point21ScenCtrlPanel",
                     luaRootName = "Point21ScenCtrlPanel",
-                    driveType = ScriptType.ILRuntime,
+                    driveType = ScriptType.Lua,
                     gameName = "二十一点",
                     uiName = "二十一点",
                     downFiles = new List<string>()
@@ -1165,8 +1165,8 @@ namespace Hotfix
                     luaPath = "Module62",
                     luaRootName = "LTBYEntry",
                     driveType = ScriptType.ILRuntime,
-                    gameName = "万炮捕鱼",
-                    uiName = "万炮捕鱼",
+                    gameName = "龙腾捕鱼",
+                    uiName = "龙腾捕鱼",
                     downFiles = new List<string>()
                     {
                         "module62/module62.unity3d",

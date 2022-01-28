@@ -50,11 +50,10 @@ namespace Hotfix.Hall
             defaultSprite = backgroundImg.sprite;
             version.text = $"V {Application.version}.{AppConst.valueConfiger.Version}";
             nickName.text = $"{GameLocalMode.Instance.SCPlayerInfo.NickName}";
-            id.text = $"ID:{GameLocalMode.Instance.SCPlayerInfo.DwUser_Id}";
+            id.text = $"ID:{GameLocalMode.Instance.SCPlayerInfo.BeautifulID}";
             headIcon.sprite = ILGameManager.Instance.GetHeadIcon();
             showContent = midNode.AddILComponent<HallGameShow>();
             HallEvent.DispatchEnterGamePre(false);
-            DelayRun(0.1f, () => { midNode.GetComponent<ScrollRect>().horizontalNormalizedPosition = 0; });
         }
 
         protected override void OnDestroy()
@@ -150,6 +149,7 @@ namespace Hotfix.Hall
 
         private void HallGameShowOnOpenSubPlatform(bool isOpen,string platformName)
         {
+            if (platformName == HallGameShow.DefaultPlatform) return;
             gwBtn.gameObject.SetActive(!isOpen);
         }
 
@@ -193,6 +193,11 @@ namespace Hotfix.Hall
         /// </summary>
         private void OnClickExchangeCall()
         {
+            if (GameLocalMode.Instance.SCPlayerInfo.IsVIP == 1)
+            {
+                ToolHelper.PopSmallWindow($"VIP不能进行该操作");
+                return;
+            }
             UIManager.Instance.ReplaceUI<ExchangePanel>();
         }
 

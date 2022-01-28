@@ -26,6 +26,9 @@ namespace Hotfix.Hall
         public override void Create(params object[] args)
         {
             base.Create(args);
+            DebugHelper.LogError($"进入赠送卡");
+            IDText.text = "";
+            nickName.text = "";
             HotfixGameComponent.Instance.Send(DataStruct.PersonalStruct.MDM_3D_PERSONAL_INFO,
                                         DataStruct.PersonalStruct.SUB_3D_CS_DIANKA_QUERY, new ByteBuffer(), SocketType.Hall);
         }
@@ -107,14 +110,13 @@ namespace Hotfix.Hall
 
         private void HallEventOnQueryPlayer(HallStruct.ACP_SC_QueryPlayer obj)
         {
-            if (nickName == null) return;
             if (!obj.isReal)
             {
                 ToolHelper.PopSmallWindow($"ID不存在");
                 nickName.text = "";
                 return;
             }
-
+            if (nickName == null) return;
             nickName.text = obj.nickName;
         }
 

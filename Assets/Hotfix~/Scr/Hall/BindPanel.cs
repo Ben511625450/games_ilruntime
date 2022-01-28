@@ -154,7 +154,7 @@ namespace Hotfix.Hall
 
             sureBtn.interactable = false;
             HallEvent.SC_CHANGE_ACCOUNT += BindAccCallBack;
-            var acc = new HallStruct.REQ_CS_ChangeAccount(NewPhoneNumber, int.Parse(Code), PWText);
+            var acc = new HallStruct.REQ_CS_ChangeAccount(NewPhoneNumber, int.Parse(Code), Md5Helper.GetString(PWText));
             HotfixGameComponent.Instance.Send(DataStruct.PersonalStruct.MDM_3D_PERSONAL_INFO,
                 DataStruct.PersonalStruct.SUB_3D_CS_CHANGE_ACCOUNT, acc._ByteBuffer, SocketType.Hall);
         }

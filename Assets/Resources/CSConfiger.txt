@@ -20,7 +20,8 @@
     "ResourcePort": 28081,
     "AppInfoConfigerName": "AppInfoConfiger.json",
     "DNS": [
-            "http://139.155.12.34:8010"
+            "https://yuyul.oss-accelerate.aliyuncs.com",
+            "https://yuyul.oss-cn-beijing.aliyuncs.com"
            ],
     "SaveLogMode": true,
     "CdnDirectoryName": "ZY999Res",

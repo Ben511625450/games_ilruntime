@@ -27,14 +27,17 @@ namespace ILRuntime.Runtime.Generated
             method = type.GetMethod("SetPlaySM", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, SetPlaySM_0);
             args = new Type[]{};
-            method = type.GetMethod("GetIsPlaySV", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, GetIsPlaySV_1);
-            args = new Type[]{};
-            method = type.GetMethod("GetIsPlayMV", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, GetIsPlayMV_2);
+            method = type.GetMethod("KillAllSoundEffect", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, KillAllSoundEffect_1);
             args = new Type[]{typeof(System.Single), typeof(System.Single)};
             method = type.GetMethod("SetValue", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, SetValue_3);
+            app.RegisterCLRMethodRedirection(method, SetValue_2);
+            args = new Type[]{};
+            method = type.GetMethod("GetIsPlaySV", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, GetIsPlaySV_3);
+            args = new Type[]{};
+            method = type.GetMethod("GetIsPlayMV", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, GetIsPlayMV_4);
 
             field = type.GetField("isPlayMV", flag);
             app.RegisterCLRFieldGetter(field, get_isPlayMV_0);
@@ -70,7 +73,7 @@ namespace ILRuntime.Runtime.Generated
             System.Boolean @sv = ptr_of_this_method->Value == 1;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.SetPlaySM(@sv, @mv);
@@ -78,41 +81,22 @@ namespace ILRuntime.Runtime.Generated
             return __ret;
         }
 
-        static StackObject* GetIsPlaySV_1(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* KillAllSoundEffect_1(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
             StackObject* __ret = ILIntepreter.Minus(__esp, 1);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
-            var result_of_this_method = instance_of_this_method.GetIsPlaySV();
+            instance_of_this_method.KillAllSoundEffect();
 
-            __ret->ObjectType = ObjectTypes.Integer;
-            __ret->Value = result_of_this_method ? 1 : 0;
-            return __ret + 1;
+            return __ret;
         }
 
-        static StackObject* GetIsPlayMV_2(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
-        {
-            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            StackObject* ptr_of_this_method;
-            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
-
-            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
-            __intp.Free(ptr_of_this_method);
-
-            var result_of_this_method = instance_of_this_method.GetIsPlayMV();
-
-            __ret->ObjectType = ObjectTypes.Integer;
-            __ret->Value = result_of_this_method ? 1 : 0;
-            return __ret + 1;
-        }
-
-        static StackObject* SetValue_3(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* SetValue_2(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -125,12 +109,46 @@ namespace ILRuntime.Runtime.Generated
             System.Single @sv = *(float*)&ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.SetValue(@sv, @mv);
 
             return __ret;
+        }
+
+        static StackObject* GetIsPlaySV_3(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
+            __intp.Free(ptr_of_this_method);
+
+            var result_of_this_method = instance_of_this_method.GetIsPlaySV();
+
+            __ret->ObjectType = ObjectTypes.Integer;
+            __ret->Value = result_of_this_method ? 1 : 0;
+            return __ret + 1;
+        }
+
+        static StackObject* GetIsPlayMV_4(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            LuaFramework.MusicManager instance_of_this_method = (LuaFramework.MusicManager)typeof(LuaFramework.MusicManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
+            __intp.Free(ptr_of_this_method);
+
+            var result_of_this_method = instance_of_this_method.GetIsPlayMV();
+
+            __ret->ObjectType = ObjectTypes.Integer;
+            __ret->Value = result_of_this_method ? 1 : 0;
+            return __ret + 1;
         }
 
 

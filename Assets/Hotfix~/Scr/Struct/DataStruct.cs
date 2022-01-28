@@ -601,7 +601,7 @@
             public const ushort SUB_3D_SC_UPDATEBANKERSAVEGOLD = 12;
 
             /// <summary>
-            ///     获取免费金币返回
+            ///     撤回邮件
             /// </summary>
             public const ushort SUB_3D_SC_WITHDRAW = 14;
 
@@ -1097,6 +1097,11 @@
             ///     银行获取验证码
             /// </summary>
             public const ushort SUB_GP_MODIFY_BANK_PASSWD_CHECK_CODE = 136;
+            
+            /// <summary>
+            ///     查询
+            /// </summary>
+            public const ushort SUB_GP_USER_BANK_Query_RESULT = 133;
 
             /// <summary>
             ///     银行存取反馈
@@ -1112,30 +1117,6 @@
             ///     修改银行密码反馈
             /// </summary>
             public const ushort SUB_GP_MODIFY_BANK_PASSWD_CHECK_CODE_RESULT = 137;
-
-            #endregion
-        }
-
-        public class TransferStruct
-        {
-            #region 转账
-
-            public const ushort MDM_3D_GOLDMINET = 22;
-
-            /// <summary>
-            ///     银行转账
-            /// </summary>
-            public const ushort SUB_3D_CS_TRANSFERACCOUNTS = 10;
-
-            /// <summary>
-            ///     银行转账返回
-            /// </summary>
-            public const ushort SUB_3D_SC_TRANSFERACCOUNTS = 11;
-
-            /// <summary>
-            ///     刷新银行存款
-            /// </summary>
-            public const ushort SUB_3D_SC_UPDATEBANKERSAVEGOLD = 12;
 
             #endregion
         }

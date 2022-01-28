@@ -21,11 +21,9 @@ namespace Hotfix
 
         Transform MusicPanel;
         Button CloseMusicPanel;
-        ToggleGroup BgMusic;
-        Toggle BgMusicDK;
+        Slider BgMusic;
 
-        ToggleGroup BgSound;
-        Toggle BgSoundDK;
+        Slider BgSound;
 
         protected override void Awake()
         {
@@ -48,11 +46,11 @@ namespace Hotfix
 
             MusicPanel = this.transform.FindChildDepth("MusicPanel");
             CloseMusicPanel = MusicPanel.FindChildDepth<Button>("mainPanel/CloseBtn");
-            BgMusic = MusicPanel.FindChildDepth<ToggleGroup>("BgMusic");
-            BgMusicDK = BgMusic.transform.FindChildDepth<Toggle>("dk");
-            BgSound = MusicPanel.FindChildDepth<ToggleGroup>("BgSound");
-            BgSoundDK = BgSound.transform.FindChildDepth<Toggle>("dk");
+            BgMusic = MusicPanel.FindChildDepth<Slider>("Image1/Slider");
+            BgSound = MusicPanel.FindChildDepth<Slider>("Image2/Slider");
 
+            BgMusic.value = ILMusicManager.Instance.GetMusicValue();
+            BgSound.value = ILMusicManager.Instance.GetSoundValue();
             MusicPanel.gameObject.SetActive(false);
         }
 
@@ -76,36 +74,38 @@ namespace Hotfix
             CloseMusicPanel.onClick.RemoveAllListeners();
             CloseMusicPanel.onClick.Add(CloseMusicPanelOnClick);
 
-            BgMusicDK.onValueChanged.RemoveAllListeners();
-            BgMusicDK.onValueChanged.Add(delegate (bool value)
+            BgMusic.onValueChanged.RemoveAllListeners();
+            BgMusic.onValueChanged.Add(value =>
             {
-                if (value)
+                ILMusicManager.Instance.SetMusicValue(value);
+                if (value>0)
                 {
                     ToolHelper.PlayMusic();
-                    HotfixActionHelper.DispatchLoadGameMusic(value);
+                    HotfixActionHelper.DispatchLoadGameMusic(true);
                 }
                 else
                 {
                     ToolHelper.MuteMusic();
-                    HotfixActionHelper.DispatchLoadGameMusic(value);
+                    HotfixActionHelper.DispatchLoadGameMusic(false);
                 }
-                BgMusicDK.isOn = value;
+
             });
 
-            BgSoundDK.onValueChanged.RemoveAllListeners();
-            BgSoundDK.onValueChanged.Add(delegate (bool value)
+            BgSound.onValueChanged.RemoveAllListeners();
+            BgSound.onValueChanged.Add(value =>
             {
-                if (value)
+                ILMusicManager.Instance.SetSoundValue(value);
+                if (value>0)
                 {
                     ToolHelper.PlaySound();
-                    HotfixActionHelper.DispatchLoadGameSound(value);
+                    HotfixActionHelper.DispatchLoadGameSound(true);
                 }
                 else
                 {
                     ToolHelper.MuteSound();
-                    HotfixActionHelper.DispatchLoadGameSound(value);
+                    HotfixActionHelper.DispatchLoadGameSound(false);
                 }
-                BgSoundDK.isOn = value;
+
             });
         }
 

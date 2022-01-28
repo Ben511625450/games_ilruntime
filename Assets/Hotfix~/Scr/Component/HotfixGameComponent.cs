@@ -157,8 +157,11 @@ namespace Hotfix
             DebugHelper.Log($"ip:{ip} port:{port}");
             var session1 = new Session(ip, port, id, timeOut, (state, session) =>
             {
-                DebugHelper.Log($"session:{id}connect net:{state}");
-                callBack?.Invoke(state);
+                ActionComponent.Instance.Add(() =>
+                {
+                    DebugHelper.Log($"session:{id}connect net:{state}");
+                    callBack?.Invoke(state);
+                });
             });
         }
 
@@ -247,19 +250,28 @@ namespace Hotfix
 
             void CallBack(string _state)
             {
-                if (_state == "Yes")
+                ActionComponent.Instance.Add(() =>
                 {
-                    connectHallSuccess = true;
-                    reHallConnectCount = 0;
-                    isHallReconnect = false;
-                }
-                else
-                {
-                    connectHallSuccess = false;
-                    ToolHelper.PopSmallWindow($"网络连接失败");
-                }
+                    if (_state == "Yes")
+                    {
+                        connectHallSuccess = true;
+                        reHallConnectCount = 0;
+                        isHallReconnect = false;
+                    }
+                    else
+                    {
+                        DebugHelper.LogError($"connectHallSuccess:{connectHallSuccess}");
+                        if (connectHallSuccess)
+                        {
+                            connectHallSuccess = false;
+                            ReconnectHall();
+                        }
 
-                fun?.Invoke(connectHallSuccess);
+                        ToolHelper.PopSmallWindow($"网络连接失败");
+                    }
+
+                    fun?.Invoke(connectHallSuccess);
+                });
             }
 
             if (State(SocketType.Hall))
@@ -570,6 +582,7 @@ namespace Hotfix
                 for (int i = 0; i < _SC_ROOM_INFO.SubInfo.Count; i++) //筛选房间列表
                 {
                     HallStruct.RoomInfo info = _SC_ROOM_INFO.SubInfo[i];
+                    // DebugHelper.LogError($"Room:{JsonMapper.ToJson(info)}");
                     int index = GameLocalMode.Instance.AllSCGameRoom.FindListIndex(p =>
                         p._2wGameID == info._2wGameID && p._1byFloorID == info._1byFloorID);
                     if (index >= 0)
@@ -771,6 +784,32 @@ namespace Hotfix
                 case DataStruct.GoldMineStruct.SUB_2D_SC_GIVE_RECORD_LIST:
                     HallEvent.DispatchSC_Give_Record_List(buffer);
                     break;
+                case DataStruct.GoldMineStruct.SUB_3D_SC_UPDATEBANKERSAVEGOLD:
+                {
+                    HallStruct.ACP_SC_UPDATEBANKERSAVEGOLD updatebankersavegold =
+                        new HallStruct.ACP_SC_UPDATEBANKERSAVEGOLD(buffer);
+                    long gold = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_STRONG) + updatebankersavegold.gold;
+                    GameLocalMode.Instance.ChangProp(gold, Prop_Id.E_PROP_STRONG);
+                    HallEvent.DispatchChangeGoldTicket();
+                    break;
+                }
+                case DataStruct.GoldMineStruct.SUB_3D_SC_WITHDRAW:
+                {
+                    HallStruct.ACP_SC_WITHDRAW recall = new HallStruct.ACP_SC_WITHDRAW(buffer);
+                    long gold = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_STRONG);
+                    if (recall.recallUserID == GameLocalMode.Instance.SCPlayerInfo.DwUser_Id)
+                    {
+                        GameLocalMode.Instance.ChangProp(gold - recall.recallGold, Prop_Id.E_PROP_STRONG);
+                    }
+                    else
+                    {
+                        GameLocalMode.Instance.ChangProp(gold + recall.recallGold, Prop_Id.E_PROP_STRONG);
+                    }
+
+                    HallEvent.DispatchChangeGoldTicket();
+                    ToolHelper.PopSmallWindow(recall.recallMsg);
+                    break;
+                }
             }
         }
 

@@ -40,7 +40,7 @@ namespace ILRuntime.Runtime.Generated
             System.Single @value = *(float*)&ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            UnityEngine.CanvasGroup instance_of_this_method = (UnityEngine.CanvasGroup)typeof(UnityEngine.CanvasGroup).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            UnityEngine.CanvasGroup instance_of_this_method = (UnityEngine.CanvasGroup)typeof(UnityEngine.CanvasGroup).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.alpha = value;

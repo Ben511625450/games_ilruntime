@@ -231,13 +231,13 @@ function FramePopoutCompent.Create(pop)
         local SureBtn = go.transform:Find("Bg/SureBtn").gameObject
         SureBtn:SetActive(false)
 
-        if GameManager.isQuitGame then
-            SureBtn.transform:Find("Image").gameObject:SetActive(false)
-            SureBtn.transform:Find("Image2").gameObject:SetActive(true)
-        else
-            SureBtn.transform:Find("Image").gameObject:SetActive(true)
-            SureBtn.transform:Find("Image2").gameObject:SetActive(false)
-        end
+        --if GameManager.isQuitGame then
+        --    SureBtn.transform:Find("Image").gameObject:SetActive(false)
+        --    SureBtn.transform:Find("Image2").gameObject:SetActive(true)
+        --else
+        --    SureBtn.transform:Find("Image").gameObject:SetActive(true)
+        --    SureBtn.transform:Find("Image2").gameObject:SetActive(false)
+        --end
 
         local SureBtn_One = go.transform:Find("Bg/SureBtn_One").gameObject
         local Head_Title = go.transform:Find("HeadInfo").gameObject
@@ -248,7 +248,7 @@ function FramePopoutCompent.Create(pop)
         SureBtn.transform.localPosition = Vector3.New(167, -193, 0)
 
         IguoreBtn.transform.localPosition = Vector3.New(-163, -193, 0)
-        IguoreBtn.transform:Find("Text"):GetComponent("Text").text = "取 消"
+        --IguoreBtn.transform:Find("Text"):GetComponent("Text").text = "取 消"
 
         --go.transform.localScale = Vector3.New(1,1,1)
         go.transform.localScale = Vector3.New(GameManager.ScreenRate, GameManager.ScreenRate, GameManager.ScreenRate);

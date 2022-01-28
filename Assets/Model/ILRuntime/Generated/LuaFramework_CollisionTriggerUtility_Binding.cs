@@ -51,7 +51,7 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 1);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            UnityEngine.Transform @trans = (UnityEngine.Transform)typeof(UnityEngine.Transform).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            UnityEngine.Transform @trans = (UnityEngine.Transform)typeof(UnityEngine.Transform).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
 
@@ -85,7 +85,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_onTriggerEnter2D_0(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.GameObject, UnityEngine.GameObject> @onTriggerEnter2D = (System.Action<UnityEngine.GameObject, UnityEngine.GameObject>)typeof(System.Action<UnityEngine.GameObject, UnityEngine.GameObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.GameObject, UnityEngine.GameObject> @onTriggerEnter2D = (System.Action<UnityEngine.GameObject, UnityEngine.GameObject>)typeof(System.Action<UnityEngine.GameObject, UnityEngine.GameObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.CollisionTriggerUtility)o).onTriggerEnter2D = @onTriggerEnter2D;
             return ptr_of_this_method;
         }
@@ -109,7 +109,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_onTriggerStay2D_1(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.GameObject, UnityEngine.GameObject> @onTriggerStay2D = (System.Action<UnityEngine.GameObject, UnityEngine.GameObject>)typeof(System.Action<UnityEngine.GameObject, UnityEngine.GameObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.GameObject, UnityEngine.GameObject> @onTriggerStay2D = (System.Action<UnityEngine.GameObject, UnityEngine.GameObject>)typeof(System.Action<UnityEngine.GameObject, UnityEngine.GameObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.CollisionTriggerUtility)o).onTriggerStay2D = @onTriggerStay2D;
             return ptr_of_this_method;
         }
@@ -133,7 +133,7 @@ namespace ILRuntime.Runtime.Generated
         static StackObject* AssignFromStack_onTriggerExit2D_2(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.Action<UnityEngine.GameObject, UnityEngine.GameObject> @onTriggerExit2D = (System.Action<UnityEngine.GameObject, UnityEngine.GameObject>)typeof(System.Action<UnityEngine.GameObject, UnityEngine.GameObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.Action<UnityEngine.GameObject, UnityEngine.GameObject> @onTriggerExit2D = (System.Action<UnityEngine.GameObject, UnityEngine.GameObject>)typeof(System.Action<UnityEngine.GameObject, UnityEngine.GameObject>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             ((LuaFramework.CollisionTriggerUtility)o).onTriggerExit2D = @onTriggerExit2D;
             return ptr_of_this_method;
         }

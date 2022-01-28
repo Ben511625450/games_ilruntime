@@ -68,15 +68,15 @@ namespace LuaFramework
                             double num = (this.downSize + this.ByteDownloaded) / 1024.0;
                             double num2 = this.allSize / 1024UL;
                             float num3 = Mathf.Clamp(Convert.ToSingle(num / num2), 0f, 0.9999f);
-                            this.pak.func(num3, this.pak.Request.downloadHandler);
+                            this.pak.func?.Invoke(num3, this.pak.Request.downloadHandler);
                         }
                         bool flag5 = this.pak.Request.isNetworkError || this.pak.Request.isHttpError;
                         if (flag5)
                         {
                           // Log.Error(string.Format("Down {0} : {1}", this.pak.urlPath, this.pak.Request.error));
-                            this.pak.func(-1, this.pak.urlPath);
+                            this.pak.func?.Invoke(-1, this.pak.urlPath);
                             this.isCancel = true;
-                            this.pak.Request.Dispose();
+                            this.pak.Request?.Dispose();
                             this.pak = null;
                             Object.Destroy(base.gameObject);
                         }
@@ -96,10 +96,10 @@ namespace LuaFramework
                                 bool flag8 = this.currentCount == this.count - 1 && this.pak.Request.isDone;
                                 if (flag8)
                                 {
-                                    this.pak.func(1, this.pak.Request.downloadHandler);
+                                    this.pak.func?.Invoke(1, this.pak.Request.downloadHandler);
                                 }
                                 this.currentCount++;
-                                this.pak.Request.Dispose();
+                                this.pak.Request?.Dispose();
                                 this.pak = null;
                                 this.tcs.SetResult(true);
                             }

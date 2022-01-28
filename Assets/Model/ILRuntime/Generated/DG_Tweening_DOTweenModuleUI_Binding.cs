@@ -25,9 +25,12 @@ namespace ILRuntime.Runtime.Generated
             args = new Type[]{typeof(UnityEngine.CanvasGroup), typeof(System.Single), typeof(System.Single)};
             method = type.GetMethod("DOFade", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, DOFade_0);
-            args = new Type[]{typeof(UnityEngine.UI.Image), typeof(System.Single), typeof(System.Single)};
+            args = new Type[]{typeof(UnityEngine.UI.Graphic), typeof(System.Single), typeof(System.Single)};
             method = type.GetMethod("DOFade", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, DOFade_1);
+            args = new Type[]{typeof(UnityEngine.UI.Image), typeof(System.Single), typeof(System.Single)};
+            method = type.GetMethod("DOFade", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, DOFade_2);
 
 
         }
@@ -46,7 +49,7 @@ namespace ILRuntime.Runtime.Generated
             System.Single @endValue = *(float*)&ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            UnityEngine.CanvasGroup @target = (UnityEngine.CanvasGroup)typeof(UnityEngine.CanvasGroup).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            UnityEngine.CanvasGroup @target = (UnityEngine.CanvasGroup)typeof(UnityEngine.CanvasGroup).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
 
@@ -68,7 +71,29 @@ namespace ILRuntime.Runtime.Generated
             System.Single @endValue = *(float*)&ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            UnityEngine.UI.Image @target = (UnityEngine.UI.Image)typeof(UnityEngine.UI.Image).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            UnityEngine.UI.Graphic @target = (UnityEngine.UI.Graphic)typeof(UnityEngine.UI.Graphic).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
+            __intp.Free(ptr_of_this_method);
+
+
+            var result_of_this_method = DG.Tweening.DOTweenModuleUI.DOFade(@target, @endValue, @duration);
+
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static StackObject* DOFade_2(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 3);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            System.Single @duration = *(float*)&ptr_of_this_method->Value;
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
+            System.Single @endValue = *(float*)&ptr_of_this_method->Value;
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
+            UnityEngine.UI.Image @target = (UnityEngine.UI.Image)typeof(UnityEngine.UI.Image).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
 
