@@ -50,6 +50,7 @@ namespace Hotfix.Hall
             {
                 SureBtn.gameObject.SetActive(true);
                 iguore.gameObject.SetActive(true);
+                SureBtn.transform.localPosition = new Vector3(167, SureBtn.transform.localPosition.y, 0);
                 SureBtn.onClick.RemoveAllListeners();
                 SureBtn.onClick.Add(SureCall);
                 iguore.onClick.RemoveAllListeners();

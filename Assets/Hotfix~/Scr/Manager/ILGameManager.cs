@@ -85,6 +85,7 @@ namespace Hotfix
                 DataStruct.UserDataStruct.SUB_GR_USER_LEFT_GAME_REQ, new ByteBuffer(), SocketType.Game);
             HotfixGameComponent.Instance.CloseNetwork(SocketType.Game);
             SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
+            Util.Unload(GameLocalMode.Instance.CurrentGame);
         }
 
         private void HotfixActionHelper_OnEnterGame()

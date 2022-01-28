@@ -11,7 +11,7 @@ self.SoundList = {
     BW="winBig",--  dabeilv
     WSGame="WinSmall",--xyxuode 
     Gold_Big="Gold_Big",--
-    RS = "Stop", --每列停止音乐
+    RS = "FB_Stop", --每列停止音乐
     --LINE = "Line", --连线音乐
    -- SG = "SuperGold",--超大倍率音
 }
@@ -49,7 +49,7 @@ function Module16_Audio.PlaySound(soundName, time)
     end
     local obj = Module16Entry.soundList:Find(soundName);
     if obj == nil then
-        error("没有找到该音效");
+        error("没有找到该音效 "..soundName);
         return ;
     end
     local go = newObject(obj.gameObject);
