@@ -172,14 +172,15 @@ namespace Hotfix.Hall
                 UIManager.Instance.Close();
                 ILMusicManager.Instance.StopMusic();
                 HotfixActionHelper.DispatchOnEnterGame();
+                GameLocalMode.Instance.CurrentGame = data.scenName;
                 if (data.configer.driveType == ScriptType.Lua)
                 {
-                    GameObject go = GameObject.Find(data.configer.luaRootName);
+                    GameObject go = GameObject.FindGameObjectWithTag(LaunchTag._01gameTag);
                     if (go == null)
                     {
-                        go = GameObject.FindGameObjectWithTag(LaunchTag._01gameTag);
                         if (go == null)
                         {
+                             go = GameObject.Find(data.configer.luaRootName);
                             DebugHelper.LogError($"没有找到根节点 {data.configer.luaRootName} 0");
                             return;
                         }
@@ -194,7 +195,6 @@ namespace Hotfix.Hall
                 {
                     EventHelper.DispatchOnEnterGame(data.scenName);
                 }
-                GameLocalMode.Instance.CurrentGame = data.scenName;
             }
         }
         /// <summary>

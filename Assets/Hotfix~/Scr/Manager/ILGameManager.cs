@@ -84,6 +84,7 @@ namespace Hotfix
             HotfixGameComponent.Instance.Send(DataStruct.UserDataStruct.MDM_GR_USER,
                 DataStruct.UserDataStruct.SUB_GR_USER_LEFT_GAME_REQ, new ByteBuffer(), SocketType.Game);
             HotfixGameComponent.Instance.CloseNetwork(SocketType.Game);
+            DebugHelper.Log($"退出游戏：{GameLocalMode.Instance.CurrentGame}");
             SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
             Util.Unload(GameLocalMode.Instance.CurrentGame);
         }

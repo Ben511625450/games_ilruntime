@@ -191,7 +191,7 @@ namespace Hotfix
             },
             new GameData()
             {
-                scenName = "module43", uiName = "百人牛牛", serverId = "21", clientId = 43,
+                scenName = "module43", uiName = "百人牛牛", serverId = "21", clientId = 43,rootName = "Game71Panel",
                 configer = GameModuleConfiger.GetModule("module43"),
                 BL = new List<string>(){"1", "10", "100", "10000"},
                 entry = go => { }

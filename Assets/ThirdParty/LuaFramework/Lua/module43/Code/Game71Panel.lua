@@ -973,16 +973,13 @@ end
 local function InitData()
     local newAlphaFade1 = class_a("AlphaFade", AlphaFade)
     local newAlphaFade2 = class_a("AlphaFade", AlphaFade)
-    logError("000000000000001")
     self.AlphaFadeList = {}
     self.AlphaFadeList[1] = newAlphaFade1
     self.AlphaFadeList[2] = newAlphaFade2
     self.Desk = self.transform:Find("bg/bg1/Desk")
     self.Info = self.transform:Find("bg/bg1/Info").gameObject
-    logError("0000000000000012")
     self.BtnPlane = self.transform:Find("bg/bg1/BtnPlane").gameObject
     self.Info.transform:Find("Rule").gameObject:SetActive(false);
-    logError("0000000000000013")
     --self.Info.transform:Find("bank").gameObject:SetActive(false);
     self.Info.transform:Find("PlayerList").gameObject:SetActive(false);
     self.Info.transform:Find("TileGuaDian/SwitchBankerTile").gameObject:SetActive(false)
@@ -1000,7 +997,6 @@ local function InitData()
     self.PlayerListUI = self.Info.transform:Find("PlayerList")
     self.PlayerListUI.transform.gameObject:SetActive(true)
     self.PlayerListUI.transform.localPosition = Vector3.New(-1500, 0, 0)
-    logError("000000000000002")
     self.TianAreaBetText = self.BtnPlane.transform:Find("CustomBtn/Tian_Btn/Text"):GetComponent("Text")
     self.DiAreaBetText = self.BtnPlane.transform:Find("CustomBtn/Di_Btn/Text"):GetComponent("Text")
     self.XuanAreaBetText = self.BtnPlane.transform:Find("CustomBtn/Xuan_Btn/Text"):GetComponent("Text")
@@ -1012,18 +1008,14 @@ local function InitData()
     self.HuangAreaMyBetText = self.BtnPlane.transform:Find("CustomBtn/Huang_Btn/MyBetText"):GetComponent("Text")
 
     self.WaitForNextTurn = self.Info.transform:Find("WaitForNext")
-    logError("11111111")
     self.Gril = self.transform:Find("bg/bg1/Bg/Grils")
-     logError("222222222222")
     self.GrilMovePointArr = {}
     GameData71.GrilsMoveJianGe = 5
     GameData71.MoveTime = {1.5, 0.3, 2, 2, 1.5}
-    logError("33333333333333")
     for i = 0, self.transform:Find("bg/bg1/Bg/GrilMovePos").childCount - 1 do
         self.GrilMovePointArr[i + 1] = self.transform:Find("bg/bg1/Bg/GrilMovePos"):GetChild(i)
     end
 
-    logError("-2222222222")
     local pool_parobj = self.transform:Find("bg/bg1/Pool/PicRes")
     local sp_ResObj = {}
     for i = 0, pool_parobj.childCount - 1 do 
@@ -1036,7 +1028,6 @@ local function InitData()
     for i = 0, pool_parPreobj.childCount - 1 do 
         sp_PreResObj[#sp_PreResObj + 1] = pool_parPreobj:GetChild(i)
     end
-    logError("-2222222222bbbbb: ")
     ResManager.InitPrefab(sp_PreResObj)
 
     local pool_parAudiobj = self.transform:Find("bg/bg1/Pool/AduioClipRes")
@@ -2317,13 +2308,9 @@ function Game71Panel.QuitGame()
     PlayerList.Dispose()
     CardManager.Dispose()
     DeLayRun.ClearAllDelay()
-    logError("quit 001")
     BRNN_RPCHandle.OnDestroy();
-    logError("quit 002")
-    MessgeEventRegister.Game_Messge_Un();   
-    logError("quit 003")
+    MessgeEventRegister.Game_Messge_Un(); 
     GameSetsBtnInfo.LuaGameQuit();
-    logError("quit 004")
 end
 
 function Game71Panel.init()
