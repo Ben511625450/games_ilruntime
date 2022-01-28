@@ -77,7 +77,7 @@ namespace Hotfix.Hall
 
             otherGroup = transform.FindChildDepth($"Top/OtherBtnGroup");
             gwBtn = otherGroup.FindChildDepth<Button>($"GWBtn");
-
+            gwBtn.gameObject.SetActive(false);
             Transform floorNode = transform.FindChildDepth($"Floor");
             taskBtn = floorNode.FindChildDepth<Button>($"taskBtn");
             exchangeBtn = floorNode.FindChildDepth<Button>($"exchangeBtn");
@@ -150,7 +150,7 @@ namespace Hotfix.Hall
         private void HallGameShowOnOpenSubPlatform(bool isOpen,string platformName)
         {
             if (platformName == HallGameShow.DefaultPlatform) return;
-            gwBtn.gameObject.SetActive(!isOpen);
+            // gwBtn.gameObject.SetActive(!isOpen);
         }
 
         private void HallEventOnChangeGoldTicket()

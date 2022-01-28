@@ -71,6 +71,7 @@ namespace Hotfix
 
         private void HotfixActionHelper_LeaveGame()
         {
+            GameLocalMode.Instance.IsInGame = false;
             rootContent.gameObject.SetActive(true);
             AppFacade.Instance.GetManager<MusicManager>().KillAllSoundEffect();
             AudioSource source = AppFacade.Instance.GetManager<MusicManager>().transform.GetComponent<AudioSource>();
@@ -91,6 +92,7 @@ namespace Hotfix
 
         private void HotfixActionHelper_OnEnterGame()
         {
+            GameLocalMode.Instance.IsInGame = true;
             rootContent.gameObject.SetActive(false);
         }
 
