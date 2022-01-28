@@ -1165,8 +1165,8 @@ namespace Hotfix
                     luaPath = "Module62",
                     luaRootName = "LTBYEntry",
                     driveType = ScriptType.ILRuntime,
-                    gameName = "万炮捕鱼",
-                    uiName = "万炮捕鱼",
+                    gameName = "龙腾捕鱼",
+                    uiName = "龙腾捕鱼",
                     downFiles = new List<string>()
                     {
                         "module62/module62.unity3d",
