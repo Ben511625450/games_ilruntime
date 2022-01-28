@@ -4,6 +4,7 @@ using Hotfix.Hall;
 using LitJson;
 using LuaFramework;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Hotfix
 {
@@ -481,9 +482,7 @@ namespace Hotfix
                         {
                             if (GameLocalMode.Instance.IsInGame)
                             {
-                                UIManager.Instance.CloseAllUI();
-                                UIManager.Instance.OpenUI<LogonScenPanel>();
-                                return;
+                                SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
                             }
 
                             UIManager.Instance.CloseAllUI();
@@ -493,9 +492,7 @@ namespace Hotfix
                         {
                             if (GameLocalMode.Instance.IsInGame)
                             {
-                                UIManager.Instance.CloseAllUI();
-                                UIManager.Instance.OpenUI<LogonScenPanel>();
-                                return;
+                                SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
                             }
 
                             UIManager.Instance.CloseAllUI();
