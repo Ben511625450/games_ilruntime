@@ -519,6 +519,9 @@ function MainGamePanel.StartBtnUp()
 end
 
 function MainGamePanel.LongTimeBtn()
+    if not self.NoRunning then
+        return;
+    end
     if self.realtimeSinceStartup == nil or self.realtimeSinceStartup == 0 then
         return
     end
