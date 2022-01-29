@@ -1,5 +1,5 @@
 {
-    "ShowLogTool":true,
+    "ShowLogTool":false,
     "LuaEncode": true,
     "AssetBundleExtendName": ".unity3d",
     "ResetGameTimer": 120,
