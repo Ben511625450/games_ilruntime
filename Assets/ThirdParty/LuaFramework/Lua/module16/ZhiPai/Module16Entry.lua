@@ -156,6 +156,7 @@ function Module16Entry.FindComponent()
 
     self.WinGold=self.transform:Find("Content/WinGold") --界面显示金币
     self.WinGoldText=self.WinGold:Find("Text"):GetComponent("TextMeshProUGUI")
+    self.WinGoldText.transform.localScale= Vector3.New(1.5,1.5,1.5);
     self.WinGold.gameObject:SetActive(false)
 
     self.smallGamePanel = self.transform:Find("SmallGamePanel") 
