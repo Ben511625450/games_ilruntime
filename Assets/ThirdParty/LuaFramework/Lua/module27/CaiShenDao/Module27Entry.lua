@@ -124,6 +124,8 @@ function Module27.FindComponent()
     self.soundBtn = self.menulist:Find("Content/Sound"):GetComponent("Button");
     self.soundOn = self.soundBtn.transform:Find("On").gameObject;
     self.soundOff = self.soundBtn.transform:Find("Off").gameObject;
+    self.soundOn:SetActive(MusicManager:GetIsPlaySV() and MusicManager:GetIsPlayMV());
+    self.soundOff:SetActive(not (MusicManager:GetIsPlaySV() and MusicManager:GetIsPlayMV()));
     self.showRuleBtn = self.menulist:Find("Content/Rule"):GetComponent("Button");
     self.menulist:Find("Content").localPosition = Vector3.New(0, 500, 0);
     self.closeMenu.gameObject:SetActive(false);
@@ -365,16 +367,18 @@ function Module27.CloseGameCall()
     Event.Brocast(MH.Game_LEAVE);
 end
 function Module27.SetSoundCall()
-    if AllSetGameInfo._5IsPlayAudio or AllSetGameInfo._6IsPlayEffect then
+    if MusicManager:GetIsPlayMV() then
         SetInfoSystem.GameMute();
+        Module27_Audio.pool.mute=false;
         self.soundOn:SetActive(false);
         self.soundOff:SetActive(true);
     else
+        Module27_Audio.pool.mute=true;
         SetInfoSystem.ResetMute();
         self.soundOn:SetActive(true);
         self.soundOff:SetActive(false);
     end
-    Module27_Audio.pool.mute = not AllSetGameInfo._5IsPlayAudio;
+    Module27_Audio.pool.mute =  not MusicManager:GetIsPlayMV();
 end
 
 function Module27.OnClickAutoCall()

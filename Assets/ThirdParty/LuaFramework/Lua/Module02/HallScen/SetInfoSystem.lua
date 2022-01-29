@@ -386,59 +386,67 @@ function SetInfoSystem.GameMute()
     self.EffectMute();
 end
 function SetInfoSystem.MuteMusic()
-    AllSetGameInfo._5IsPlayAudio = false;
-    IsMusicMuteBl = false;
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --AllSetGameInfo._5IsPlayAudio = false;
+    --IsMusicMuteBl = false;
+    MusicManager:SetMusicMute(true);
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
 end
 function SetInfoSystem.MuteSound()
-    IsEffectMuteBl = false;
-    AllSetGameInfo._6IsPlayEffect = false;
-    Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    MusicManager:SetSoundMute(true);
+    --IsEffectMuteBl = false;
+    --AllSetGameInfo._6IsPlayEffect = false;
+    --Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
 end
 function SetInfoSystem.PlayMusic()
-    AllSetGameInfo._5IsPlayAudio = true;
-    IsMusicMuteBl = true;
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    MusicManager:SetMusicMute(false);
+    --AllSetGameInfo._5IsPlayAudio = true;
+    --IsMusicMuteBl = true;
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
 end
-function SetInfoSystem.PlaySound()
-    IsEffectMuteBl = true;
-    AllSetGameInfo._6IsPlayEffect = true;
-    Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+function SetInfoSystem.PlaySound()   
+    MusicManager:SetSoundMute(false);
+    --IsEffectMuteBl = true;
+    --AllSetGameInfo._6IsPlayEffect = true;
+    --Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
 end
 function SetInfoSystem.EffectMute()
-    HallScenPanel.PlayeBtnMusic();
-    IsEffectMute = true;
-    IsEffectMuteBl = true;
-    AllSetGameInfo._5IsPlayAudio = false;
-    AllSetGameInfo._6IsPlayEffect = false;
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    MusicManager:SetMusicMute(true);
+    MusicManager:SetSoundMute(true);
+    --HallScenPanel.PlayeBtnMusic();
+    --IsEffectMute = true;
+    --IsEffectMuteBl = true;
+    --AllSetGameInfo._5IsPlayAudio = false;
+    --AllSetGameInfo._6IsPlayEffect = false;
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
 end
 
 -- 游戏音量启用
 function SetInfoSystem.ResetMute()
-    IsgameMute = false;
-    IsMusicMuteBl = false;
-    AllSetGameInfo._5IsPlayAudio = true;
-    IsEffectMute = false;
-    IsEffectMuteBl = false;
-    AllSetGameInfo._6IsPlayEffect = true;
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    MusicManager:SetMusicMute(false);
+    MusicManager:SetSoundMute(false);
+    --IsgameMute = false;
+    --IsMusicMuteBl = false;
+    --AllSetGameInfo._5IsPlayAudio = true;
+    --IsEffectMute = false;
+    --IsEffectMuteBl = false;
+    --AllSetGameInfo._6IsPlayEffect = true;
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
 end
 
 function SetInfoSystem.ShareOpen()

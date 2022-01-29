@@ -266,36 +266,38 @@ function SHTEntry.FindComponent()
     self.CSGroup = self.MainContent:Find("CSContent");--显示财神
     self.soundList = self.MainContent:Find("SoundList");--声音库
 
-    if not AllSetGameInfo._5IsPlayAudio then
-        self.musicSet.value = 0;
-    else
-        if PlayerPrefs.HasKey("MusicValue") then
-            local musicVole = PlayerPrefs.GetString("MusicValue");
-            self.musicSet.value = tonumber(musicVole);
-        else
-            self.musicSet.value = 1;
-        end
-    end
-
-    if PlayerPrefs.HasKey("SoundValue") then
-        local soundVole = PlayerPrefs.GetString("SoundValue");
-        if tonumber(soundVole) > 0 then
-            AllSetGameInfo._6IsPlayEffect=true
-        else
-            AllSetGameInfo._6IsPlayEffect=false
-        end
-    end
-    logYellow("AllSetGameInfo._6IsPlayEffect=="..tostring(AllSetGameInfo._6IsPlayEffect))
-    if not AllSetGameInfo._6IsPlayEffect then
-        self.soundSet.value = 0;
-    else
-        if PlayerPrefs.HasKey("SoundValue") then
-            local soundVole = PlayerPrefs.GetString("SoundValue");
-            self.soundSet.value = tonumber(soundVole);
-        else
-            self.soundSet.value = 1;
-        end
-    end
+    --if not AllSetGameInfo._5IsPlayAudio then
+    --    self.musicSet.value = 0;
+    --else
+    --    if PlayerPrefs.HasKey("MusicValue") then
+    --        local musicVole = PlayerPrefs.GetString("MusicValue");
+    --        self.musicSet.value = tonumber(musicVole);
+    --    else
+    --        self.musicSet.value = 1;
+    --    end
+    --end
+    --
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    local soundVole = PlayerPrefs.GetString("SoundValue");
+    --    if tonumber(soundVole) > 0 then
+    --        AllSetGameInfo._6IsPlayEffect=true
+    --    else
+    --        AllSetGameInfo._6IsPlayEffect=false
+    --    end
+    --end
+    --logYellow("AllSetGameInfo._6IsPlayEffect=="..tostring(AllSetGameInfo._6IsPlayEffect))
+    --if not AllSetGameInfo._6IsPlayEffect then
+    --    self.soundSet.value = 0;
+    --else
+    --    if PlayerPrefs.HasKey("SoundValue") then
+    --        local soundVole = PlayerPrefs.GetString("SoundValue");
+    --        self.soundSet.value = tonumber(soundVole);
+    --    else
+    --        self.soundSet.value = 1;
+    --    end
+    --end
+    self.musicSet.value = MusicManager:GetMusicVolume();
+    self.soundSet.value = MusicManager:GetSoundVolume();
 end
 function SHTEntry.AddListener()
     --添加监听事件
@@ -552,51 +554,55 @@ end
 
 
 function SHTEntry.SetMusicVolumn(value)
-    if value == 0 then
-        AllSetGameInfo._5IsPlayAudio = false;
-        SHT_Audio.pool.mute = true;
-    else
-        AllSetGameInfo._5IsPlayAudio = true;
-        SHT_Audio.pool.mute = false;
-    end
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --if value == 0 then
+    --    AllSetGameInfo._5IsPlayAudio = false;
+    --    SHT_Audio.pool.mute = true;
+    --else
+    --    AllSetGameInfo._5IsPlayAudio = true;
+    --    SHT_Audio.pool.mute = false;
+    --end
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --
+    --PlayerPrefs.SetString("MusicValue", tostring(value));
+    --
+    --if not PlayerPrefs.HasKey("MusicValue") then
+    --    PlayerPrefs.SetString("MusicValue", tostring(1));
+    --end
+    --local soundValue = tonumber(PlayerPrefs.GetString("MusicValue"));
+    --logYellow("soundValue=="..soundValue)
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --MusicManager:SetValue(soundValue, value);
+    --SHT_Audio.pool.volume=value
 
-    PlayerPrefs.SetString("MusicValue", tostring(value));
-
-    if not PlayerPrefs.HasKey("MusicValue") then
-        PlayerPrefs.SetString("MusicValue", tostring(1));
-    end
-    local soundValue = tonumber(PlayerPrefs.GetString("MusicValue"));
-    logYellow("soundValue=="..soundValue)
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    MusicManager:SetValue(soundValue, value);
-    SHT_Audio.pool.volume=value
-
+    MusicManager:SetValue(MusicManager:GetSoundVolume(),value);
+    SHT_Audio.pool.volume = value;
+    SHT_Audio.pool.mute = not MusicManager:GetIsPlayMV();
 end
 function SHTEntry.SetSoundVolumn(value)
-    log(value)
-
-    if value == 0 then
-        AllSetGameInfo._6IsPlayEffect = false;
-    else
-        AllSetGameInfo._6IsPlayEffect = true;
-    end
-    logYellow("_6IsPlayEffect=="..tostring(AllSetGameInfo._6IsPlayEffect))
-
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-
-    PlayerPrefs.SetString("SoundValue", tostring(value));
-
-    if not PlayerPrefs.HasKey("SoundValue") then
-        PlayerPrefs.SetString("SoundValue", tostring(1));
-    end
-    local musicValue = tonumber(PlayerPrefs.GetString("SoundValue"));
-    logYellow("musicValue=="..musicValue)
-
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    MusicManager:SetValue(musicValue,value);
+    --log(value)
+    --
+    --if value == 0 then
+    --    AllSetGameInfo._6IsPlayEffect = false;
+    --else
+    --    AllSetGameInfo._6IsPlayEffect = true;
+    --end
+    --logYellow("_6IsPlayEffect=="..tostring(AllSetGameInfo._6IsPlayEffect))
+    --
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --
+    --PlayerPrefs.SetString("SoundValue", tostring(value));
+    --
+    --if not PlayerPrefs.HasKey("SoundValue") then
+    --    PlayerPrefs.SetString("SoundValue", tostring(1));
+    --end
+    --local musicValue = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --logYellow("musicValue=="..musicValue)
+    --
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --MusicManager:SetValue(musicValue,value);
+    MusicManager:SetValue(value,MusicManager:GetMusicVolume());
 end
 function SHTEntry.StartGameCall()
     --开始游戏

@@ -238,48 +238,51 @@ function JJPMEntry.ShowSettingPanel()
     end);
     local musicprogress = self.settingPanel:Find("Content/Music"):GetComponent("Slider");
     local soundprogress = self.settingPanel:Find("Content/Sound"):GetComponent("Slider");
-    if not PlayerPrefs.HasKey("MusicValue") then
-        PlayerPrefs.SetString("MusicValue", "1");
-    end
-    if not PlayerPrefs.HasKey("SoundValue") then
-        PlayerPrefs.SetString("SoundValue", "1");
-    end
-    local musicvalue = tonumber(PlayerPrefs.GetString("MusicValue"));
-    local soundvalue = tonumber(PlayerPrefs.GetString("SoundValue"));
-    if AllSetGameInfo._5IsPlayAudio then
-        musicprogress.value = musicvalue;
-    else
-        musicprogress.value = 0;
-    end
-
-    if AllSetGameInfo._6IsPlayEffect then
-        soundprogress.value = soundvalue;
-    else
-        soundprogress.value = 0;
-    end
+    --if not PlayerPrefs.HasKey("MusicValue") then
+    --    PlayerPrefs.SetString("MusicValue", "1");
+    --end
+    --if not PlayerPrefs.HasKey("SoundValue") then
+    --    PlayerPrefs.SetString("SoundValue", "1");
+    --end
+    --local musicvalue = tonumber(PlayerPrefs.GetString("MusicValue"));
+    --local soundvalue = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --if AllSetGameInfo._5IsPlayAudio then
+    --    musicprogress.value = musicvalue;
+    --else
+    --    musicprogress.value = 0;
+    --end
+    musicprogress.value = MusicManager:GetMusicVolume();
+    soundprogress.value = MusicManager:GetSoundVolume();
+    --if AllSetGameInfo._6IsPlayEffect then
+    --    soundprogress.value = soundvalue;
+    --else
+    --    soundprogress.value = 0;
+    --end
     self.luaBehaviour:AddSliderEvent(musicprogress.gameObject, function(value)
-        PlayerPrefs.SetString("MusicValue", tostring(value));
-        if value <= 0 then
-            AllSetGameInfo._5IsPlayAudio = false;
-        else
-            AllSetGameInfo._5IsPlayAudio = true;
-        end
-        Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-        PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+        MusicManager:SetValue(MusicManager:GetSoundVolume(), tonumber(value));
+        --PlayerPrefs.SetString("MusicValue", tostring(value));
+        --if value <= 0 then
+        --    AllSetGameInfo._5IsPlayAudio = false;
+        --else
+        --    AllSetGameInfo._5IsPlayAudio = true;
+        --end
+        --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+        --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
         JJPM_Audio.pool.volume = value;
-        JJPM_Audio.pool.mute = not AllSetGameInfo._5IsPlayAudio;
-        GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+        JJPM_Audio.pool.mute = not MusicManager:GetIsPlayMV();
+        --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
     end);
     self.luaBehaviour:AddSliderEvent(soundprogress.gameObject, function(value)
-        PlayerPrefs.SetString("SoundValue", tostring(value));
-        if value <= 0 then
-            AllSetGameInfo._6IsPlayEffect = false;
-        else
-            AllSetGameInfo._6IsPlayEffect = true;
-        end
-        Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-        PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-        GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+        MusicManager:SetValue(tonumber(value),MusicManager:GetMusicVolume());
+        --PlayerPrefs.SetString("SoundValue", tostring(value));
+        --if value <= 0 then
+        --    AllSetGameInfo._6IsPlayEffect = false;
+        --else
+        --    AllSetGameInfo._6IsPlayEffect = true;
+        --end
+        --Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+        --PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+        --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
         for i = 1, JJPM_Audio.pool.transform.childCount do
             JJPM_Audio.pool.transform:GetChild(i - 1):GetComponent("AudioSource").volume = value;
         end

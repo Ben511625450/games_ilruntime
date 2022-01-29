@@ -131,10 +131,14 @@ function Module13Entry.FindComponent()
     self.musicBtn = self.menulist:Find("Content/Music"):GetComponent("Button");
     self.musicOn = self.musicBtn.transform:Find("On").gameObject;
     self.musicOff = self.musicBtn.transform:Find("Off").gameObject;
+    self.musicOn:SetActive(MusicManager:GetIsPlayMV());
+    self.musicOff:SetActive(not MusicManager:GetIsPlayMV());
 
     self.soundBtn = self.menulist:Find("Content/Sound"):GetComponent("Button");
     self.soundOn = self.soundBtn.transform:Find("On").gameObject;
     self.soundOff = self.soundBtn.transform:Find("Off").gameObject;
+    self.soundOn:SetActive(MusicManager:GetIsPlaySV());
+    self.soundOff:SetActive(not MusicManager:GetIsPlaySV());
 
     self.showRuleBtn = self.menulist:Find("Content/Rule"):GetComponent("Button");
     self.menulist:Find("Content").localPosition = Vector3.New(0, 500, 0);
@@ -393,32 +397,30 @@ end
 function Module13Entry.SetSelfGold(str)
     self.selfGold.text = self.ShowText(self.FormatNumberThousands(str));
 end
-function Module13Entry.SetSoundCall() 
-    if AllSetGameInfo._6IsPlayEffect == false then
-        HallScenPanel.PlayeBtnMusic();
-        AllSetGameInfo._6IsPlayEffect = true;
-        self.soundOn:SetActive(true);
-        self.soundOff:SetActive(false);
-    else
-        AllSetGameInfo._6IsPlayEffect = false;
+function Module13Entry.SetSoundCall()
+    if MusicManager:GetIsPlaySV() then
+        --HallScenPanel.PlayeBtnMusic();
+        SetInfoSystem.MuteSound();
         self.soundOn:SetActive(false);
         self.soundOff:SetActive(true);
-    end ;
-    PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    else
+        SetInfoSystem.PlaySound();
+        self.soundOn:SetActive(true);
+        self.soundOff:SetActive(false);
+    end
 end
 
 function Module13Entry.SetMusicCall()
-    if AllSetGameInfo._5IsPlayAudio or AllSetGameInfo._6IsPlayEffect then
-        SetInfoSystem.GameMute();
+    if MusicManager:GetIsPlayMV() then
+        SetInfoSystem.MuteMusic();
         self.musicOn:SetActive(false);
         self.musicOff:SetActive(true);
     else
-        SetInfoSystem.ResetMute();
+        SetInfoSystem.PlayMusic();
         self.musicOn:SetActive(true);
         self.musicOff:SetActive(false);
     end
-    Module13_Audio.pool.mute = not AllSetGameInfo._5IsPlayAudio;
+    Module13_Audio.pool.mute = not MusicManager:GetIsPlayMV();
 end
 function Module13Entry.OnClickAutoCall()
     --点击自动开始

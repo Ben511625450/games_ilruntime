@@ -22,14 +22,14 @@ function LGDDY_Audio.Init()
     self.pool = GameObject.New("AudioPool"):AddComponent(typeof(UnityEngine.AudioSource));
     self.pool.playOnAwake = false;
     self.pool.loop = true;
-    self.pool.volume = MusicManager.musicVolume;
-    self.pool.mute = not AllSetGameInfo._5IsPlayAudio;
+    self.pool.volume = MusicManager:GetMusicVolume();
+    self.pool.mute = not MusicManager:GetIsPlayMV();
     self.pool.transform:SetParent(LGDDYEntry.MainContent:Find("Content"));
 end
 function LGDDY_Audio.PlayBGM(mode)
     --播放bgm
     self.pool:Stop();
-    local rc = AllSetGameInfo._5IsPlayAudio;
+    local rc = MusicManager:GetIsPlayMV();
     local audioclip = nil;
     if mode == nil then
         audioclip = LGDDYEntry.soundList:Find(self.SoundList.BGM):GetComponent("AudioSource");
@@ -45,14 +45,14 @@ function LGDDY_Audio.PlaySound(soundName, time)
         error("不存在该音效");
         return ;
     end
-    local isPlay = AllSetGameInfo._6IsPlayEffect;
+    local isPlay = MusicManager:GetIsPlaySV();
     if not isPlay then
         return ;
     end
-    local volumn = 1;
-    if PlayerPrefs.HasKey("SoundValue") then
-        volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
-    end
+    local volumn = MusicManager:GetSoundVolume();
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --end
     local obj = LGDDYEntry.soundList:Find(soundName);
     if obj == nil then
         error("没有找到该音效");

@@ -34,14 +34,14 @@ function WSZS_Audio.Init()
     self.pool = GameObject.New("AudioPool"):AddComponent(typeof(UnityEngine.AudioSource));
     self.pool.playOnAwake = false;
     self.pool.loop = true;
-    self.pool.volume = MusicManager.musicVolume;
-    self.pool.mute = not AllSetGameInfo._5IsPlayAudio;
+    self.pool.volume = MusicManager:GetMusicVolume();
+    self.pool.mute = not MusicManager:GetIsPlayMV();
     self.pool.transform:SetParent(WSZSEntry.MainContent:Find("Content"));
 end
 function WSZS_Audio.PlayBGM(mode)
     --播放bgm
     self.pool:Stop();
-    local rc = AllSetGameInfo._5IsPlayAudio;
+    local rc = MusicManager:GetIsPlayMV();
     local audioclip = nil;
     if mode == nil then
         audioclip = WSZSEntry.soundList:Find(self.SoundList.BGM):GetComponent("AudioSource");
@@ -56,14 +56,14 @@ function WSZS_Audio.PlaySoundAtTime(soundName, startTime, time)
         error("sound Name is null");
         return ;
     end
-    local isPlay = AllSetGameInfo._6IsPlayEffect;
+    local isPlay = MusicManager:GetIsPlaySV();
     if not isPlay then
         return ;
     end
-    local volumn = 1;
-    if PlayerPrefs.HasKey("SoundValue") then
-        volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
-    end
+    local volumn = MusicManager:GetSoundVolume();
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --end
     local obj = WSZSEntry.soundList:Find(soundName);
     if obj == nil then
         error("没有找到该音效");
@@ -88,14 +88,14 @@ function WSZS_Audio.PlaySound(soundName, time)
         error("sound Name is null");
         return ;
     end
-    local isPlay = AllSetGameInfo._6IsPlayEffect;
+    local isPlay = MusicManager:GetIsPlaySV();
     if not isPlay then
         return ;
     end
-    local volumn = 1;
-    if PlayerPrefs.HasKey("SoundValue") then
-        volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
-    end
+    local volumn = MusicManager:GetSoundVolume();
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --end
     local obj = WSZSEntry.soundList:Find(soundName);
     if obj == nil then
         error("没有找到该音效");
