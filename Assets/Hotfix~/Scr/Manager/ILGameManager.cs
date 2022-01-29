@@ -37,6 +37,14 @@ namespace Hotfix
         protected override void Awake()
         {
             base.Awake();
+            {
+                CSConfiger configer = AppConst.csConfiger;
+                Main main = Object.FindObjectOfType<Main>();
+                if (main != null)
+                {
+                    main.reporter.SetActive(configer.ShowLogTool);
+                }
+            }
             gameObject.AddILComponent<HttpManager>();
             gameObject.AddILComponent<ILMusicManager>();
             LoadScene($"module02", (isdone, apt) =>

@@ -36,6 +36,20 @@ namespace Hotfix.Hall
             codeTime = 0f;
         }
 
+        protected override void AddEvent()
+        {
+            base.AddEvent();
+            HallEvent.SC_CHANGE_ACCOUNT += BindAccCallBack;
+            HallEvent.SC_BindCodeCallBack += GetCodeCallBack;
+        }
+
+        protected override void RemoveEvent()
+        {
+            base.RemoveEvent();
+            HallEvent.SC_CHANGE_ACCOUNT -= BindAccCallBack;
+            HallEvent.SC_BindCodeCallBack -= GetCodeCallBack;
+        }
+
         protected override void Update()
         {
             base.Update();
@@ -98,7 +112,6 @@ namespace Hotfix.Hall
             codeTipText.gameObject.SetActive(false);
             codeTimeText.GetComponent<Text>().text = $"{getCodeTime}s重发";
             codeTimeText.gameObject.SetActive(true);
-            HallEvent.SC_BindCodeCallBack += GetCodeCallBack;
             var bind = new HallStruct.REQ_CS_BindGetCode("1", "1", phoneNum.text);
             HotfixGameComponent.Instance.Send(DataStruct.LoginStruct.MDM_3D_LOGIN,
                 DataStruct.LoginStruct.SUB_3D_SC_DOWN_GAME_RESOURCE, bind._ByteBuffer, SocketType.Hall);
@@ -118,7 +131,6 @@ namespace Hotfix.Hall
 
         private void GetCodeCallBack(uint index)
         {
-            HallEvent.SC_BindCodeCallBack -= GetCodeCallBack;
             if (index == 0) ToolHelper.PopSmallWindow("手机号已经绑定");
         }
 
@@ -153,8 +165,7 @@ namespace Hotfix.Hall
                 return;
             }
 
-            sureBtn.interactable = false;
-            HallEvent.SC_CHANGE_ACCOUNT += BindAccCallBack;
+            sureBtn.interactable = true;
             var acc = new HallStruct.REQ_CS_ChangeAccount(NewPhoneNumber, int.Parse(Code), MD5Helper.MD5String(PWText));
             HotfixGameComponent.Instance.Send(DataStruct.PersonalStruct.MDM_3D_PERSONAL_INFO,
                 DataStruct.PersonalStruct.SUB_3D_CS_CHANGE_ACCOUNT, acc._ByteBuffer, SocketType.Hall);
