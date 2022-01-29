@@ -482,7 +482,7 @@ namespace Hotfix
                         {
                             if (GameLocalMode.Instance.IsInGame)
                             {
-                                SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
+                                EventHelper.DispatchLeaveGame();
                             }
 
                             UIManager.Instance.CloseAllUI();
@@ -492,7 +492,7 @@ namespace Hotfix
                         {
                             if (GameLocalMode.Instance.IsInGame)
                             {
-                                SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
+                                EventHelper.DispatchLeaveGame();
                             }
 
                             UIManager.Instance.CloseAllUI();

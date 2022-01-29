@@ -190,6 +190,7 @@ function SGXML_Roll.ChangeIconRoll(index)
     for i = 0, iconParent.childCount - 1 do
         local iconIndex = math.random(1, 8);
         local changeIcon = SGXMLEntry.icons:Find(SGXML_DataConfig.IconTable[iconIndex]):GetComponent("Image").sprite;
+        iconParent:GetChild(i).localScale=Vector3.New(1.1,1.1,1.1);
         iconParent:GetChild(i):Find("Icon"):GetComponent("Image").sprite = changeIcon;
         local tempgroup = iconParent:GetChild(i):Find("TempGroup");
         if tempgroup ~= nil then

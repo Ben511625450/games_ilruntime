@@ -169,7 +169,8 @@ end
     self.soundOff = self.soundBtn.transform:Find("Off").gameObject;
 
     self.WinGold=self.MainContent:Find("Content/WinGold") --界面显示金币
-    self.WinGoldText=self.WinGold:Find("Text"):GetComponent("TextMeshProUGUI")
+    self.WinGoldText=self.WinGold:Find("Text"):GetComponent("TextMeshProUGUI");
+     self.WinGoldText.transform.localScale= Vector3.New(2,2,2);
     self.WinGold.gameObject:SetActive(false)
 
     self.SmallGmaePanel=self.MainContent:Find("SmallGamePanel").gameObject
@@ -182,7 +183,9 @@ end
     self.resultEffect = self.MainContent:Find("Content/Result");--中奖后特效
     self.bigWinEffect = self.resultEffect:Find("BigWin");
     self.bigWinNum = self.bigWinEffect:Find("win/Num"):GetComponent("TextMeshProUGUI");
-
+    local pos= self.bigWinNum.transform.localPosition;
+     self.bigWinNum.transform.localPosition=Vector3.New(pos.x,pos.y-50,pos.z);
+     self.bigWinNum.transform.localScale=Vector3.New(2,2,2);
     self.EnterFreeEffect = self.resultEffect:Find("EnterFree");
     self.EnterFreeCount = self.EnterFreeEffect:Find("Content/FreeCount"):GetComponent("Text");
     self.FreeResultEffect = self.resultEffect:Find("FreeResult");
