@@ -158,7 +158,7 @@ namespace Hotfix
             DebugHelper.Log($"ip:{ip} port:{port}");
             var session1 = new Session(ip, port, id, timeOut, (state, session) =>
             {
-                ActionComponent.Instance.Add(() =>
+                ActionComponent.Instance?.Add(() =>
                 {
                     DebugHelper.Log($"session:{id}connect net:{state}");
                     callBack?.Invoke(state);

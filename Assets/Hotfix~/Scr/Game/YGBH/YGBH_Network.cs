@@ -26,6 +26,7 @@ namespace Hotfix.YGBH
         }
         private void AddMessage()
         {
+            if (HotfixGameComponent.Instance == null) return;
             HotfixGameComponent.Instance.GameSceneInfoAction += GameSceneInfoAction;
             HotfixGameComponent.Instance.GameFrameAction += GameFrameAction;
             HotfixGameComponent.Instance.GameAction += GameAction;
@@ -223,6 +224,7 @@ namespace Hotfix.YGBH
 
         private void RemoveMessage()
         {
+            if (HotfixGameComponent.Instance == null) return;
             HotfixGameComponent.Instance.GameSceneInfoAction -= GameSceneInfoAction;
             HotfixGameComponent.Instance.GameFrameAction -= GameFrameAction;
             HotfixGameComponent.Instance.GameAction -= GameAction;

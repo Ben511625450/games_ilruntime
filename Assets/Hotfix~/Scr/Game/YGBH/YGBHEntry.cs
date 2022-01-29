@@ -734,10 +734,8 @@ namespace Hotfix.YGBH
 
         private void OnEndClick(GameObject arg1, PointerEventData arg2)
         {
-            if (clickStartTimer>=1.5f)
-            {
-                return;
-            }
+            if (clickStartTimer >= 1.5f) return;
+            if (!ispress) return;
             ispress = false;
             autoEffect.gameObject.SetActive(false);
             clickStartTimer =0;
@@ -746,6 +744,7 @@ namespace Hotfix.YGBH
 
         private void OnBeginClick(GameObject arg1, PointerEventData arg2)
         {
+            if (hsm.CurrentStateName != nameof(IdleState)) return;
             clickStartTimer = 0;
             autoEffect.gameObject.SetActive(true);
             ispress = true;
@@ -1051,6 +1050,7 @@ namespace Hotfix.YGBH
                 owner.startBtn.interactable = true;
                 owner.addChipBtn.interactable = true;
                 owner.reduceChipBtn.interactable = true;
+                owner.MaxChipBtn.interactable = true;
                 owner.GameData.isFreeGame = false;
                 owner.freeText.gameObject.SetActive(false);
                 owner.startBtn.gameObject.SetActive(true);
@@ -1247,6 +1247,7 @@ namespace Hotfix.YGBH
                 owner.startBtn.interactable=false;
                 owner.addChipBtn.interactable = false;
                 owner.reduceChipBtn.interactable = false;
+                owner.MaxChipBtn.interactable = false;
                 YGBH_Network.Instance.StartGame();
             }
         }
@@ -1276,6 +1277,7 @@ namespace Hotfix.YGBH
                 owner.startBtn.interactable = false;
                 owner.addChipBtn.interactable = false;
                 owner.reduceChipBtn.interactable = false;
+                owner.MaxChipBtn.interactable = false;
                 if (!owner.isRoll)
                 {
                     return;
@@ -1347,6 +1349,7 @@ namespace Hotfix.YGBH
                 owner.AutoStartBtn.gameObject.SetActive(false);
                 owner.addChipBtn.interactable = false;
                 owner.reduceChipBtn.interactable = false;
+                owner.MaxChipBtn.interactable = false;
                 owner.GameData.isFreeGame = true;
                 YGBH_Network.Instance.StartGame();
             }
