@@ -218,7 +218,6 @@ namespace Hotfix.YGBH
             freeSelectOne = freePanel.FindChildDepth<SkeletonGraphic>("Group/FreeSelect1");
             freeSelectTwo = freePanel.FindChildDepth<SkeletonGraphic>("Group/FreeSelect2");
             freedownTime = freePanel.FindChildDepth<TextMeshProUGUI>("Timer");
-            freedownTime.
             rulePanel = MainContent.FindChildDepth("Rule"); //规则界面
             resultPanel = MainContent.FindChildDepth("Result");
             menuBtn = MainContent.FindChildDepth<Button>("Menu"); //菜单按钮
