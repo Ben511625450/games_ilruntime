@@ -243,11 +243,6 @@ namespace Hotfix.YGBH
             public IdleState(YGBH_Result owner, HierarchicalStateMachine hsm) : base(owner, hsm)
             {
             }
-
-            public override void OnEnter()
-            {
-                YGBHEntry.Instance.FQGY_Event_ShowResultNum(true);
-            }
         }
         /// <summary>
         /// 未中奖

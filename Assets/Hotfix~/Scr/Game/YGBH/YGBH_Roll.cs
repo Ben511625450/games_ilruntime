@@ -119,25 +119,25 @@ namespace Hotfix.YGBH
                 Image img = iconParent.GetChild(i).FindChildDepth<Image>("Icon");
                 int iconIndex;
                 iconIndex = YGBHEntry.Instance.GameData.ResultData.ImgTable[i * 5 + rollIndex];
-                bool isscatter = false;
-                if (iconIndex == 12)
+                bool isscatter = iconIndex == 12;
+                scatterCount += 1;
+                switch (scatterCount)
                 {
-                    isscatter = true;
-                }
-                scatterCount = scatterCount + 1;
-                if (scatterCount == 1)
-                {
-                    if (rollIndex < 4)
-                        YGBH_Audio.Instance.PlaySound(YGBH_Audio.SCATTER1);
-                }
-                else if (scatterCount == 2)
-                {
-                    if (rollIndex < 5)
-                        YGBH_Audio.Instance.PlaySound(YGBH_Audio.SCATTER2);
-                }
-                else if (scatterCount == 3)
-                {
-                    YGBH_Audio.Instance.PlaySound(YGBH_Audio.SCATTER3);
+                    case 1:
+                    {
+                        if (rollIndex < 4)
+                            YGBH_Audio.Instance.PlaySound(YGBH_Audio.SCATTER1);
+                        break;
+                    }
+                    case 2:
+                    {
+                        if (rollIndex < 5)
+                            YGBH_Audio.Instance.PlaySound(YGBH_Audio.SCATTER2);
+                        break;
+                    }
+                    case 3:
+                        YGBH_Audio.Instance.PlaySound(YGBH_Audio.SCATTER3);
+                        break;
                 }
                 //TODO 白晶晶图片处理
                 if (iconIndex == 13)
@@ -212,11 +212,9 @@ namespace Hotfix.YGBH
                 for (int i = 0; i < owner.rollIndex; i++)
                 {
                     owner.rollList[i].verticalNormalizedPosition += Time.deltaTime * YGBH_DataConfig.rollSpeed; //旋转
-                    if (owner.rollList[i].verticalNormalizedPosition >= 1)
-                    {
-                        owner.rollList[i].verticalNormalizedPosition = 0;
-                        owner.ChangeRandomIcon(i, true);
-                    }
+                    if (!(owner.rollList[i].verticalNormalizedPosition >= 1)) continue;
+                    owner.rollList[i].verticalNormalizedPosition = 0;
+                    owner.ChangeRandomIcon(i, true);
                 }
                 if (owner.rollIndex < owner.rollList.Count)
                 {
@@ -233,16 +231,13 @@ namespace Hotfix.YGBH
                         }
                     }
                 }
-                if (owner.rollIndex == owner.rollList.Count && startTimer <= YGBH_DataConfig.rollTime)
-                {
-                    //计算旋转时间，时间到就停止
-                    startTimer += Time.deltaTime;
-                    if (startTimer >= YGBH_DataConfig.rollTime)
-                    {
-                        startTimer = 0;
-                        YGBH_Event.DispatchStopRoll(false);
-                    }
-                }
+
+                if (owner.rollIndex != owner.rollList.Count || !(startTimer <= YGBH_DataConfig.rollTime)) return;
+                //计算旋转时间，时间到就停止
+                startTimer += Time.deltaTime;
+                if (!(startTimer >= YGBH_DataConfig.rollTime)) return;
+                startTimer = 0;
+                YGBH_Event.DispatchStopRoll(false);
             }
         }
 
@@ -268,35 +263,29 @@ namespace Hotfix.YGBH
                 for (int i = stopIndex; i < owner.rollIndex; i++)
                 {
                     owner.rollList[i].verticalNormalizedPosition += Time.deltaTime * YGBH_DataConfig.rollSpeed; //旋转
-                    if (owner.rollList[i].verticalNormalizedPosition >= 1)
-                    {
-                        owner.rollList[i].verticalNormalizedPosition = 0;
-                        owner.ChangeRandomIcon(i, true);
-                    }
+                    if (!(owner.rollList[i].verticalNormalizedPosition >= 1)) continue;
+                    owner.rollList[i].verticalNormalizedPosition = 0;
+                    owner.ChangeRandomIcon(i, true);
                 }
                 CalculateStop();
             }
 
             private void CalculateStop()
             {
-                if (stopIndex < owner.rollList.Count)
+                if (stopIndex >= owner.rollList.Count) return;
+                //计算转动间隔
+                stopTimer += Time.deltaTime;
+                if (!(stopTimer >= YGBH_DataConfig.rollStopInterval)) return;
+                stopTimer = 0;
+                //TODO 换正式结果图片
+                stopIndex++;
+                int stopindex = stopIndex - 1;
+                owner.rollList[stopindex].verticalNormalizedPosition = 0;
+                YGBH_Audio.Instance.PlaySound(YGBH_Audio.RS);
+                owner.ChangeResultIcon(stopindex);
+                if (stopindex == 4)
                 {
-                    //计算转动间隔
-                    stopTimer += Time.deltaTime;
-                    if (stopTimer >= YGBH_DataConfig.rollStopInterval)
-                    {
-                        stopTimer = 0;
-                        //TODO 换正式结果图片
-                        stopIndex++;
-                        int stopindex = stopIndex - 1;
-                        owner.rollList[stopindex].verticalNormalizedPosition = 0;
-                        YGBH_Audio.Instance.PlaySound(YGBH_Audio.RS);
-                        owner.ChangeResultIcon(stopindex);
-                        if (stopindex==4)
-                        {
-                            PopStopRaw();
-                        }
-                    }
+                    PopStopRaw();
                 }
             }
             /// <summary>

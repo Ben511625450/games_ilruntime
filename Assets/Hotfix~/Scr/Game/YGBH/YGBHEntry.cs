@@ -152,17 +152,13 @@ namespace Hotfix.YGBH
             base.Update();
             hsm?.Update();
             AutoSelectFree();
-            if (ispress) 
-            {
-                clickStartTimer = clickStartTimer + Time.deltaTime;
-                if (clickStartTimer>=1.5f)
-                {
-                    ispress = false;
-                    autoEffect.gameObject.SetActive(false);
-                    closeAutoMenu.gameObject.SetActive(true);
-                    //OnClickAutoCall();
-                }
-            }
+            if (!ispress) return;
+            clickStartTimer += Time.deltaTime;
+            if (!(clickStartTimer >= 1.5f)) return;
+            ispress = false;
+            autoEffect.gameObject.SetActive(false);
+            closeAutoMenu.gameObject.SetActive(true);
+            //OnClickAutoCall();
         }
 
         protected override void AddEvent()
@@ -223,6 +219,7 @@ namespace Hotfix.YGBH
             freeSelectOne = freePanel.FindChildDepth<SkeletonGraphic>("Group/FreeSelect1");
             freeSelectTwo = freePanel.FindChildDepth<SkeletonGraphic>("Group/FreeSelect2");
             freedownTime = freePanel.FindChildDepth<TextMeshProUGUI>("Timer");
+            freedownTime.
             rulePanel = MainContent.FindChildDepth("Rule"); //规则界面
             resultPanel = MainContent.FindChildDepth("Result");
             menuBtn = MainContent.FindChildDepth<Button>("Menu"); //菜单按钮
@@ -324,6 +321,8 @@ namespace Hotfix.YGBH
             trigger.onDown = OnBeginClick;
             trigger.onUp = OnEndClick;
 
+            startBtn.onClick.RemoveAllListeners();
+            startBtn.onClick.Add(StartGameCall);
             stopBtn.onClick.RemoveAllListeners();
             stopBtn.onClick.Add(StartGameCall);
 
@@ -734,12 +733,12 @@ namespace Hotfix.YGBH
 
         private void OnEndClick(GameObject arg1, PointerEventData arg2)
         {
-            if (clickStartTimer >= 1.5f) return;
-            if (!ispress) return;
-            ispress = false;
-            autoEffect.gameObject.SetActive(false);
-            clickStartTimer =0;
-            StartGameCall();
+            // if (clickStartTimer >= 1.5f) return;
+            // if (!ispress) return;
+            // ispress = false;
+            // autoEffect.gameObject.SetActive(false);
+            // clickStartTimer =0;
+            // StartGameCall();
         }
 
         private void OnBeginClick(GameObject arg1, PointerEventData arg2)
@@ -875,8 +874,10 @@ namespace Hotfix.YGBH
         //开始游戏
         private void StartGameCall()
         {
+            ispress = false;
+            autoEffect.gameObject.SetActive(false);
+            clickStartTimer =0;
             if (GameData.isFreeGame || GameData.isAutoGame) return;
-
             if (!isRoll)
             {
                 StopGame();
