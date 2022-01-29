@@ -170,7 +170,7 @@ end
 
     self.WinGold=self.MainContent:Find("Content/WinGold") --界面显示金币
     self.WinGoldText=self.WinGold:Find("Text"):GetComponent("TextMeshProUGUI");
-     self.WinGoldText.transform.localScale= Vector3.New(2,2,2);
+     self.WinGoldText.transform.localScale= Vector3.New(1.25,1.25,1.25);
     self.WinGold.gameObject:SetActive(false)
 
     self.SmallGmaePanel=self.MainContent:Find("SmallGamePanel").gameObject
@@ -198,26 +198,28 @@ end
     self.soundList = self.MainContent:Find("Content/SoundList");--声音库
     self.LineGroup = self.MainContent:Find("Content/LineGroup");--连线
 
-    if not AllSetGameInfo._5IsPlayAudio then
-        self.musicSet.value = 0;
-    else
-        if PlayerPrefs.HasKey("MusicValue") then
-            local musicVol = PlayerPrefs.GetString("MusicValue");
-            self.musicSet.value = tonumber(musicVol);
-        else
-            self.musicSet.value = 1;
-        end
-    end
-    if not AllSetGameInfo._6IsPlayEffect then
-        self.soundSet.value = 0;
-    else
-        if PlayerPrefs.HasKey("SoundValue") then
-            local soundVol = PlayerPrefs.GetString("SoundValue");
-            self.soundSet.value = tonumber(soundVol);
-        else
-            self.soundSet.value = 1;
-        end
-    end
+     self.musicSet.value = MusicManager:GetMusicVolume();
+    --if not AllSetGameInfo._5IsPlayAudio then
+    --    self.musicSet.value = 0;
+    --else
+        --if Util.Read("MusicValue") then
+        --    local musicVol = PlayerPrefs.GetString("MusicValue");
+        --    self.musicSet.value = tonumber(musicVol);
+        --else
+        --    self.musicSet.value = 1;
+        --end
+    --end
+     self.soundSet.value = MusicManager:GetSoundVolume();
+    --if not AllSetGameInfo._6IsPlayEffect then
+    --    self.soundSet.value = 0;
+    --else
+    --    if PlayerPrefs.HasKey("SoundValue") then
+    --        local soundVol = PlayerPrefs.GetString("SoundValue");
+    --        self.soundSet.value = tonumber(soundVol);
+    --    else
+    --        self.soundSet.value = 1;
+    --    end
+    --end
 
  end
 function JPMEntry.AddListener()
@@ -469,41 +471,41 @@ function JPMEntry.StartGameCall()
 end
 
 function JPMEntry.SetMusicVolumn(value)
-    log(value)
-    if value == 0 then
-        AllSetGameInfo._5IsPlayAudio = false;
-        JPM_Audio.pool.mute = true;
-    else
-        AllSetGameInfo._5IsPlayAudio = true;
-        JPM_Audio.pool.mute = false;
-    end
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("SoundValue", tostring(value));
-    if not PlayerPrefs.HasKey("SoundValue") then
-        PlayerPrefs.SetString("SoundValue", tostring(1));
-    end
-    local soundValue = tonumber(PlayerPrefs.GetString("SoundValue"));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    MusicManager:SetValue(soundValue, value);
+    --log(value)
+    --if value == 0 then
+    --    AllSetGameInfo._5IsPlayAudio = false;
+    --    JPM_Audio.pool.mute = true;
+    --else
+    --    AllSetGameInfo._5IsPlayAudio = true;
+    --    JPM_Audio.pool.mute = false;
+    --end
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("SoundValue", tostring(value));
+    --if not PlayerPrefs.HasKey("SoundValue") then
+    --    PlayerPrefs.SetString("SoundValue", tostring(1));
+    --end
+    --local soundValue = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    MusicManager:SetValue(MusicManager:GetSoundVolume(), value);
     JPM_Audio.pool.volume=value
 
 end
 function JPMEntry.SetSoundVolumn(value)
-    if value == 0 then
-        AllSetGameInfo._6IsPlayEffect = false;
-    else
-        AllSetGameInfo._6IsPlayEffect = true;
-    end
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("SoundValue", tostring(value));
-    if not PlayerPrefs.HasKey("SoundValue") then
-        PlayerPrefs.SetString("SoundValue", tostring(1));
-    end
-    local musicValue = tonumber(PlayerPrefs.GetString("SoundValue"));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    MusicManager:SetValue(musicValue,value);
+    --if value == 0 then
+    --    AllSetGameInfo._6IsPlayEffect = false;
+    --else
+    --    AllSetGameInfo._6IsPlayEffect = true;
+    --end
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("SoundValue", tostring(value));
+    --if not PlayerPrefs.HasKey("SoundValue") then
+    --    PlayerPrefs.SetString("SoundValue", tostring(1));
+    --end
+    --local musicValue = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    MusicManager:SetValue(value,MusicManager:GetMusicVolume());
 end
 
 function JPMEntry.ClickMenuCall()

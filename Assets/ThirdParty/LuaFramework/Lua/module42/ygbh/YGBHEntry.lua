@@ -288,25 +288,27 @@ function YGBHEntry.FindComponent()
     for i = 1, self.smallGoldGroup.childCount do
         self.smallGoldGroup:GetChild(i - 1).gameObject:SetActive(false);
     end
-    if not AllSetGameInfo._5IsPlayAudio then
+    if not MusicManager:GetIsPlayMV() then
         self.musicSet.value = 0;
     else
-        if PlayerPrefs.HasKey("MusicValue") then
-            local musicVol = PlayerPrefs.GetString("MusicValue");
-            self.musicSet.value = tonumber(musicVol);
-        else
-            self.musicSet.value = 1;
-        end
+        self.musicSet.value=MusicManager:GetMusicVolume();
+        --if MusicManager.ge then
+        --    local musicVol = PlayerPrefs.GetString("MusicValue");
+        --    self.musicSet.value = tonumber(musicVol);
+        --else
+        --    self.musicSet.value = 1;
+        --end
     end
-    if not AllSetGameInfo._6IsPlayEffect then
+    if not MusicManager.GetIsPlaySV() then
         self.soundSet.value = 0;
     else
-        if PlayerPrefs.HasKey("SoundValue") then
-            local soundVol = PlayerPrefs.GetString("SoundValue");
-            self.soundSet.value = tonumber(soundVol);
-        else
-            self.soundSet.value = 1;
-        end
+        self.soundSet.value = MusicManager:GetSoundVolume();
+        --if PlayerPrefs.HasKey("SoundValue") then
+        --    local soundVol = PlayerPrefs.GetString("SoundValue");
+        --    self.soundSet.value = tonumber(soundVol);
+        --else
+        --    self.soundSet.value = 1;
+        --end
     end
 
 end

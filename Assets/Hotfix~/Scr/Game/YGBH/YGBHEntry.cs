@@ -270,40 +270,9 @@ namespace Hotfix.YGBH
             {
                 smallGoldGroup.GetChild(i).gameObject.SetActive(false);
             }
-
-            if (!MusicManager.isPlaySV)
-            {
-                soundSet.value = 0;
-            }
-            else
-            {
-                if (PlayerPrefs.HasKey("SoundValue"))
-                {
-                    float soundVol =float.Parse(PlayerPrefs.GetString("SoundValue"));
-                    soundSet.value = soundVol;
-                }
-                else
-                {
-                    soundSet.value = 1;
-                }
-            }
-
-            if (!MusicManager.isPlayMV)
-            {
-                musicSet.value = 0;
-            }
-            else
-            {
-                if (PlayerPrefs.HasKey("MusicValue"))
-                {
-                    float musicVol = float.Parse(PlayerPrefs.GetString("MusicValue"));
-                    musicSet.value = musicVol;
-                }
-                else
-                {
-                    musicSet.value = 1;
-                }
-            }
+            soundSet.value = ILMusicManager.Instance.GetSoundValue();
+            musicSet.value = ILMusicManager.Instance.GetMusicValue();
+           
         }
         private void AddListener()
         {
@@ -640,49 +609,14 @@ namespace Hotfix.YGBH
 
         private void SetSoundVolumn(float value)
         {
-            if (value==0f)
-            {
-                MusicManager.isPlaySV = false;
-                ToolHelper.MuteSound();
-                YGBH_Audio.Instance.MuteSound();
-            }
-            else
-            {
-                MusicManager.isPlaySV = true;
-                ToolHelper.PlaySound();
-                YGBH_Audio.Instance.PlaySound(YGBH_Audio.BTN);
-            }
-
-            PlayerPrefs.SetString("SoundValue", value.ToString());
-            if (!PlayerPrefs.HasKey("MusicValue"))
-            {
-                PlayerPrefs.SetString("MusicValue","1");
-            }
-            float musicValue = float.Parse(PlayerPrefs.GetString("MusicValue"));
-            AppFacade.Instance.GetManager<MusicManager>().SetValue(value, musicValue);
+            ILMusicManager.Instance.SetSoundValue(value);
+            YGBH_Audio.Instance.SetSoundValue(value);
         }
 
         private void SetMusicVolumn(float value)
         {
-            if (value == 0f)
-            {
-                MusicManager.isPlayMV = false;
-                ToolHelper.MuteMusic();
-                YGBH_Audio.Instance.MuteMusic();
-            }
-            else
-            {
-                MusicManager.isPlayMV = true;
-                ToolHelper.PlayMusic();
-                YGBH_Audio.Instance.ResetMusic();
-            }
-            PlayerPrefs.SetString("MusicValue", value.ToString());
-            if (!PlayerPrefs.HasKey("SoundValue"))
-            {
-                PlayerPrefs.SetString("SoundValue", "1");
-            }
-            float soundValue = float.Parse(PlayerPrefs.GetString("SoundValue"));
-            AppFacade.Instance.GetManager<MusicManager>().SetValue(soundValue, value);
+            ILMusicManager.Instance.SetMusicValue(value);
+            YGBH_Audio.Instance.SetMusicValue(value);
         }
 
         private void OpenSettingPanel()

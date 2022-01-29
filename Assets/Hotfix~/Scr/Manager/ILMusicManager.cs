@@ -10,6 +10,8 @@ namespace Hotfix
     {
         private Dictionary<string, GameObject> _musicbundles;
         private readonly string SoundSaveKey = "SoundSave";
+        private readonly string MusicValue = "MusicValue";
+        private readonly string SoundValue = "SoundValue";
         private AudioSource audio;
         public bool isPlayMV;
         public bool isPlaySV;
@@ -31,6 +33,11 @@ namespace Hotfix
             base.Awake();
             GetAudio();
             _musicbundles = new Dictionary<string, GameObject>();
+            Init();
+        }
+
+        public void Init()
+        {
             soundSaveData = SaveHelper.Get<SoundSaveData>(SoundSaveKey);
             if (soundSaveData == null)
             {
@@ -41,12 +48,11 @@ namespace Hotfix
                     isMuteMusic = false,
                     isMuteSound = false
                 };
-                SaveHelper.Save<SoundSaveData>(SoundSaveKey, soundSaveData);
+                SaveHelper.Save(SoundSaveKey, soundSaveData);
             }
             isPlayMV = soundSaveData.musicVolume > 0 && !soundSaveData.isMuteMusic;
             isPlaySV = soundSaveData.soundVolume > 0 && !soundSaveData.isMuteSound;
         }
-
         protected override void OnDestroy()
         {
             base.OnDestroy();
@@ -112,15 +118,14 @@ namespace Hotfix
         public void SetSoundValue(float sv)
         {
             GetAudio();
-            for (var i = transform.childCount - 1; i >= 0; i--)
-            {
-                transform.GetChild(i).GetComponent<AudioSource>().volume = sv;
-            }
-
             soundSaveData.soundVolume = sv;
             isPlaySV = sv != 0;
             soundSaveData.isMuteSound = !isPlaySV;
-
+            for (var i = transform.childCount - 1; i >= 0; i--)
+            {
+                transform.GetChild(i).GetComponent<AudioSource>().volume = sv;
+                transform.GetChild(i).GetComponent<AudioSource>().mute = soundSaveData.isMuteSound;
+            }
             SaveHelper.Save(SoundSaveKey, soundSaveData);
         }
 
@@ -145,6 +150,7 @@ namespace Hotfix
             soundSaveData.musicVolume = mv;
             isPlayMV = mv != 0;
             soundSaveData.isMuteMusic = !isPlayMV;
+            audio.mute = soundSaveData.isMuteMusic;
             SaveHelper.Save(SoundSaveKey, soundSaveData);
         }
 
