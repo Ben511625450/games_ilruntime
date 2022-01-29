@@ -744,7 +744,6 @@ namespace Hotfix.YGBH
 
         private void OnBeginClick(GameObject arg1, PointerEventData arg2)
         {
-            if (hsm.CurrentStateName != nameof(IdleState)) return;
             clickStartTimer = 0;
             autoEffect.gameObject.SetActive(true);
             ispress = true;
@@ -885,6 +884,7 @@ namespace Hotfix.YGBH
                 stopBtn.gameObject.SetActive(false);
                 return;
             }
+            if (hsm.CurrentStateName != nameof(IdleState)) return;
 
             YGBH_Audio.Instance.PlaySound(YGBH_Audio.BTN);
 
