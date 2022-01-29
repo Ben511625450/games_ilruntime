@@ -341,34 +341,36 @@ function TBNNPanel.FindComponent()
 
     self.ChipValueText=NiuNiu.transform:Find("Bg/ChipValue/Text"):GetComponent("Text")
 
-    if not AllSetGameInfo._5IsPlayAudio then
-        self.musicSet.value = 0;
-    else
-        if PlayerPrefs.HasKey("MusicValue") then
-            local musicVole = PlayerPrefs.GetString("MusicValue");
-            self.musicSet.value = tonumber(musicVole);
-        else
-            self.musicSet.value = 1;
-        end
-    end
-    if PlayerPrefs.HasKey("SoundValue") then
-        local soundVole = PlayerPrefs.GetString("SoundValue");
-        if tonumber(soundVole) > 0 then
-            AllSetGameInfo._6IsPlayEffect=true
-        else
-            AllSetGameInfo._6IsPlayEffect=false
-        end
-    end
-    if not AllSetGameInfo._6IsPlayEffect then
-        self.soundSet.value = 0;
-    else
-        if PlayerPrefs.HasKey("SoundValue") then
-            local soundVole = PlayerPrefs.GetString("SoundValue");
-            self.soundSet.value = tonumber(soundVole);
-        else
-            self.soundSet.value = 1;
-        end
-    end
+    --if not AllSetGameInfo._5IsPlayAudio then
+    --    self.musicSet.value = 0;
+    --else
+    --    if PlayerPrefs.HasKey("MusicValue") then
+    --        local musicVole = PlayerPrefs.GetString("MusicValue");
+    --        self.musicSet.value = tonumber(musicVole);
+    --    else
+    --        self.musicSet.value = 1;
+    --    end
+    --end
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    local soundVole = PlayerPrefs.GetString("SoundValue");
+    --    if tonumber(soundVole) > 0 then
+    --        AllSetGameInfo._6IsPlayEffect=true
+    --    else
+    --        AllSetGameInfo._6IsPlayEffect=false
+    --    end
+    --end
+    --if not AllSetGameInfo._6IsPlayEffect then
+    --    self.soundSet.value = 0;
+    --else
+    --    if PlayerPrefs.HasKey("SoundValue") then
+    --        local soundVole = PlayerPrefs.GetString("SoundValue");
+    --        self.soundSet.value = tonumber(soundVole);
+    --    else
+    --        self.soundSet.value = 1;
+    --    end
+    --end
+    self.musicSet.value = MusicManager:GetMusicVolume();
+    self.soundSet.value = MusicManager:GetSoundVolume();
     self:AddOnClick()-- 绑定按钮点击
     self.InitChipValue();
     -- 设置牛牛可以拖动选择
@@ -1524,37 +1526,41 @@ function TBNNPanel.ReSetBankerPos()
 end
 
 function TBNNPanel.SetMusicVolumn(value)
-    if value == 0 then
-        AllSetGameInfo._5IsPlayAudio = false;
-    else
-        AllSetGameInfo._5IsPlayAudio = true;
-    end
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("MusicValue", tostring(value));
-    if not PlayerPrefs.HasKey("MusicValue") then
-        PlayerPrefs.SetString("MusicValue", tostring(1));
-    end
-    local soundValue = tonumber(PlayerPrefs.GetString("MusicValue"));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    MusicManager:SetValue(soundValue, value);
+    --if value == 0 then
+    --    AllSetGameInfo._5IsPlayAudio = false;
+    --else
+    --    AllSetGameInfo._5IsPlayAudio = true;
+    --end
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("MusicValue", tostring(value));
+    --if not PlayerPrefs.HasKey("MusicValue") then
+    --    PlayerPrefs.SetString("MusicValue", tostring(1));
+    --end
+    --local soundValue = tonumber(PlayerPrefs.GetString("MusicValue"));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --MusicManager:SetValue(soundValue, value);
+    MusicManager:SetValue(MusicManager:GetSoundVolume(),value);
+    --TBNN_.pool.volume = value;
+    --MCDZZ_Audio.pool.mute = not MusicManager:GetIsPlayMV();
 end
 
 function TBNNPanel.SetSoundVolumn(value)
-    if value == 0 then
-        AllSetGameInfo._6IsPlayEffect = false;
-    else
-        AllSetGameInfo._6IsPlayEffect = true;
-    end
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("SoundValue", tostring(value));
-    if not PlayerPrefs.HasKey("SoundValue") then
-        PlayerPrefs.SetString("SoundValue", tostring(1));
-    end
-    local musicValue = tonumber(PlayerPrefs.GetString("SoundValue"));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    MusicManager:SetValue(musicValue,value);
+    --if value == 0 then
+    --    AllSetGameInfo._6IsPlayEffect = false;
+    --else
+    --    AllSetGameInfo._6IsPlayEffect = true;
+    --end
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("SoundValue", tostring(value));
+    --if not PlayerPrefs.HasKey("SoundValue") then
+    --    PlayerPrefs.SetString("SoundValue", tostring(1));
+    --end
+    --local musicValue = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --MusicManager:SetValue(musicValue,value);
+    MusicManager:SetValue(value,MusicManager:GetMusicVolume());
 end
 
 function TBNNPanel.WaitOpenTime()

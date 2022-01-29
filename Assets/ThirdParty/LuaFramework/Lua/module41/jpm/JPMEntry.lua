@@ -489,6 +489,7 @@ function JPMEntry.SetMusicVolumn(value)
     --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
     MusicManager:SetValue(MusicManager:GetSoundVolume(), value);
     JPM_Audio.pool.volume=value
+    JPM_Audio.pool.mute = not MusicManager:GetIsPlayMV();
 
 end
 function JPMEntry.SetSoundVolumn(value)

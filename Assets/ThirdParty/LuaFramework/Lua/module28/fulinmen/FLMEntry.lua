@@ -124,6 +124,8 @@ function FLMEntry.FindComponent()
     self.soundBtn = self.menulist:Find("Content/Sound"):GetComponent("Button");
     self.soundOn = self.soundBtn.transform:Find("On").gameObject;
     self.soundOff = self.soundBtn.transform:Find("Off").gameObject;
+    self.soundOn:SetActive(MusicManager:GetIsPlaySV() and MusicManager:GetIsPlayMV());
+    self.soundOff:SetActive(not (MusicManager:GetIsPlaySV() and MusicManager:GetIsPlayMV()));
     self.showRuleBtn = self.menulist:Find("Content/Rule"):GetComponent("Button");
     self.menulist:Find("Content").localPosition = Vector3.New(0, 800, 0);
     self.backgroundBtn.gameObject:SetActive(false);
@@ -377,7 +379,7 @@ function FLMEntry.CloseGameCall()
     Event.Brocast(MH.Game_LEAVE);
 end
 function FLMEntry.SetSoundCall()
-    if AllSetGameInfo._5IsPlayAudio or AllSetGameInfo._6IsPlayEffect then
+    if MusicManager:GetIsPlayMV() then
         SetInfoSystem.GameMute();
         self.soundOn:SetActive(false);
         self.soundOff:SetActive(true);
@@ -386,7 +388,7 @@ function FLMEntry.SetSoundCall()
         self.soundOn:SetActive(true);
         self.soundOff:SetActive(false);
     end
-    FLM_Audio.pool.mute = not AllSetGameInfo._5IsPlayAudio;
+    FLM_Audio.pool.mute = not MusicManager:GetIsPlayMV();
 end
 
 function FLMEntry.OnClickAutoCall()

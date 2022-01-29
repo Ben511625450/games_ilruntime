@@ -297,34 +297,36 @@ function AJDMXEntry.FindComponent()
     self.CSGroup = self.MainContent:Find("CSContent");--显示财神
     self.soundList = self.MainContent:Find("SoundList");--声音库
 
-    if not AllSetGameInfo._5IsPlayAudio then
-        self.musicSet.value = 0;
-    else
-        if PlayerPrefs.HasKey("MusicValue") then
-            local musicVole = PlayerPrefs.GetString("MusicValue");
-            self.musicSet.value = tonumber(musicVole);
-        else
-            self.musicSet.value = 1;
-        end
-    end
-    if PlayerPrefs.HasKey("SoundValue") then
-        local soundVole = PlayerPrefs.GetString("SoundValue");
-        if tonumber(soundVole) > 0 then
-            AllSetGameInfo._6IsPlayEffect=true
-        else
-            AllSetGameInfo._6IsPlayEffect=false
-        end
-    end
-    if not AllSetGameInfo._6IsPlayEffect then
-        self.soundSet.value = 0;
-    else
-        if PlayerPrefs.HasKey("SoundValue") then
-            local soundVole = PlayerPrefs.GetString("SoundValue");
-            self.soundSet.value = tonumber(soundVole);
-        else
-            self.soundSet.value = 1;
-        end
-    end
+    --if not AllSetGameInfo._5IsPlayAudio then
+    --    self.musicSet.value = 0;
+    --else
+    --    if PlayerPrefs.HasKey("MusicValue") then
+    --        local musicVole = PlayerPrefs.GetString("MusicValue");
+    --        self.musicSet.value = tonumber(musicVole);
+    --    else
+    --        self.musicSet.value = 1;
+    --    end
+    --end
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    local soundVole = PlayerPrefs.GetString("SoundValue");
+    --    if tonumber(soundVole) > 0 then
+    --        AllSetGameInfo._6IsPlayEffect=true
+    --    else
+    --        AllSetGameInfo._6IsPlayEffect=false
+    --    end
+    --end
+    --if not AllSetGameInfo._6IsPlayEffect then
+    --    self.soundSet.value = 0;
+    --else
+    --    if PlayerPrefs.HasKey("SoundValue") then
+    --        local soundVole = PlayerPrefs.GetString("SoundValue");
+    --        self.soundSet.value = tonumber(soundVole);
+    --    else
+    --        self.soundSet.value = 1;
+    --    end
+    --end
+    self.musicSet.value = MusicManager:GetMusicVolume();
+    self.soundSet.value = MusicManager:GetSoundVolume();
 end
 function AJDMXEntry.AddListener()
     --添加监听事件
@@ -552,50 +554,55 @@ end
 
 
 function AJDMXEntry.SetMusicVolumn(value)
-    if value == 0 then
-        AllSetGameInfo._5IsPlayAudio = false;
-        AJDMX_Audio.pool.mute = true;
-    else
-        AllSetGameInfo._5IsPlayAudio = true;
-        AJDMX_Audio.pool.mute = false;
-    end
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-
-    PlayerPrefs.SetString("MusicValue", tostring(value));
-
-    if not PlayerPrefs.HasKey("MusicValue") then
-        PlayerPrefs.SetString("MusicValue", tostring(1));
-    end
-    local soundValue = tonumber(PlayerPrefs.GetString("MusicValue"));
-    logYellow("soundValue=="..soundValue)
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    MusicManager:SetValue(soundValue, value);
-    AJDMX_Audio.pool.volume=value
+    --if value == 0 then
+    --    AllSetGameInfo._5IsPlayAudio = false;
+    --    AJDMX_Audio.pool.mute = true;
+    --else
+    --    AllSetGameInfo._5IsPlayAudio = true;
+    --    AJDMX_Audio.pool.mute = false;
+    --end
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --
+    --PlayerPrefs.SetString("MusicValue", tostring(value));
+    --
+    --if not PlayerPrefs.HasKey("MusicValue") then
+    --    PlayerPrefs.SetString("MusicValue", tostring(1));
+    --end
+    --local soundValue = tonumber(PlayerPrefs.GetString("MusicValue"));
+    --logYellow("soundValue=="..soundValue)
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --MusicManager:SetValue(soundValue, value);
+    --AJDMX_Audio.pool.volume=value
+    MusicManager:SetValue(MusicManager:GetSoundVolume(),value);
+    AJDMX_Audio.pool.volume = value;
+    AJDMX_Audio.pool.mute = not MusicManager:GetIsPlayMV();
 end
 function AJDMXEntry.SetSoundVolumn(value)
-    log(value)
+    --log(value)
+    --
+    --if value == 0 then
+    --    AllSetGameInfo._6IsPlayEffect = false;
+    --else
+    --    AllSetGameInfo._6IsPlayEffect = true;
+    --end
+    --logYellow("_6IsPlayEffect=="..tostring(AllSetGameInfo._6IsPlayEffect))
+    --
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --
+    --PlayerPrefs.SetString("SoundValue", tostring(value));
+    --
+    --if not PlayerPrefs.HasKey("SoundValue") then
+    --    PlayerPrefs.SetString("SoundValue", tostring(1));
+    --end
+    --local musicValue = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --logYellow("musicValue=="..musicValue)
+    --
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --MusicManager:SetValue(musicValue,value);
 
-    if value == 0 then
-        AllSetGameInfo._6IsPlayEffect = false;
-    else
-        AllSetGameInfo._6IsPlayEffect = true;
-    end
-    logYellow("_6IsPlayEffect=="..tostring(AllSetGameInfo._6IsPlayEffect))
-
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-
-    PlayerPrefs.SetString("SoundValue", tostring(value));
-
-    if not PlayerPrefs.HasKey("SoundValue") then
-        PlayerPrefs.SetString("SoundValue", tostring(1));
-    end
-    local musicValue = tonumber(PlayerPrefs.GetString("SoundValue"));
-    logYellow("musicValue=="..musicValue)
-
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    MusicManager:SetValue(musicValue,value);
+    MusicManager:SetValue(value,MusicManager:GetMusicVolume());
 end
 function AJDMXEntry.StartGameCall()
     --开始游戏

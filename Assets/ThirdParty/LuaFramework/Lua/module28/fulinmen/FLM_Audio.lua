@@ -35,8 +35,8 @@ function FLM_Audio.Init()
     self.pool = GameObject.New("AudioPool"):AddComponent(typeof(UnityEngine.AudioSource));
     self.pool.playOnAwake = false;
     self.pool.loop = true;
-    self.pool.volume = MusicManager.musicVolume;
-    self.pool.mute = not AllSetGameInfo._5IsPlayAudio;
+    self.pool.volume = MusicManager:GetMusicVolume();
+    self.pool.mute = not MusicManager:GetIsPlayMV();
     self.pool.transform:SetParent(FLMEntry.transform:Find("Content"));
 end
 function FLM_Audio.PlayBGM(mode)
@@ -57,14 +57,14 @@ function FLM_Audio.PlaySound(soundName, time)
     if soundName == nil then
         return ;
     end
-    local isPlay = AllSetGameInfo._6IsPlayEffect;
+    local rc = MusicManager:GetIsPlayMV();
     if not isPlay then
         return ;
     end
-    local volumn = 1;
-    if PlayerPrefs.HasKey("SoundValue") then
-        volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
-    end
+    local volumn = MusicManager:GetSoundVolume();
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --end
     local obj = FLMEntry.soundList:Find(soundName);
     if obj == nil then
         error("没有找到该音效");

@@ -20,14 +20,14 @@ function Module16_Audio.Init()
     self.pool = GameObject.New("AudioPool"):AddComponent(typeof(UnityEngine.AudioSource));
     self.pool.playOnAwake = false;
     self.pool.loop = true;
-    self.pool.volume = MusicManager.musicVolume;
-    self.pool.mute = not AllSetGameInfo._5IsPlayAudio;
+    self.pool.volume = MusicManager:GetMusicVolume();
+    self.pool.mute = not MusicManager:GetIsPlayMV();
     self.pool.transform:SetParent(Module16Entry.transform:Find("Content"));
 end
 function Module16_Audio.PlayBGM(mode)
     --播放bgm
     self.pool:Stop();
-    local rc = AllSetGameInfo._5IsPlayAudio;
+    local rc = MusicManager:GetIsPlayMV();
     local audioclip = nil;
     if mode == nil then
         audioclip = Module16Entry.soundList:Find(self.SoundList.BGM):GetComponent("AudioSource");
@@ -39,14 +39,14 @@ function Module16_Audio.PlayBGM(mode)
 end
 
 function Module16_Audio.PlaySound(soundName, time)
-    local isPlay = AllSetGameInfo._6IsPlayEffect;
+    local isPlay = MusicManager:GetIsPlaySV();
     if not isPlay then
         return ;
     end
-    local volumn = 1;
-    if PlayerPrefs.HasKey("SoundValue") then
-        volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
-    end
+    local volumn = MusicManager:GetSoundVolume();
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    volumn = tonumber(PlayerPrefs.GetString("SoundValue"));
+    --end
     local obj = Module16Entry.soundList:Find(soundName);
     if obj == nil then
         error("没有找到该音效 "..soundName);

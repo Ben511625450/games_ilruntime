@@ -576,29 +576,33 @@ function XYSGJEntry.StartGameCall()
 end
 
 function XYSGJEntry.SetMusicVolumn(value)
-    log(value)
-    if value == 0 then
-        AllSetGameInfo._5IsPlayAudio = false;
-        XYSGJ_Audio.pool.mute = true;
-    else
-        AllSetGameInfo._5IsPlayAudio = true;
-        XYSGJ_Audio.pool.mute = false;
-    end
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("MusicValue", tostring(value));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --log(value)
+    --if value == 0 then
+    --    AllSetGameInfo._5IsPlayAudio = false;
+    --    XYSGJ_Audio.pool.mute = true;
+    --else
+    --    AllSetGameInfo._5IsPlayAudio = true;
+    --    XYSGJ_Audio.pool.mute = false;
+    --end
+    MusicManager:SetValue(MusicManager:GetSoundVolume(),value);
+    XYSGJ_Audio.pool.volume = value;
+    XYSGJ_Audio.pool.mute = not MusicManager:GetIsPlayMV();
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("MusicValue", tostring(value));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
 end
 function XYSGJEntry.SetSoundVolumn(value)
-    if value == 0 then
-        AllSetGameInfo._6IsPlayEffect = false;
-    else
-        AllSetGameInfo._6IsPlayEffect = true;
-    end
-    Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("SoundValue", tostring(value));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    --if value == 0 then
+    --    AllSetGameInfo._6IsPlayEffect = false;
+    --else
+    --    AllSetGameInfo._6IsPlayEffect = true;
+    --end
+    --Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("SoundValue", tostring(value));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    MusicManager:SetValue(value,MusicManager:GetMusicVolume());
 end
 
 function XYSGJEntry.ClickMenuCall()

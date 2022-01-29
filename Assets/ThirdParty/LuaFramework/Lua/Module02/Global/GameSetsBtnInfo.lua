@@ -133,29 +133,29 @@ function GameSetsBtnInfo.BgMusicBtnOnClick(value1)
         isInitM = false
         return 
     end
-    HallScenPanel.PlayeBtnMusic()
+    --HallScenPanel.PlayeBtnMusic()
     local value=value1;
-    --if value1 then
-    --    value=1
+    ----if value1 then
+    ----    value=1
+    ----else
+    ----    value=0
+    ----end ;
+    --
+    --local isplay = AllSetGameInfo._5IsPlayAudio;
+    --if value == 0 then
+    --    AllSetGameInfo._5IsPlayAudio = false;
     --else
-    --    value=0
-    --end ;
+    --    AllSetGameInfo._5IsPlayAudio = true;
+    --end
+    --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+    --PlayerPrefs.SetString("MusicValue", tostring(value));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
 
-    local isplay = AllSetGameInfo._5IsPlayAudio;
-    if value == 0 then
-        AllSetGameInfo._5IsPlayAudio = false;
-    else
-        AllSetGameInfo._5IsPlayAudio = true;
-    end
-    Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-    PlayerPrefs.SetString("MusicValue", tostring(value));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-
-    local soundValue = 1
-    if PlayerPrefs.HasKey("SoundValue") then
-        soundValue = PlayerPrefs.GetString("SoundValue");
-    end
+    local soundValue = MusicManager:GetSoundVolume();
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    soundValue = PlayerPrefs.GetString("SoundValue");
+    --end
     MusicManager:SetValue(tonumber(soundValue), tonumber(value))
 end
 --> (点击事件) 设置静音
@@ -174,20 +174,20 @@ function GameSetsBtnInfo.BgSoundBtnOnClick(value1)
     --else
     --    value=0
     --end ;
-    if value == 0 then
-        AllSetGameInfo._6IsPlayEffect = false;
-    else
-        AllSetGameInfo._6IsPlayEffect = true;
-    end
-    Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-    PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-
-    PlayerPrefs.SetString("SoundValue", tostring(value));
-    GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
-    local musicValue = 1
-    if PlayerPrefs.HasKey("MusicValue") then
-        musicValue = PlayerPrefs.GetString("MusicValue");
-    end
+    --if value == 0 then
+    --    AllSetGameInfo._6IsPlayEffect = false;
+    --else
+    --    AllSetGameInfo._6IsPlayEffect = true;
+    --end
+    --Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+    --PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+    --
+    --PlayerPrefs.SetString("SoundValue", tostring(value));
+    --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+    local musicValue = MusicManager:GetMusicVolume();
+    --if PlayerPrefs.HasKey("MusicValue") then
+    --    musicValue = PlayerPrefs.GetString("MusicValue");
+    --end
     MusicManager:SetValue(tonumber(value), tonumber(musicValue))
 end
 
@@ -241,23 +241,23 @@ end
 
 -- 设置按钮点击事件
 function GameSetsBtnInfo.SetBtnOnClick()
-    HallScenPanel.PlayeBtnMusic();
-    if PlayerPrefs.HasKey("SoundValue") then
-        local soundVole = PlayerPrefs.GetString("SoundValue");
-        if tonumber(soundVole) > 0 then
-            AllSetGameInfo._6IsPlayEffect=true
-        else
-            AllSetGameInfo._6IsPlayEffect=false
-        end
-    end
-    if PlayerPrefs.HasKey("MusicValue") then
-        local musicValue = PlayerPrefs.GetString("MusicValue");
-        if tonumber(musicValue) > 0 then
-            AllSetGameInfo._5IsPlayAudio=true
-        else
-            AllSetGameInfo._5IsPlayAudio=false
-        end
-    end
+    --HallScenPanel.PlayeBtnMusic();
+    --if PlayerPrefs.HasKey("SoundValue") then
+    --    local soundVole = PlayerPrefs.GetString("SoundValue");
+    --    if tonumber(soundVole) > 0 then
+    --        AllSetGameInfo._6IsPlayEffect=true
+    --    else
+    --        AllSetGameInfo._6IsPlayEffect=false
+    --    end
+    --end
+    --if PlayerPrefs.HasKey("MusicValue") then
+    --    local musicValue = PlayerPrefs.GetString("MusicValue");
+    --    if tonumber(musicValue) > 0 then
+    --        AllSetGameInfo._5IsPlayAudio=true
+    --    else
+    --        AllSetGameInfo._5IsPlayAudio=false
+    --    end
+    --end
     logYellow("_5IsPlayAudio=="..tostring(AllSetGameInfo._5IsPlayAudio))
     --if AllSetGameInfo._5IsPlayAudio == false then
     --    self.BgMusicOpenBtn.isOn=false

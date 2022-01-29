@@ -228,12 +228,12 @@ function OneWPBYEntry.OpenSettingPanel()
     self.moveGroup.gameObject:SetActive(false);
     self.settingPanel.gameObject:SetActive(true);
     self.openMoveGroup.isOn = false;
-    if not PlayerPrefs.HasKey("MusicValue") then
-        PlayerPrefs.SetString("MusicValue", "1");
-    end
-    if not PlayerPrefs.HasKey("SoundValue") then
-        PlayerPrefs.SetString("SoundValue", "1");
-    end
+    --if not PlayerPrefs.HasKey("MusicValue") then
+    --    PlayerPrefs.SetString("MusicValue", "1");
+    --end
+    --if not PlayerPrefs.HasKey("SoundValue") then
+    --    PlayerPrefs.SetString("SoundValue", "1");
+    --end
     local musicvalue = tonumber(PlayerPrefs.GetString("MusicValue"));
     local soundvalue = tonumber(PlayerPrefs.GetString("SoundValue"));
     if AllSetGameInfo._5IsPlayAudio then
@@ -247,29 +247,33 @@ function OneWPBYEntry.OpenSettingPanel()
     else
         self.soundSet.value = 0;
     end
+    self.musicSet.value = MusicManager:GetMusicVolume();
+    self.soundSet.value = MusicManager:GetSoundVolume();
     self.luaBehaviour:AddSliderEvent(self.musicSet.gameObject, function(value)
-        PlayerPrefs.SetString("MusicValue", tostring(value));
-        if value <= 0 then
-            AllSetGameInfo._5IsPlayAudio = false;
-        else
-            AllSetGameInfo._5IsPlayAudio = true;
-        end
-        Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
-        PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+        --PlayerPrefs.SetString("MusicValue", tostring(value));
+        --if value <= 0 then
+        --    AllSetGameInfo._5IsPlayAudio = false;
+        --else
+        --    AllSetGameInfo._5IsPlayAudio = true;
+        --end
+        --Util.Write("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+        --PlayerPrefs.SetString("IsPlayAudio", tostring(AllSetGameInfo._5IsPlayAudio));
+        MusicManager:SetValue(MusicManager:GetSoundVolume(), tonumber(value));
         OneWPBY_Audio.pool.volume = value;
-        OneWPBY_Audio.pool.mute = not AllSetGameInfo._5IsPlayAudio;
-        GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+        OneWPBY_Audio.pool.mute = not MusicManager:GetIsPlayMV();
+        --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
     end);
     self.luaBehaviour:AddSliderEvent(self.soundSet.gameObject, function(value)
-        PlayerPrefs.SetString("SoundValue", tostring(value));
-        if value <= 0 then
-            AllSetGameInfo._6IsPlayEffect = false;
-        else
-            AllSetGameInfo._6IsPlayEffect = true;
-        end
-        Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-        PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
-        GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
+        MusicManager:SetValue(tonumber(value),MusicManager:GetMusicVolume());
+        --PlayerPrefs.SetString("SoundValue", tostring(value));
+        --if value <= 0 then
+        --    AllSetGameInfo._6IsPlayEffect = false;
+        --else
+        --    AllSetGameInfo._6IsPlayEffect = true;
+        --end
+        --Util.Write("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+        --PlayerPrefs.SetString("isCanPlaySound", tostring(AllSetGameInfo._6IsPlayEffect));
+        --GameManager.SetIsPlayMute(AllSetGameInfo._6IsPlayEffect, AllSetGameInfo._5IsPlayAudio);
     end);
     self.closeSet.onClick:RemoveAllListeners();
     self.closeSet.onClick:AddListener(function()
