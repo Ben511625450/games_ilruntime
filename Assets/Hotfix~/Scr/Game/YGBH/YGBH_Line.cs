@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 using Transform = UnityEngine.Transform;
 
 namespace Hotfix.YGBH
@@ -39,10 +40,6 @@ namespace Hotfix.YGBH
 
         private List<List<Transform>> showItemTable1;   //展示元素列表
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
         protected override void Start()
         {
             base.Start();
@@ -110,20 +107,18 @@ namespace Hotfix.YGBH
             StartShowTime = 0;
             for (int i = 0; i < YGBHEntry.Instance.GameData.ResultData.LineTypeTable.Count; i++)
             {
-                if (YGBHEntry.Instance.GameData.ResultData.LineTypeTable[i][0] != 0)
-                {
-                    showTable.Add(i);
-                    int count = 0;
+                if (YGBHEntry.Instance.GameData.ResultData.LineTypeTable[i][0] == 0) continue;
+                showTable.Add(i);
+                int count = 0;
 
-                    for (int j = 0; j < YGBHEntry.Instance.GameData.ResultData.LineTypeTable[i].Count; j++)
+                for (int j = 0; j < YGBHEntry.Instance.GameData.ResultData.LineTypeTable[i].Count; j++)
+                {
+                    if (YGBHEntry.Instance.GameData.ResultData.LineTypeTable[i][j] != 0)
                     {
-                        if (YGBHEntry.Instance.GameData.ResultData.LineTypeTable[i][j] != 0)
-                        {
-                            count = count + 1;
-                        }
+                        count += 1;
                     }
-                    showCount.Add(count);
                 }
+                showCount.Add(count);
             }
             YGBHEntry.Instance.WinDesc.text = $"中{showCount.Count}线";
             isWait = true;
@@ -165,7 +160,7 @@ namespace Hotfix.YGBH
             base.Update();
             if (isWait)
             {
-                StartShowTime = StartShowTime + Time.deltaTime;
+                StartShowTime += Time.deltaTime;
                 if (StartShowTime >= YGBH_DataConfig.waitShowLineTime)
                 {
                     StartShowTime = 0;
@@ -176,43 +171,35 @@ namespace Hotfix.YGBH
                 }
             }
 
-            if (isShow)
+            if (!isShow) return;
+            showTime += Time.deltaTime;
+            if (currentShow == 0)
             {
-
-                showTime = showTime + Time.deltaTime;
-                if (currentShow == 0)
+                if (!(showTime >= YGBH_DataConfig.lineAllShowTime)) return;
+                showTime = 0;
+                if (showTable.Count == 1)
                 {
-                    if (showTime >= YGBH_DataConfig.lineAllShowTime)
-                    {
-                        showTime = 0;
-                        if (showTable.Count == 1)
-                        {
-                            return;
-                        }
-                        currentShow = currentShow + 1;
-                        if (currentShow > showTable.Count)
-                        {
-                            currentShow = 1;
-                        }
-                        CloseAll();
-                        ShowSingle();
-                    }
+                    return;
                 }
-                else
+                currentShow += 1;
+                if (currentShow > showTable.Count)
                 {
-                    if (showTime >= YGBH_DataConfig.cyclePlayLineTime)
-                    {
-                        showTime = 0;
-                        CloseSingle();
-                        currentShow = currentShow + 1;
-                        if (currentShow > showTable.Count)
-                        {
-                            currentShow = 1;
-                        }
-                        ShowSingle();
-
-                    }
+                    currentShow = 1;
                 }
+                CloseAll();
+                ShowSingle();
+            }
+            else
+            {
+                if (!(showTime >= YGBH_DataConfig.cyclePlayLineTime)) return;
+                showTime = 0;
+                CloseSingle();
+                currentShow += 1;
+                if (currentShow > showTable.Count)
+                {
+                    currentShow = 1;
+                }
+                ShowSingle();
             }
         }
 
@@ -228,11 +215,9 @@ namespace Hotfix.YGBH
                 Transform childRoll = YGBHEntry.Instance.RollContent.GetChild(i).GetComponent<ScrollRect>().content;
                 for (int j = 0; j < childRoll.childCount; j++)
                 {
-                    if (childRoll.GetChild(j - 1).gameObject.name == "Ball")
-                    {
-                        tempTable.Add(childRoll.GetChild(j - 1));
-                        tempTable1.Add(YGBHEntry.Instance.CSGroup.GetChild(i).GetChild(j));
-                    }
+                    if (childRoll.GetChild(j - 1).gameObject.name != "Ball") continue;
+                    tempTable.Add(childRoll.GetChild(j - 1));
+                    tempTable1.Add(YGBHEntry.Instance.CSGroup.GetChild(i).GetChild(j));
                 }
             }
             showItemTable.Add(tempTable);
@@ -289,21 +274,14 @@ namespace Hotfix.YGBH
                 showItemTable.Add(tempTable);
             }
 
-            if (YGBHEntry.Instance.GameData.hasNewSP)
+            if (!YGBHEntry.Instance.GameData.hasNewSP) return;
             {
                 int index = 0;
                 for (int i = 0; i < spPosList.Count; i++)
                 {
-                    GameObject child;
-                    if (i >= YGBHEntry.Instance.dlLightGroup.childCount)
-                    {
-                        child = GameObject.Instantiate(YGBHEntry.Instance.dlLightGroup.GetChild(0).gameObject);
-                        child.transform.SetParent(YGBHEntry.Instance.dlLightGroup);
-                    }
-                    else
-                    {
-                        child = YGBHEntry.Instance.dlLightGroup.GetChild(i).gameObject;
-                    }
+                    GameObject child = i >= YGBHEntry.Instance.dlLightGroup.childCount 
+                        ? Object.Instantiate(YGBHEntry.Instance.dlLightGroup.GetChild(0).gameObject, YGBHEntry.Instance.dlLightGroup, false) 
+                        : YGBHEntry.Instance.dlLightGroup.GetChild(i).gameObject;
                     child.transform.localScale = Vector3.one;
                     List<float> pos = YGBH_DataConfig.rollPoss[spPosList[i]];
                     child.transform.localPosition = new Vector3(pos[0], pos[1], pos[2]);
@@ -312,11 +290,9 @@ namespace Hotfix.YGBH
                     {
                         child.transform.DOScale(new Vector3(3, 3, 3), 0.5f).OnComplete(() =>
                         {
-                            DebugHelper.Log("hasNewSP555555555555");
                             if (index == 0)
                             {
                                 index++;
-                                DebugHelper.Log("hasNewSP66666666666");
                                 YGBHEntry.Instance.smallSPRealCount = 0;
                                 for (int j = 0; j < YGBHEntry.Instance.GameData.SceneData.smallGameTrack.Count; j++)
                                 {
@@ -325,13 +301,11 @@ namespace Hotfix.YGBH
                                         YGBHEntry.Instance.smallSPRealCount = YGBHEntry.Instance.smallSPRealCount + 1;
                                     }
                                 }
-                                DebugHelper.Log("hasNewSP77777777777777");
 
                                 for (int j = 0; j < YGBHEntry.Instance.smallSPCount; j++)
                                 {
                                     YGBHEntry.Instance.dlBtn.transform.GetChild(j).gameObject.SetActive(true);
                                 }
-                                DebugHelper.Log("hasNewSP888888888888");
 
                                 YGBHEntry.Instance.zpProgress.text = YGBHEntry.Instance.smallSPRealCount + "/6";
                                 for (int j = 0; j < YGBHEntry.Instance.GameData.SceneData.smallGameTrack.Count; j++)
@@ -347,7 +321,6 @@ namespace Hotfix.YGBH
                                         YGBHEntry.Instance.smallGoldGroup.GetChild(j).GetComponent<TextMeshProUGUI>().text = "";
                                     }
                                 }
-                                DebugHelper.Log("hasNewSP9999999999999");
 
                                 if (YGBHEntry.Instance.smallSPCount >= 8)
                                 {
@@ -428,7 +401,7 @@ namespace Hotfix.YGBH
             if (go != null) return go.gameObject;
 
             go = YGBHEntry.Instance.effectList.Find(effectName);
-            GameObject _go = GameObject.Instantiate(go.gameObject);
+            GameObject _go = Object.Instantiate(go.gameObject);
             return _go;
         }
     }

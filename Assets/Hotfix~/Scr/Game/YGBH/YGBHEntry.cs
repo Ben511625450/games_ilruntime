@@ -140,7 +140,6 @@ namespace Hotfix.YGBH
             scatterList = new List<Transform>();
             userHead.sprite = ILGameManager.Instance.GetHeadIcon();
             userName.text = GameLocalMode.Instance.SCPlayerInfo.NickName;
-            isRoll = true;
         }
         protected override void OnDestroy()
         {
@@ -433,18 +432,13 @@ namespace Hotfix.YGBH
                 }
             }
 
-            if (GameData.CurrentAutoCount > 1000)
-                autoText.text = "∞";
-            else
-                autoText.text = GameData.CurrentAutoCount.ToString();
+            autoText.text = GameData.CurrentAutoCount > 1000 ? "∞" : GameData.CurrentAutoCount.ToString();
 
-            if (isRoll && !GameData.isFreeGame) 
-            {
-                //没有转动的状态开始自动旋转
-                DebugHelper.Log("开始自动游戏");
-                hsm?.ChangeState(nameof(AutoRollState));
-                //YGBH_Network.Instance.StartGame();
-            }
+            if (isRoll || GameData.isFreeGame) return;
+            //没有转动的状态开始自动旋转
+            DebugHelper.Log("开始自动游戏");
+            hsm?.ChangeState(nameof(AutoRollState));
+            //YGBH_Network.Instance.StartGame();
         }
 
         private void CloseZP()
@@ -467,7 +461,7 @@ namespace Hotfix.YGBH
                 {
                     if (i< GameData.SceneData.smallGameTrack.Count-2)
                     {
-                        smallSPRealCount =smallSPRealCount + 1;
+                        smallSPRealCount += 1;
                     }
                     maskGroup.GetChild(index-1).GetComponent<Image>().enabled = false;
                     smallGoldGroup.GetChild(index-1).GetComponent<TextMeshProUGUI>().text = GameData.SceneData.smallGameTrack[i].ToString();
@@ -499,7 +493,7 @@ namespace Hotfix.YGBH
 
         }
 
-
+        private Coroutine _coroutine;
         public void RollZP()
         {
            currentSmallRollIndex = 0;
@@ -508,11 +502,11 @@ namespace Hotfix.YGBH
            smallTempRollTimer = YGBH_DataConfig.smallRollDurationTime;
            isLastCycle = false;
            gbObj.transform.SetParent(maskGroup.GetChild(currentSmallRollIndex));
-           gbObj.transform.localPosition = new Vector3(YGBH_DataConfig.smallLighIconPos[1], YGBH_DataConfig.smallLighIconPos[2], YGBH_DataConfig.smallLighIconPos[3]);
+           gbObj.transform.localPosition = new Vector3(YGBH_DataConfig.smallLighIconPos[0], YGBH_DataConfig.smallLighIconPos[1], YGBH_DataConfig.smallLighIconPos[2]);
            gbObj.transform.localRotation = Quaternion.Euler(0, 0, YGBH_DataConfig.smallLighIconAngle);
            gbObj.gameObject.SetActive(true);
-           Behaviour.StopCoroutine(StartRollSmallGame());
-           Behaviour.StartCoroutine(StartRollSmallGame());
+           if (_coroutine != null) Behaviour.StopCoroutine(_coroutine);
+          _coroutine= Behaviour.StartCoroutine(StartRollSmallGame());
         }
 
         IEnumerator StartRollSmallGame()
@@ -522,13 +516,13 @@ namespace Hotfix.YGBH
             int currentPos = 0;
             for (int i = 0; i < needMove; i++)
             {
-                currentPos = currentPos + 1;
+                currentPos += 1;
                 if (currentPos>8)
                 {
-                    currentPos = currentPos - 8;
+                    currentPos -= 8;
                 }
                 gbObj.transform.SetParent(maskGroup.GetChild(currentPos - 1));
-                gbObj.transform.localPosition = new Vector3(YGBH_DataConfig.smallLighIconPos[1], YGBH_DataConfig.smallLighIconPos[2], YGBH_DataConfig.smallLighIconPos[3]);
+                gbObj.transform.localPosition = new Vector3(YGBH_DataConfig.smallLighIconPos[0], YGBH_DataConfig.smallLighIconPos[1], YGBH_DataConfig.smallLighIconPos[2]);
                 gbObj.transform.localRotation = Quaternion.Euler(0, 0, YGBH_DataConfig.smallLighIconAngle);
                 YGBH_Audio.Instance.PlaySound(YGBH_Audio.RS);
                 if (needMove - i > 6)
@@ -608,10 +602,7 @@ namespace Hotfix.YGBH
         IEnumerator showDescFunc(SkeletonGraphic selectObj, SkeletonGraphic unselectObj, int index) 
         {
             Transform backImg = freePanel.FindChildDepth("Background");
-            if (GameData.m_FreeType == 13)
-                freePanel.GetComponent<Animator>().SetTrigger("ZX");
-            else
-                freePanel.GetComponent<Animator>().SetTrigger("BJJ");
+            freePanel.GetComponent<Animator>().SetTrigger(GameData.m_FreeType == 13 ? "ZX" : "BJJ");
 
             while (backImg.gameObject.activeSelf)
             {
@@ -624,22 +615,18 @@ namespace Hotfix.YGBH
                 {
                     for (int i = GameData.SceneData.nFreeIcon_lie.Count-1; i >= 0; i--)
                     {
-                        if (GameData.SceneData.nFreeIcon_lie[i] > 0)
-                        {
-                            CSGroup.GetChild(i).FindChildDepth("Item").gameObject.SetActive(true);
-                            yield return new WaitForSeconds(0.1f);
-                        }
+                        if (GameData.SceneData.nFreeIcon_lie[i] <= 0) continue;
+                        CSGroup.GetChild(i).FindChildDepth("Item").gameObject.SetActive(true);
+                        yield return new WaitForSeconds(0.1f);
                     }
                 }
                 else
                 {
                     for (int i = GameData.ResultData.m_nIconLie.Count-1; i >= 0; i--)
                     {
-                        if (GameData.ResultData.m_nIconLie[i] > 0)
-                        {
-                            CSGroup.GetChild(i).FindChildDepth("Item").gameObject.SetActive(true);
-                            yield return new WaitForSeconds(0.1f);
-                        }
+                        if (GameData.ResultData.m_nIconLie[i] <= 0) continue;
+                        CSGroup.GetChild(i).FindChildDepth("Item").gameObject.SetActive(true);
+                        yield return new WaitForSeconds(0.1f);
                     }
                 }
                 YGBH_Audio.Instance.PlayBGM(YGBH_Audio.BGM_ZX);
@@ -797,11 +784,6 @@ namespace Hotfix.YGBH
             WinNum.text = "0";
         }
 
-        public void FQGY_Event_ShowResultNum(bool b)
-        {
-            isRoll = b;
-        }
-
         /// <summary>
         /// 加注
         /// </summary>
@@ -809,7 +791,7 @@ namespace Hotfix.YGBH
         {
            // YGBH_Audio.Instance.PlaySound(YGBH_Audio.ADDBET);
             //加注
-            GameData.CurrentChipIndex = GameData.CurrentChipIndex + 1;
+            GameData.CurrentChipIndex += 1;
             if (GameData.CurrentChipIndex >= GameData.SceneData.chipList.Count)
             {
                 GameData.CurrentChipIndex = 0;
@@ -824,7 +806,7 @@ namespace Hotfix.YGBH
         private void ReduceChipCall()
         {
             //YGBH_Audio.Instance.PlaySound(YGBH_Audio.REDUCEBET);
-            GameData.CurrentChipIndex = GameData.CurrentChipIndex - 1;
+            GameData.CurrentChipIndex -= 1;
             if (GameData.CurrentChipIndex <= 0) 
             {
                 GameData.CurrentChipIndex = GameData.SceneData.chipList.Count-1;
@@ -878,8 +860,9 @@ namespace Hotfix.YGBH
             autoEffect.gameObject.SetActive(false);
             clickStartTimer =0;
             if (GameData.isFreeGame || GameData.isAutoGame) return;
-            if (!isRoll)
+            if (isRoll)
             {
+                if (hsm.CurrentStateName != nameof(WaitStopState)) return;
                 StopGame();
                 startBtn.gameObject.SetActive(true);
                 stopBtn.gameObject.SetActive(false);
@@ -893,14 +876,8 @@ namespace Hotfix.YGBH
                 ToolHelper.PopBigWindow(new BigMessage()
                 {
                     content = "金币不足,请充值",
-                    okCall = delegate ()
-                    {
-                        YGBH_Event.DispatchRollFailed();
-                    },
-                    cancelCall = delegate ()
-                    {
-                        YGBH_Event.DispatchRollFailed();
-                    }
+                    okCall = YGBH_Event.DispatchRollFailed,
+                    cancelCall = YGBH_Event.DispatchRollFailed
                 });
                 return;
             }
@@ -909,8 +886,8 @@ namespace Hotfix.YGBH
 
         private void StopGame()
         {
+            if (hsm.CurrentStateName != nameof(WaitStopState)) return;
             YGBH_Audio.Instance.PlaySound(YGBH_Audio.BTN);
-            startBtn.interactable = false;
             YGBH_Event.DispatchStopRoll(true);
         }
         /// <summary>
@@ -960,11 +937,9 @@ namespace Hotfix.YGBH
         private void OnClickAutoCall()
         {
             YGBH_Audio.Instance.PlaySound(YGBH_Audio.BTN);
-            if (GameData.isAutoGame)
-            {
-                StopAutoGame();
-                return;
-            }
+            if (!GameData.isAutoGame) return;
+            StopAutoGame();
+            return;
             //点击自动开始
             //AutoStartCall();
         }
@@ -1010,26 +985,22 @@ namespace Hotfix.YGBH
 
         private void AutoSelectFree()
         {
-            if (isshowFree)
+            if (!isshowFree) return;
+            showFreeTimer -= Time.deltaTime;
+            if (showFreeTimer < 6 && showFreeTimer > 0)
             {
-                showFreeTimer = showFreeTimer - Time.deltaTime;
-                if (showFreeTimer < 6 && showFreeTimer > 0)
+                if (freedownTime.text != ToolHelper.ShowRichText(Mathf.Ceil(showFreeTimer)))
                 {
-                    if (freedownTime.text != ToolHelper.ShowRichText(Mathf.Ceil(showFreeTimer)))
-                    {
-                        YGBH_Audio.Instance.PlaySound(YGBH_Audio.TIMEDOWN);
-                    }
-                }
-
-                freedownTime.text = ToolHelper.ShowRichText(Mathf.Ceil(showFreeTimer));
-                if (showFreeTimer <= 0)
-                {
-                    //默认选择
-                    showFreeTimer = YGBH_DataConfig.freeWaitTime;
-                    freedownTime.gameObject.SetActive(false);
-                    OnSelectFreeTypeCall(freeSelectOne, freeSelectTwo, 1);
+                    YGBH_Audio.Instance.PlaySound(YGBH_Audio.TIMEDOWN);
                 }
             }
+
+            freedownTime.text = ToolHelper.ShowRichText(Mathf.Ceil(showFreeTimer));
+            if (!(showFreeTimer <= 0)) return;
+            //默认选择
+            showFreeTimer = YGBH_DataConfig.freeWaitTime;
+            freedownTime.gameObject.SetActive(false);
+            OnSelectFreeTypeCall(freeSelectOne, freeSelectTwo, 1);
         }
 
 
@@ -1057,6 +1028,7 @@ namespace Hotfix.YGBH
                 owner.AutoStartBtn.gameObject.SetActive(false);
                 owner.stopBtn.gameObject.SetActive(false);
                 owner.WinNum.text = "0";
+                owner.isRoll = false;
             }
         }
         /// <summary>
@@ -1083,10 +1055,8 @@ namespace Hotfix.YGBH
                 YGBH_Event.DispatchRefreshGold((long)GameLocalMode.Instance.UserGameInfo.Gold);
                 if (owner.GameData.SceneData.bet != 0)
                 {
-                   owner.GameData.CurrentChipIndex= owner.GameData.SceneData.chipList.FindListIndex(delegate (int match)
-                    {
-                        return match == owner.GameData.SceneData.bet;
-                    });
+                   owner.GameData.CurrentChipIndex= owner.GameData.SceneData.chipList.FindListIndex(match =>
+                       match == owner.GameData.SceneData.bet);
                 }
                 else
                 {
@@ -1134,14 +1104,12 @@ namespace Hotfix.YGBH
 
                     for (int i = 0; i < owner.GameData.SceneData.smallGameTrack.Count; i++)
                     {
-                        if (owner.GameData.SceneData.smallGameTrack[i] > 0)
+                        if (owner.GameData.SceneData.smallGameTrack[i] <= 0) continue;
+                        if (i<=owner.GameData.SceneData.smallGameTrack.Count-1)
                         {
-                            if (i<=owner.GameData.SceneData.smallGameTrack.Count-1)
-                            {
-                                owner.smallSPRealCount = owner.smallSPRealCount + 1;
-                            }
-                            owner.smallSPCount = owner.smallSPCount + 1;
+                            owner.smallSPRealCount += 1;
                         }
+                        owner.smallSPCount += 1;
                     }
                     for (int i = 0; i < owner.smallSPCount; i++)
                     {
@@ -1222,6 +1190,8 @@ namespace Hotfix.YGBH
                         Check();
                         return;
                     }
+
+                    owner.isRoll = false;
                     hsm?.ChangeState(nameof(AutoRollState));
                     return;
                 }
@@ -1240,14 +1210,12 @@ namespace Hotfix.YGBH
             {
                 base.OnEnter();
 
-                if (!owner.isRoll)
-                {
-                    return;
-                }
+                if (owner.isRoll) return;
                 owner.startBtn.interactable=false;
                 owner.addChipBtn.interactable = false;
                 owner.reduceChipBtn.interactable = false;
                 owner.MaxChipBtn.interactable = false;
+                owner.isRoll = true;
                 YGBH_Network.Instance.StartGame();
             }
         }
@@ -1256,11 +1224,6 @@ namespace Hotfix.YGBH
         {
             public WaitStopState(YGBHEntry owner, HierarchicalStateMachine hsm) : base(owner, hsm)
             {
-            }
-            public override void OnEnter()
-            {
-                base.OnEnter();
-                //owner.stopState.interactable = true;
             }
         }
         /// <summary>
@@ -1278,15 +1241,10 @@ namespace Hotfix.YGBH
                 owner.addChipBtn.interactable = false;
                 owner.reduceChipBtn.interactable = false;
                 owner.MaxChipBtn.interactable = false;
-                if (!owner.isRoll)
-                {
-                    return;
-                }
+                owner.GameData.isAutoGame = true;
+                if (owner.isRoll) return;
+                owner.isRoll = true;
                 YGBH_Network.Instance.StartGame();
-            }
-            public override void Update()
-            {
-                base.Update();
             }
         }
 
@@ -1316,16 +1274,12 @@ namespace Hotfix.YGBH
             public override void Update()
             {
                 base.Update();
-                if (isEnterFreeGame)
-                {
-                    _time += Time.deltaTime;
-                    if (_time>=1.5f)
-                    {
-                        isEnterFreeGame = false;
-                        _time = 0;
-                        hsm?.ChangeState(nameof(CheckState));
-                    }
-                }
+                if (!isEnterFreeGame) return;
+                _time += Time.deltaTime;
+                if (!(_time >= 1.5f)) return;
+                isEnterFreeGame = false;
+                _time = 0;
+                hsm?.ChangeState(nameof(CheckState));
             }
         }
         /// <summary>
@@ -1352,10 +1306,6 @@ namespace Hotfix.YGBH
                 owner.MaxChipBtn.interactable = false;
                 owner.GameData.isFreeGame = true;
                 YGBH_Network.Instance.StartGame();
-            }
-            public override void Update()
-            {
-                base.Update();
             }
         }
         /// <summary>

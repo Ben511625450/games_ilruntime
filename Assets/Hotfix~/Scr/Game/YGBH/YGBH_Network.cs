@@ -8,7 +8,6 @@ namespace Hotfix.YGBH
     /// </summary>
     public class YGBH_Network : SingletonILEntity<YGBH_Network>
     {
-        bool isCbRerun = false;
         protected override void Awake()
         {
             base.Awake();
@@ -48,22 +47,13 @@ namespace Hotfix.YGBH
         /// </summary>
         public void StartGame()
         {
-            YGBHEntry.Instance.FQGY_Event_ShowResultNum(false);
-            DebugHelper.Log($"TJZEntry.Instance.GameData.myGold:{YGBHEntry.Instance.GameData.myGold}");
-            DebugHelper.Log($"TJZEntry:{YGBHEntry.Instance.GameData.CurrentChip * YGBH_DataConfig.ALLLINECOUNT}");
             if (YGBHEntry.Instance.GameData.myGold < YGBHEntry.Instance.GameData.CurrentChip * YGBH_DataConfig.ALLLINECOUNT && !YGBHEntry.Instance.GameData.isFreeGame)
             {
                 ToolHelper.PopBigWindow(new BigMessage()
                 {
                     content = "金币不足,请充值",
-                    okCall = delegate ()
-                    {
-                        YGBH_Event.DispatchRollFailed();
-                    },
-                    cancelCall = delegate ()
-                    {
-                        YGBH_Event.DispatchRollFailed();
-                    }
+                    okCall = YGBH_Event.DispatchRollFailed,
+                    cancelCall = YGBH_Event.DispatchRollFailed
                 });
                 return;
             }
@@ -73,8 +63,8 @@ namespace Hotfix.YGBH
                 YGBH_Event.DispatchRefreshGold(YGBHEntry.Instance.GameData.myGold);
             }
 
-            YGBH_Struct.CMD_3D_CS_StartGame _StartGame = new YGBH_Struct.CMD_3D_CS_StartGame(YGBHEntry.Instance.GameData.CurrentChip,YGBH_DataConfig.ALLLINECOUNT);
-            HotfixGameComponent.Instance.Send(DataStruct.GameStruct.MDM_GF_GAME, YGBH_Struct.SUB_CS_GAME_START, _StartGame.ByteBuffer, SocketType.Game);
+            YGBH_Struct.CMD_3D_CS_StartGame startGame = new YGBH_Struct.CMD_3D_CS_StartGame(YGBHEntry.Instance.GameData.CurrentChip,YGBH_DataConfig.ALLLINECOUNT);
+            HotfixGameComponent.Instance.Send(DataStruct.GameStruct.MDM_GF_GAME, YGBH_Struct.SUB_CS_GAME_START, startGame.ByteBuffer, SocketType.Game);
         }
 
 
