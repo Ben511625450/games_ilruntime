@@ -514,18 +514,24 @@ function MainGamePanel.StartBtnUp()
             self.StartBtnOnClick(self.StartBtn)
         end
     end
+    self.StartTimeBl = false;
     self.realtimeSinceStartup = 0
 end
 
 function MainGamePanel.LongTimeBtn()
+    if not self.NoRunning then
+        return;
+    end
     if self.realtimeSinceStartup == nil or self.realtimeSinceStartup == 0 then
         return
     end
     if not self.StartBtn.activeSelf then
         return
     end
+    if not self.StartTimeBl then
+        return;
+    end 
     self.StartBtn.transform:GetComponent("Button").interactable = false
-    self.StartTimeBl = false
     self.StartTimeNum = 0
 
     local t = Time.realtimeSinceStartup - self.realtimeSinceStartup
