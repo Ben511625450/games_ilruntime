@@ -105,9 +105,11 @@ namespace Hotfix
                 uiList.Remove(baseView);
                 uiMap.Remove(uiName);
             };
+            if (t.uitype == UIType.TipWindow) return t;
             uiList.Add(t);
             if (uiMap.ContainsKey(uiName)) uiMap.Remove(uiName);
             uiMap.Add(uiName, t);
+
             return t;
         }
 

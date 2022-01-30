@@ -821,6 +821,7 @@ namespace Hotfix.Hall
                 }
 
                 args.interactable = false;
+                UIManager.Instance.CloseUI<BankPanel>();
                 ToolHelper.PopBigWindow(new BigMessage
                 {
                     content =
@@ -947,7 +948,7 @@ namespace Hotfix.Hall
             /// </summary>
             private void GiveGoldRecordOnClick()
             {
-                UIManager.Instance.OpenUI<GiveAndSendMoneyRecord>();
+                UIManager.Instance.ReplaceUI<GiveAndSendMoneyRecord>();
             }
         }
 
