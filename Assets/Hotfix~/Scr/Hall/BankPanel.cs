@@ -800,8 +800,8 @@ namespace Hotfix.Hall
                     return;
                 }
 
-                uint cornucopiaID = uint.Parse(givePlayerId.text);
-                long cornucopiaNum = long.Parse(giveGoldNum.text);
+                uint.TryParse(givePlayerId.text,out uint cornucopiaID);
+                long.TryParse(giveGoldNum.text,out long cornucopiaNum);
                 if (string.IsNullOrEmpty(giveGoldNum.text))
                 {
                     ToolHelper.PopSmallWindow("请输入正确的转账数额");
@@ -1087,7 +1087,9 @@ namespace Hotfix.Hall
                     return;
                 }
 
-                for (var i = 0; i < 9; i++)
+                int count = queryResult.cbCount;
+                if (count >= 9) count = 9;
+                for (var i = 0; i < count; i++)
                 {
                     GameObject child = recordResultGroup.gameObject.InstantiateChild(i);
                     HallStruct.ACP_SC_QueryID.QueryIDSubData data = queryResult.subDatas[i];
