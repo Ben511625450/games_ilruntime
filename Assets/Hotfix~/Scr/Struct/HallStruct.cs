@@ -482,7 +482,7 @@ namespace Hotfix
                 cbRes = buffer.ReadByte() != 0;
                 cbCount = buffer.ReadByte();
                 subDatas = new List<QueryIDSubData>();
-                for (int i = 0; i < cbCount; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     QueryIDSubData subData = new QueryIDSubData(buffer);
                     subDatas.Add(subData);
