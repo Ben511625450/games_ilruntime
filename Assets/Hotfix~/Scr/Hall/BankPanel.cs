@@ -821,6 +821,7 @@ namespace Hotfix.Hall
                 }
 
                 args.interactable = false;
+                UIManager.Instance.CloseUI<BankPanel>();
                 ToolHelper.PopBigWindow(new BigMessage
                 {
                     content =
@@ -947,6 +948,7 @@ namespace Hotfix.Hall
             /// </summary>
             private void GiveGoldRecordOnClick()
             {
+                UIManager.Instance.CloseUI<BankPanel>();
                 UIManager.Instance.OpenUI<GiveAndSendMoneyRecord>();
             }
         }
@@ -1088,7 +1090,7 @@ namespace Hotfix.Hall
                 }
 
                 int count = queryResult.cbCount;
-                if (count >= 9) count = 9;
+                if (count >= 10) count = 10;
                 for (var i = 0; i < count; i++)
                 {
                     GameObject child = recordResultGroup.gameObject.InstantiateChild(i);
