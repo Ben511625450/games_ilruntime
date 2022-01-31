@@ -821,13 +821,21 @@ namespace Hotfix.Hall
                 }
 
                 args.interactable = false;
-                UIManager.Instance.CloseUI<BankPanel>();
+                owner.transform.localPosition=Vector3.one *10000;
                 ToolHelper.PopBigWindow(new BigMessage
                 {
                     content =
                         $"接收人:{givePlayerNickName.text}({givePlayerId.text})\n数   额:{giveGoldNum.text}({giveGoldUpperNum.text})",
-                    okCall = GiveGoldYesBtnOnClick,
-                    cancelCall = GiveGoldNoBtnOnClick
+                    okCall = ()=>
+                    {
+                        GiveGoldYesBtnOnClick();
+                        owner.transform.localPosition = Vector3.zero;
+                    },
+                    cancelCall = () =>
+                    {
+                        GiveGoldNoBtnOnClick();
+                        owner.transform.localPosition = Vector3.zero;
+                    }
                 });
                 args.interactable = true;
             }
