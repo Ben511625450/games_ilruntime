@@ -173,8 +173,7 @@ namespace Hotfix.Hall
             DebugHelper.Log("==============接收完成================");
 
             if (annalList.Count <= 0) return;
-
-            annalList.OrderBy((a, b) => a.time < b.time);
+            annalList.OrderByDescending(p => p.time);
 
             DebugHelper.Log("==============创建列表================");
 
