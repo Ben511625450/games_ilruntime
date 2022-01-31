@@ -753,7 +753,6 @@ namespace Hotfix.Hall
             {
                 giveGoldNum.text = "";
                 giveGoldUpperNum.text = "";
-                giveGoldBtn.interactable = true;
                 giveCardBtn.interactable = true;
                 transferMoney = 0;
             }
@@ -850,7 +849,6 @@ namespace Hotfix.Hall
                 giveGoldNum.text = "";
                 giveGoldUpperNum.text = "";
                 transferMoney = 0;
-                giveGoldBtn.interactable = true;
             }
 
             /// <summary>
@@ -858,7 +856,6 @@ namespace Hotfix.Hall
             /// </summary>
             private void GiveGoldYesBtnOnClick()
             {
-                giveGoldBtn.interactable = false;
                 uint.TryParse(givePlayerId.text,out uint cornucopiaID);
                 long.TryParse(giveGoldNum.text, out long cornucopiaNum);
                 transferMoney = 0;
@@ -915,7 +912,6 @@ namespace Hotfix.Hall
 
             private void GiveGoldCallBack(bool isSuccess)
             {
-                giveGoldBtn.interactable = true;
                 if (isSuccess)
                 {
                     GiveGoldSuccess();
