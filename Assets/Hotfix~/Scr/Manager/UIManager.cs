@@ -146,6 +146,7 @@ namespace Hotfix
                     parent = TopPanel;
                     break;
                 case UIType.TipWindow:
+                case UIType.SmallTipWindow:
                     parent = TipPanel;
                     break;
             }
