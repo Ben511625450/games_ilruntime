@@ -28,6 +28,8 @@ namespace Hotfix
         private int reGameConnectCount;
 
         private bool isShowReconnectTip;
+        
+        private float _resetTime;
 
         private HierarchicalStateMachine hsm;
         private bool isConnectGameNet;
@@ -71,6 +73,31 @@ namespace Hotfix
         {
             base.OnDestroy();
             isUseILRuntime = false;
+        }
+
+        protected override void OnApplicationFocus(bool isFocus)
+        {
+            base.OnApplicationFocus(isFocus);
+            if (!isFocus)
+            {
+                _resetTime = Time.realtimeSinceStartup;
+                DebugHelper.LogError($"切后台");
+                return;
+            }
+
+            if (!(Time.realtimeSinceStartup - _resetTime >= AppConst.ResetGameTimer)) return;
+            DebugHelper.LogError($"重置游戏");
+            isUseILRuntime = false;
+            isConnectGameNet = false;
+            isRealGameHeart = false;
+            isConnectHallNet = false;
+            CloseNetwork(SocketType.Game);
+            CloseNetwork(SocketType.Hall);
+            GameLocalMode.Instance.AccountList.isAuto = false;
+            GameLocalMode.Instance.SaveAccount();
+            if(GameLocalMode.Instance.IsInGame) EventHelper.DispatchLeaveGame();
+            UIManager.Instance.CloseAllUI();
+            UIManager.Instance.OpenUI<LogonScenPanel>();
         }
 
         protected override void AddEvent()

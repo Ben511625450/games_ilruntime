@@ -12,9 +12,6 @@ namespace Hotfix.Hall
         private Button CloseBtn;
         private ScrollRect giveScorll;
 
-
-        private bool isReqData;
-
         private Transform LeftPanel;
         private int loadtype; //0转出--1转入
         private Transform mainPanel;
@@ -22,22 +19,25 @@ namespace Hotfix.Hall
 
         private Transform RightPanel;
         private ScrollRect sendScorll;
-        private int starPoint;
+        private int starSendPoint;
+        private int starGivePoint;
         private Transform titlehandId1;
         private Transform titlehandId2;
         private Button turnInBtn;
         private Button turnOutBtn;
+        private Transform turnOutLight;
+        private Transform turnInLight;
 
+        private bool isReqData;
 
         public GiveAndSendMoneyRecord() : base(UIType.Middle, nameof(GiveAndSendMoneyRecord))
         {
-
         }
 
         public override void Create(params object[] args)
         {
             base.Create(args);
-            starPoint = 0;
+            starSendPoint = 0;
             loadtype = 0;
             setGiveShow(false);
             ReqData();
@@ -61,11 +61,13 @@ namespace Hotfix.Hall
 
             LeftPanel = mainPanel.FindChildDepth("LeftPanel");
             turnOutBtn = LeftPanel.FindChildDepth<Button>("turnOutBtn");
+            turnOutLight = turnOutBtn.transform.FindChildDepth("Light");
             turnInBtn = LeftPanel.FindChildDepth<Button>("turnInBtn");
+            turnInLight = turnInBtn.transform.FindChildDepth("Light");
 
             RightPanel = mainPanel.FindChildDepth("RightPanel");
-            giveScorll = RightPanel.FindChildDepth<ScrollRect>("ScrollViewsend");
-            sendScorll = RightPanel.FindChildDepth<ScrollRect>("ScrollViewsendgive");
+            giveScorll = RightPanel.FindChildDepth<ScrollRect>("ScrollViewsendgive");
+            sendScorll = RightPanel.FindChildDepth<ScrollRect>("ScrollViewsend");
             titlehandId1 = RightPanel.FindChildDepth("titlehand/id1");
             titlehandId2 = RightPanel.FindChildDepth("titlehand/id2");
             recordItem = transform.FindChildDepth("recorditem");
@@ -88,15 +90,21 @@ namespace Hotfix.Hall
         private void ReqData()
         {
             if (isReqData) return;
-
             isReqData = true;
-
-            var giveAndSend = new HallStruct.REQ_CS_GiveAndSend(starPoint, 49, loadtype);
+            var giveAndSend =
+                new HallStruct.REQ_CS_GiveAndSend(loadtype == 0 ? starSendPoint : starGivePoint, 49, loadtype);
 
             HotfixGameComponent.Instance.Send(DataStruct.GoldMineStruct.MDM_3D_GOLDMINE,
                 DataStruct.GoldMineStruct.SUB_2D_CS_GIVE_RECORD_LIST, giveAndSend._ByteBuffer, SocketType.Hall);
 
-            starPoint += 49;
+            if (loadtype == 0)
+            {
+                starSendPoint += 49;
+            }
+            else
+            {
+                starGivePoint += 49;
+            }
         }
 
         private void AllRecord(ByteBuffer buffer)
@@ -105,6 +113,7 @@ namespace Hotfix.Hall
             if (length <= 0)
             {
                 DebugHelper.Log("没有赠送记录");
+                isReqData = false;
                 return;
             }
 
@@ -145,6 +154,7 @@ namespace Hotfix.Hall
                 EndRecord();
             else
                 EndRecord();
+            isReqData = false;
         }
 
         private void StartRecord()
@@ -168,10 +178,10 @@ namespace Hotfix.Hall
 
             DebugHelper.Log("==============创建列表================");
 
-            if (loadtype == 1)
-                CreatGiveItem(annalList.Count);
-            else
+            if (loadtype == 0)
                 CreatGetItem(annalList.Count);
+            else
+                CreatGiveItem(annalList.Count);
         }
 
         private void CreatGiveItem(int count)
@@ -185,21 +195,21 @@ namespace Hotfix.Hall
                 }
                 else
                 {
-                    child = Object.Instantiate(recordItem);
-                    child.SetParent(giveScorll.content);
+                    child = Object.Instantiate(recordItem, giveScorll.content, false);
                     child.localPosition = Vector3.zero;
                     child.localScale = Vector3.one;
                 }
 
                 child.gameObject.SetActive(true);
-                var str = ((long)annalList[i].time).StampToDatetime();
-                child.FindChildDepth<Text>("name").text = annalList[i].rNick;
-                child.FindChildDepth<Text>("id").text = annalList[i].rid.ToString();
+                var str = ((long) annalList[i].time).StampToDatetime();
+                child.FindChildDepth<Text>("name").text = loadtype == 0 ? annalList[i].rNick : annalList[i].sNick;
+                child.FindChildDepth<Text>("id").text =
+                    loadtype == 0 ? annalList[i].rid.ToString() : annalList[i].sid.ToString();
                 child.FindChildDepth<Text>("gold").text = annalList[i].num;
                 child.FindChildDepth<Text>("Group/time").text = $"{str:yyyy-MM-dd HH:mm}";
                 child.FindChildDepth<Text>("Group/time").resizeTextForBestFit = true;
                 var myindex = annalList[i].id;
-                if (GameLocalMode.Instance.SCPlayerInfo.IsVIP == 1)
+                if (GameLocalMode.Instance.SCPlayerInfo.IsVIP == 1 && loadtype == 0)
                 {
                     var recallBtn = child.FindChildDepth<Button>("Group/recall");
                     recallBtn.gameObject.SetActive(true);
@@ -218,6 +228,11 @@ namespace Hotfix.Hall
                     child.FindChildDepth("Group/recall").gameObject.SetActive(false);
                 }
             }
+
+            for (int i = count; i < giveScorll.content.childCount; i++)
+            {
+                giveScorll.content.GetChild(i).gameObject.SetActive(false);
+            }
         }
 
         private void CreatGetItem(int count)
@@ -231,14 +246,13 @@ namespace Hotfix.Hall
                 }
                 else
                 {
-                    child = Object.Instantiate(recordItem);
-                    child.SetParent(sendScorll.content);
+                    child = Object.Instantiate(recordItem, sendScorll.content, false);
                     child.localPosition = Vector3.zero;
                     child.localScale = Vector3.one;
                 }
 
                 child.gameObject.SetActive(true);
-                var str = ((long)annalList[i].time).StampToDatetime();
+                var str = ((long) annalList[i].time).StampToDatetime();
                 child.FindChildDepth<Text>("name").text = annalList[i].rNick;
                 child.FindChildDepth<Text>("id").text = annalList[i].rid.ToString();
                 child.FindChildDepth<Text>("gold").text = annalList[i].num;
@@ -265,23 +279,31 @@ namespace Hotfix.Hall
                 }
             }
 
-            loadtype = 1;
+            for (int i = count; i < sendScorll.content.childCount; i++)
+            {
+                sendScorll.content.GetChild(i).gameObject.SetActive(false);
+            }
         }
 
         private void turnInBtnOnClick()
         {
             ILMusicManager.Instance.PlayBtnSound();
+            loadtype = 1;
             setGiveShow(true);
         }
 
         private void turnOutBtnOnClick()
         {
             ILMusicManager.Instance.PlayBtnSound();
+            loadtype = 0;
             setGiveShow(false);
         }
 
         private void setGiveShow(bool isShow)
         {
+            ReqData();
+            turnInLight.gameObject.SetActive(isShow);
+            turnOutLight.gameObject.SetActive(!isShow);
             sendScorll.gameObject.SetActive(!isShow);
             giveScorll.gameObject.SetActive(isShow);
             titlehandId1.gameObject.SetActive(isShow);

@@ -24,6 +24,8 @@ namespace Hotfix.Hall
         private InputField phoneNum;
 
         private Button sureBtn;
+
+        private AccountMSG _accountMsg;
         public BindPanel() : base(UIType.Bottom, nameof(BindPanel))
         {
 
@@ -166,6 +168,11 @@ namespace Hotfix.Hall
             }
 
             sureBtn.interactable = true;
+            _accountMsg = new AccountMSG()
+            {
+                account = NewPhoneNumber,
+                password = MD5Helper.MD5String(PWText)
+            };
             var acc = new HallStruct.REQ_CS_ChangeAccount(NewPhoneNumber, int.Parse(Code), MD5Helper.MD5String(PWText));
             HotfixGameComponent.Instance.Send(DataStruct.PersonalStruct.MDM_3D_PERSONAL_INFO,
                 DataStruct.PersonalStruct.SUB_3D_CS_CHANGE_ACCOUNT, acc._ByteBuffer, SocketType.Hall);
@@ -177,6 +184,8 @@ namespace Hotfix.Hall
             {
                 ToolHelper.PopSmallWindow("绑定成功");
                 Clear();
+                GameLocalMode.Instance.Account = _accountMsg;
+                GameLocalMode.Instance.SaveAccount();
                 UIManager.Instance.Close();
             }
             else

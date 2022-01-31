@@ -851,8 +851,8 @@ namespace Hotfix.Hall
             private void GiveGoldYesBtnOnClick()
             {
                 giveGoldBtn.interactable = false;
-                uint cornucopiaID = uint.Parse(givePlayerId.text);
-                long cornucopiaNum = long.Parse(giveGoldNum.text);
+                uint.TryParse(givePlayerId.text,out uint cornucopiaID);
+                long.TryParse(giveGoldNum.text, out long cornucopiaNum);
                 transferMoney = 0;
 
                 var transfer = new HallStruct.REQ_CS_TRANSFERACCOUNTS(cornucopiaID, cornucopiaNum);

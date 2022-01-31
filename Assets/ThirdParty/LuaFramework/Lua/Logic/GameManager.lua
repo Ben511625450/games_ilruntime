@@ -63,6 +63,7 @@ SceneNmae = {}
 self.ScreenRate = 1;
 --初始化完成，发送链接服务器信息--
 function this.StartGame()
+    AppConst.Initialize = false;
     this.canLogin = false
     Util.GC();
     Application.targetFrameRate = 60;
@@ -790,9 +791,9 @@ function GameManager.OnBackGame()
         Event.Brocast(MH.Game_LEAVE);
     end
 
-    if Util.isEditor or Util.isPc then
-        return
-    end
+    --if Util.isEditor or Util.isPc then
+    --    return
+    --end
     -- if not (Util.isApplePlatform) and not (Util.isAndroidPlatform) then
     --     return
     -- end
@@ -905,16 +906,16 @@ function GameManager.OnApplicationFocus(isFocus)
     --     return
     -- end
     error("OnApplicationFocus: " .. tostring(isFocus))
-    self.IsStopGame = not isFocus
-    logYellow("IsStopGame==" .. tostring(self.IsStopGame))
-    if LaunchModule.currentSceneName == "module55" then
-        Event.Brocast(MH.Game_LEAVE);
-    end
-    if isFocus then
-        GameManager.OnBackGame()
-        return
-    end
-    GameManager.OnStopGame()
+    --self.IsStopGame = not isFocus
+    --logYellow("IsStopGame==" .. tostring(self.IsStopGame))
+    --if LaunchModule.currentSceneName == "module55" then
+    --    Event.Brocast(MH.Game_LEAVE);
+    --end
+    --if isFocus then
+    --    GameManager.OnBackGame()
+    --    return
+    --end
+    --GameManager.OnStopGame()
 end
 
 --- 退出当前程序

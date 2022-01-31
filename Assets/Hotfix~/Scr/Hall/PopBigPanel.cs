@@ -117,7 +117,7 @@ namespace Hotfix.Hall
         private Text desc;
         private CanvasGroup background;
 
-        public TipPanel() : base(UIType.TipWindow, nameof(TipPanel)) { }
+        public TipPanel() : base(UIType.SmallTipWindow, nameof(TipPanel)) { }
         protected override void FindComponent()
         {
             base.FindComponent();
