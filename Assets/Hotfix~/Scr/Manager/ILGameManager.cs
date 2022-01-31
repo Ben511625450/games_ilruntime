@@ -41,7 +41,7 @@ namespace Hotfix
                 Main main = Object.FindObjectOfType<Main>();
                 if (main != null)
                 {
-                    main.reporter.SetActive(GameLocalMode.Instance.GWData.ShowDebug);
+                    main.reporter.SetActive(false);
                 }
             }
             gameObject.AddILComponent<HttpManager>();

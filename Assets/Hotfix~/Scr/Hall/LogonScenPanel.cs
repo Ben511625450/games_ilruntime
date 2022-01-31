@@ -277,6 +277,13 @@ namespace Hotfix.Hall
                     string msg = Util.DecryptDES(result, MD5Helper.DESKey);
                     DebugHelper.LogError(msg);
                     GameLocalMode.Instance.GWData = JsonMapper.ToObject<HttpDataConfiger>(msg);
+                    {
+                        Main main = Object.FindObjectOfType<Main>();
+                        if (main != null)
+                        {
+                            main.reporter.SetActive(GameLocalMode.Instance.GWData.ShowDebug);
+                        }
+                    }
                     reqIPIndex = 0;
                     ReqIP();
                 });
