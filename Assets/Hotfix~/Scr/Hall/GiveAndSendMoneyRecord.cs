@@ -202,9 +202,8 @@ namespace Hotfix.Hall
 
                 child.gameObject.SetActive(true);
                 var str = ((long) annalList[i].time).StampToDatetime();
-                child.FindChildDepth<Text>("name").text = loadtype == 0 ? annalList[i].rNick : annalList[i].sNick;
-                child.FindChildDepth<Text>("id").text =
-                    loadtype == 0 ? annalList[i].rid.ToString() : annalList[i].sid.ToString();
+                child.FindChildDepth<Text>("name").text = annalList[i].sNick;
+                child.FindChildDepth<Text>("id").text = annalList[i].sid.ToString();
                 child.FindChildDepth<Text>("gold").text = annalList[i].num;
                 child.FindChildDepth<Text>("Group/time").text = $"{str:yyyy-MM-dd HH:mm}";
                 child.FindChildDepth<Text>("Group/time").resizeTextForBestFit = true;

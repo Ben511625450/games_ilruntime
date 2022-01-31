@@ -38,11 +38,10 @@ namespace Hotfix
         {
             base.Awake();
             {
-                CSConfiger configer = AppConst.csConfiger;
                 Main main = Object.FindObjectOfType<Main>();
                 if (main != null)
                 {
-                    main.reporter.SetActive(configer.ShowLogTool);
+                    main.reporter.SetActive(GameLocalMode.Instance.GWData.ShowDebug);
                 }
             }
             gameObject.AddILComponent<HttpManager>();

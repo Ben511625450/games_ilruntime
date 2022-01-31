@@ -5,6 +5,7 @@
   "PCUrls": [
     "47.99.36.245:8080"
   ],
+  "ShowDebug": false,
   "isUseLoginIP": true,
   "isUseGameIP": true,
   "LoginIP": "47.108.151.225",
