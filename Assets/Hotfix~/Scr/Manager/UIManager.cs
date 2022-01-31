@@ -28,6 +28,11 @@ namespace Hotfix
         /// 提示
         /// </summary>
         TipWindow,
+        
+        /// <summary>
+        /// 提示
+        /// </summary>
+        SmallTipWindow,
     }
 
     public class UIManager : SingletonILEntity<UIManager>
@@ -105,9 +110,11 @@ namespace Hotfix
                 uiList.Remove(baseView);
                 uiMap.Remove(uiName);
             };
+            if (t.uitype == UIType.SmallTipWindow) return t;
             uiList.Add(t);
             if (uiMap.ContainsKey(uiName)) uiMap.Remove(uiName);
             uiMap.Add(uiName, t);
+
             return t;
         }
 

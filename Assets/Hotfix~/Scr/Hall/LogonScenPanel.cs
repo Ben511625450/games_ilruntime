@@ -87,6 +87,22 @@ namespace Hotfix.Hall
         /// </summary>
         private void ClickGuestCall()
         {
+            if (GameLocalMode.Instance.M_HttpData == null)
+            {
+                ToolHelper.PopBigWindow(new BigMessage()
+                {
+                    content = "请重启游戏获取登录配置！",
+                    okCall = () =>
+                    {
+                        Application.Quit(0);
+                    },
+                    cancelCall = () =>
+                    {
+                        Application.Quit(0);
+                    }
+                });
+                return;
+            }
             HotfixGameComponent.Instance.ConnectHallServer(isSuccess =>
             {
                 if (!isSuccess)
@@ -104,6 +120,22 @@ namespace Hotfix.Hall
         /// </summary>
         private void ClickLoginCall()
         {
+            if (GameLocalMode.Instance.M_HttpData == null)
+            {
+                ToolHelper.PopBigWindow(new BigMessage()
+                {
+                    content = "请重启游戏获取登录配置！",
+                    okCall = () =>
+                    {
+                        Application.Quit(0);
+                    },
+                    cancelCall = () =>
+                    {
+                        Application.Quit(0);
+                    }
+                });
+                return;
+            }
             hsm?.ChangeState(nameof(LoginState));
         }
 
@@ -303,6 +335,7 @@ namespace Hotfix.Hall
                 form.AddField("machine", "37342d44342d33352d44362d30442d39");
                 form.AddField("param", $"{GameLocalMode.Instance.PlatformID}");
                 form.AddField("md5", "a9e4553ae02ff86d37578525aae3f163");
+                GameLocalMode.Instance.M_HttpData = null;
                 HttpManager.Instance.GetText(
                     $"http://{GameLocalMode.Instance.GWData.Urls[reqLoginIndex]}/LoginIpHandler.ashx", form,
                     (isSuccess, msg) =>
@@ -314,7 +347,11 @@ namespace Hotfix.Hall
                             reqLoginCount++;
                             if (reqLoginCount >= 10)
                             {
-                                Util.ResetGame();
+                                ToolHelper.PopBigWindow(new BigMessage()
+                                {
+                                    content = "获取登录配置失败！",
+                                    okCall = () => { }
+                                });
                                 return;
                             }
 
