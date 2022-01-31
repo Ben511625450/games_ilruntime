@@ -956,8 +956,7 @@ namespace Hotfix.Hall
             /// </summary>
             private void GiveGoldRecordOnClick()
             {
-                UIManager.Instance.CloseUI<BankPanel>();
-                UIManager.Instance.OpenUI<GiveAndSendMoneyRecord>();
+                UIManager.Instance.ReplaceUI<GiveAndSendMoneyRecord>();
             }
         }
 
