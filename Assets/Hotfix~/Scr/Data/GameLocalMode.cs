@@ -317,7 +317,7 @@ namespace Hotfix
     public class HttpDataConfiger : BaseSave
     {
         public string CNameGold;
-
+        public bool ShowDebug;
         public Dictionary<string, HttpGame> GameList;
         public string GWUrl;
         public List<string> IPUrls;
