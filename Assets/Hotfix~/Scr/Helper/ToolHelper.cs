@@ -455,6 +455,221 @@ namespace Hotfix
             return isMinSeconds ? startTime.AddMilliseconds(TimeStamp) : startTime.AddSeconds(TimeStamp);
         }
 
+
+        /// <summary>
+        /// 根据给定的数值转换成汉字大写格式
+        /// </summary>
+        /// <param name="numberStr">数值</param>
+        /// <returns></returns>
+        public static string ConvertNumberToChinese(string numberStr)
+        {
+            double.TryParse(numberStr, out double pSourceNumber);
+            string result;
+            if (pSourceNumber <= 0)
+                result = "零";
+            else
+            {
+                result = Num(pSourceNumber);
+            }
+
+            // result += result.IndexOf("点", StringComparison.Ordinal) < 0 ? "正" : "";
+            return result;
+        }
+        /// <summary>
+        /// 根据给定的数值转换成汉字大写格式
+        /// </summary>
+        /// <param name="pSourceNumber">数值</param>
+        /// <returns></returns>
+        public static string ConvertNumberToChinese(double pSourceNumber)
+        {
+            string result;
+            if (pSourceNumber <= 0)
+                result = "零";
+            else
+            {
+                result = Num(pSourceNumber);
+            }
+
+            result += result.IndexOf("点", StringComparison.Ordinal) < 0 ? "正" : "";
+            return result;
+        }
+
+        public static string Num(double num)
+        {
+            try
+            {
+                string str = string.Empty;
+                if (num.ToString().IndexOf('.') >= 0)
+                {
+                    string[] strNum = num.ToString().Split('.');
+                    str = NumToBig(strNum[0]);
+                    str += "点";
+                    str += NumToSmall(strNum[1]);
+                }
+                else
+                    str = NumToBig(num.ToString());
+
+                return str;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        /// <summary>
+        /// 组合成大写数字
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        private static string NumToBig(string num)
+        {
+            string str = "", strUnit = "", strZi = "零";
+            for (int i = 0; i < num.Length; i++)
+            {
+                if (str.Length >= 1)
+                {
+                    if (!str.Substring(str.Length - 1, 1).Equals(strZi))
+                        str += GetCapital(num[i]);
+                    else if (!num[i].Equals('0'))
+                        str += GetCapital(num[i]);
+                }
+                else
+                {
+                    str += GetCapital(num[i]);
+                }
+
+                if (!str.Substring(str.Length - 1, 1).Equals(strZi)) //不是零后面就要有数字单位
+                    str += GetUnitName(num.Length - i);
+                else if (num.Length - i == 5 && num.Length > 5) //判断万字的位置
+                {
+                    if (str.Substring(str.Length - 1, 1).Equals(strZi))
+                    {
+                        str = str.Substring(0, str.Length - 1);
+                        strUnit = strZi;
+                    }
+
+                    if (!str.Substring(str.Length - 1, 1).Equals("亿")) //如果是亿，后面就不要跟万字
+                        str += GetUnitName(num.Length - i);
+                    if (!string.IsNullOrEmpty(strUnit))
+                    {
+                        if (!strUnit.Equals(strZi))
+                            str += strUnit;
+                        strUnit = "";
+                    }
+                }
+                else if (num.Length - i == 9) //判断亿字的位置
+                {
+                    if (!str.Substring(str.Length - 1, 1).Equals(strZi))
+                        str += GetUnitName(num.Length - i);
+                    else
+                        str = str.Substring(0, str.Length - 1) + GetUnitName(num.Length - i);
+                }
+            }
+
+//最后有零就去掉
+            if (str.Substring(str.Length - 1, 1).Equals(strZi))
+                str = str.Substring(0, str.Length - 1);
+            return str;
+        }
+
+        private static string NumToSmall(string num)
+        {
+            string str = "", strZi = "零";
+            for (int i = 0; i < num.Length; i++)
+            {
+                if (str.Length >= 1)
+                {
+                    if (!str.Substring(str.Length - 1, 1).Equals(strZi))
+                        str += GetCapital(num[i]);
+                    else if (!num[i].Equals('0'))
+                        str += GetCapital(num[i]);
+                }
+                else
+                    str += GetCapital(num[i]);
+            }
+
+//最后有零就去掉
+            if (str.Substring(str.Length - 1, 1).Equals(strZi))
+                str = str.Substring(0, str.Length - 1);
+            return str;
+        }
+
+        private static string GetUnitName(int numLength)
+        {
+            string str = string.Empty;
+            switch (numLength)
+            {
+                case 2:
+                case 6:
+                case 10:
+                    str = "拾";
+                    break;
+                case 3:
+                case 7:
+                case 11:
+                    str = "佰";
+                    break;
+                case 4:
+                case 8:
+                case 12:
+                    str = "仟";
+                    break;
+                case 5:
+                case 13:
+                    str = "萬";
+                    break;
+                case 9:
+                    str = "亿";
+                    break;
+                default:
+                    break;
+            }
+
+            return str;
+        }
+
+        private static string GetCapital(char c)
+        {
+            var result = string.Empty;
+            switch (c)
+            {
+                case '0':
+                    result = "零";
+                    break;
+                case '1':
+                    result = "壹";
+                    break;
+                case '2':
+                    result = "贰";
+                    break;
+                case '3':
+                    result = "叁";
+                    break;
+                case '4':
+                    result = "肆";
+                    break;
+                case '5':
+                    result = "伍";
+                    break;
+                case '6':
+                    result = "陆";
+                    break;
+                case '7':
+                    result = "柒";
+                    break;
+                case '8':
+                    result = "捌";
+                    break;
+                case '9':
+                    result = "玖";
+                    break;
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// 数字转换大写方法
         /// </summary>

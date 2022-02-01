@@ -137,6 +137,7 @@ namespace Hotfix
 
         private void EventHelper_OnSocketReceive(BytesPack pack)
         {
+            if (pack.session.Id < 0) return;
             DebugHelper.Log(
                 $"<color=red>收到消息: mid:{pack.mid} sid:{pack.sid} size:{pack.bytes.Length} idx={pack.session.Id}</color>");
             switch (pack.mid)
@@ -182,6 +183,7 @@ namespace Hotfix
 
         public void Connect(string ip, int port, int id, int timeOut = 7000, Action<string> callBack = null)
         {
+            CloseNetwork((SocketType) id);
             DebugHelper.Log($"ip:{ip} port:{port}");
             var session1 = new Session(ip, port, id, timeOut, (state, session) =>
             {
@@ -233,6 +235,7 @@ namespace Hotfix
             if (!isRealHallHeart)
             {
                 if (!isConnectHallNet) return;
+                DebugHelper.LogError($"currentHallHeartTimer:{currentHallHeartTimer}");
                 CloseNetwork(SocketType.Hall);
                 ReconnectHall();
                 return;
@@ -280,15 +283,19 @@ namespace Hotfix
             {
                 ActionComponent.Instance.Add(() =>
                 {
+                    currentHallHeartTimer = 7;
                     if (_state == "Yes")
                     {
+                        isRealHallHeart = true;
                         connectHallSuccess = true;
                         reHallConnectCount = 0;
                         isHallReconnect = false;
+                        isConnectHallNet = true;
                     }
                     else
                     {
-                        DebugHelper.LogError($"connectHallSuccess:{connectHallSuccess}");
+                        isRealHallHeart = false;
+                        isConnectHallNet = false;
                         if (connectHallSuccess)
                         {
                             connectHallSuccess = false;
@@ -308,7 +315,6 @@ namespace Hotfix
                 ToolHelper.ShowWaitPanel(false);
                 return;
             }
-
             ToolHelper.ShowWaitPanel(true, $"连接服务器中…");
             var ip = GameLocalMode.Instance.HallHost;
             var port = int.Parse(GameLocalMode.Instance.HallPort);
@@ -368,16 +374,21 @@ namespace Hotfix
 
             void CallBack(string _state)
             {
+                currentGameHeartTimer = 7;
                 if (_state == "Yes")
                 {
+                    isRealGameHeart = true;
                     connectGameSuccess = true;
                     Send(301, 5, new ByteBuffer(), SocketType.Game);
                     reGameConnectCount = 0;
                     isGameReconnect = false;
+                    isConnectGameNet = true;
                 }
                 else
                 {
+                    isRealGameHeart = false;
                     connectGameSuccess = false;
+                    isConnectGameNet = false;
                 }
 
                 ToolHelper.ShowWaitPanel(false);
@@ -406,7 +417,7 @@ namespace Hotfix
             //判断大厅是否断线
             if (!State(SocketType.Hall)) //断线,直接离开游戏
             {
-                HotfixActionHelper.DispatchLeaveGame();
+                EventHelper.DispatchLeaveGame();
                 return;
             }
 
@@ -977,7 +988,11 @@ namespace Hotfix
             NetworkManager.DicSession.TryGetValue((int) socketType, out session);
             if (session?.CloseFunc != null) session.CloseFunc = null;
             session?.Dispose();
-            if (session != null) session.Id = -1;
+            if (session != null)
+            {
+                DebugHelper.LogError($"释放session：{session.Id}");
+                session.Id = -1;
+            }
         }
 
         /// <summary>

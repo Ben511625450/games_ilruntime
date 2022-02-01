@@ -310,7 +310,7 @@ namespace Hotfix.Hall
             private void OnClickAllCall()
             {
                 saveNum.text = selfGoldNum.text;
-                upperDesc.text = ToolHelper.Low2Up(saveNum.text);
+                upperDesc.text = ToolHelper.ConvertNumberToChinese(saveNum.text);
             }
 
             private void OnClickResetCall()
@@ -405,6 +405,7 @@ namespace Hotfix.Hall
                 if (value.Length > 13)
                 {
                     saveNum.text = "";
+                    upperDesc.text = "";
                     ToolHelper.PopSmallWindow("数值过大");
                     return;
                 }
@@ -416,7 +417,7 @@ namespace Hotfix.Hall
                 else
                 {
                     saveNum.text = value;
-                    upperDesc.text = ToolHelper.Low2Up(saveNum.text);
+                    upperDesc.text = ToolHelper.ConvertNumberToChinese(saveNum.text);
                 }
             }
         }
@@ -513,7 +514,7 @@ namespace Hotfix.Hall
             private void OnClickAllCall()
             {
                 getNum.text = bankGoldNum.text;
-                upperDesc.text = ToolHelper.Low2Up(getNum.text);
+                upperDesc.text = ToolHelper.ConvertNumberToChinese(getNum.text);
             }
 
             private void OnClickResetCall()
@@ -606,6 +607,7 @@ namespace Hotfix.Hall
                 if (value.Length > 13)
                 {
                     getNum.text = "";
+                    upperDesc.text = "";
                     ToolHelper.PopSmallWindow("数值过大");
                     return;
                 }
@@ -617,7 +619,8 @@ namespace Hotfix.Hall
                 else
                 {
                     getNum.text = value;
-                    upperDesc.text = ToolHelper.Low2Up(getNum.text);
+                    double.TryParse(getNum.text, out double d);
+                    upperDesc.text = ToolHelper.ConvertNumberToChinese(d);
                 }
             }
         }
@@ -741,8 +744,8 @@ namespace Hotfix.Hall
                 giveRecordBtn.onClick.RemoveAllListeners();
                 giveRecordBtn.onClick.Add(GiveGoldRecordOnClick);
 
-                giveGoldNum.onEndEdit.RemoveAllListeners();
-                giveGoldNum.onEndEdit.AddListener(value => { GiveGoldEndValue(value); });
+                giveGoldNum.onValueChanged.RemoveAllListeners();
+                giveGoldNum.onValueChanged.AddListener(value => { GiveGoldEndValue(value); });
             }
 
 
@@ -878,7 +881,7 @@ namespace Hotfix.Hall
                 if (transferMoney >= long.Parse(bankGoldNum.text)) transferMoney = long.Parse(bankGoldNum.text);
 
                 giveGoldNum.text = transferMoney.ToString();
-                giveGoldUpperNum.text = ToolHelper.Low2Up(transferMoney.ToString());
+                giveGoldUpperNum.text = ToolHelper.ConvertNumberToChinese(transferMoney);
             }
 
             /// <summary>
@@ -890,6 +893,7 @@ namespace Hotfix.Hall
                 if (value.Length > 13)
                 {
                     value = bankGoldNum.text;
+                    giveGoldUpperNum.text = "";
                     ToolHelper.PopSmallWindow("数值过大");
                 }
 
@@ -906,7 +910,7 @@ namespace Hotfix.Hall
                         ToolHelper.PopSmallWindow($"输入数量大于银行存款");
                     }
                     transferMoney = long.Parse(value);
-                    giveGoldUpperNum.text = ToolHelper.Low2Up(transferMoney.ToString());
+                    giveGoldUpperNum.text = ToolHelper.ConvertNumberToChinese(transferMoney.ToString());
                 }
             }
 
@@ -987,6 +991,7 @@ namespace Hotfix.Hall
                 queryId.text = "";
                 queryIdText.text = "";
                 balancegold.text = "";
+                queryIdBtn.interactable = true;
                 selectObj.gameObject.SetActive(true);
                 owner.leftQueryBtn.interactable = false;
                 owner.queryPanel.gameObject.SetActive(true);
@@ -999,6 +1004,7 @@ namespace Hotfix.Hall
             public override void OnExit()
             {
                 base.OnExit();
+                queryIdBtn.interactable = true;
                 selectObj.gameObject.SetActive(false);
                 owner.leftQueryBtn.interactable = true;
                 owner.queryPanel.gameObject.SetActive(false);
