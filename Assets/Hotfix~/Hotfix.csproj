@@ -1,0 +1,546 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F99029E-A701-4E23-A5F5-C13CEC18FC93}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hotfix</RootNamespace>
+    <AssemblyName>Hotfix</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Library\ScriptAssemblies\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\Demigiant\DemiLib\Core\DemiLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Library\ScriptAssemblies\ILRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=fc15b93552389f74">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\Unity.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=fc15b93552389f74">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\Unity.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=fc15b93552389f74">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\Unity.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsSamplesModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsSamplesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIServiceModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIServiceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UnityConnectModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AccessibilityModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AndroidJNIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AndroidJNIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ARModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ARModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterRendererModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CrashReportingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.CrashReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DirectorModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.DirectorModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DSPGraphModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.DSPGraphModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GameCenterModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.GameCenterModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.GIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GridModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.GridModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HotReloadModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.LocalizationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.LocalizationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceReportingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ProfilerModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ProfilerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SharedInternalsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteMaskModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteMaskModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteShapeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteShapeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StreamingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.StreamingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubstanceModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubstanceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubsystemsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubsystemsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextCoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TilemapModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TilemapModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TLSModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TLSModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsNativeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsNativeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UmbraModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UNETModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UNETModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConnectModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityCurlModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityCurlModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityTestProtocolModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VehiclesModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VehiclesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VFXModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VFXModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VirtualTexturingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WindModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\Unity\2020.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Scr\Action\CAction.cs" />
+    <Compile Include="Scr\Component\ActionComponent.cs" />
+    <Compile Include="Scr\Component\EntityComponent.cs" />
+    <Compile Include="Scr\Component\HotfixComponent.cs" />
+    <Compile Include="Scr\Component\HotfixGameComponent.cs" />
+    <Compile Include="Scr\Component\LoadGameComponent.cs" />
+    <Compile Include="Scr\Component\PopComponent.cs" />
+    <Compile Include="Scr\Data\GameConfig.cs" />
+    <Compile Include="Scr\Data\GameLocalMode.cs" />
+    <Compile Include="Scr\Data\HallGameData.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJEntry.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_Audio.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_DataConfig.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_Event.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_Line.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_Network.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_Result.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_Roll.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_Rule.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_SmallGame.cs" />
+    <Compile Include="Scr\Game\CMLHJ\CMLHJ_Struct.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGYEntry.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Audio.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_DataConfig.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Event.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Line.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_MiniGame.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Network.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Result.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Roll.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Rule.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Set.cs" />
+    <Compile Include="Scr\Game\FQGY\FQGY_Struct.cs" />
+    <Compile Include="Scr\Game\GameSetBtns.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HeiJieKeEntry.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_Audio.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_Banker.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_DataConfig.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_Event.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_Extend.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_Network.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_Player.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_PlayerManager.cs" />
+    <Compile Include="Scr\Game\HeiJieKe\HJK_Struct.cs" />
+    <Compile Include="Scr\Game\JTJW\JWEntry.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_Audio.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_DataConfig.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_Event.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_Line.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_Network.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_Result.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_Roll.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_Rule.cs" />
+    <Compile Include="Scr\Game\JTJW\JW_Struct.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\BatteryConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\ChatConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\EffectConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\FishConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\FreeLotteryConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\GameViewConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\GetItemConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\HelpConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\LockFishConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\LTBY_DataConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\LTBY_Struct.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\MedalConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\MessageBoxConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\PropConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\SetConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\SoundConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Config\WaitForServerConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\Demo.cs" />
+    <Compile Include="Scr\Game\LTBY\fishroad\FishRoad.cs" />
+    <Compile Include="Scr\Game\LTBY\fish_array\FishArray.cs" />
+    <Compile Include="Scr\Game\LTBY\LTBYEntry.cs" />
+    <Compile Include="Scr\Game\LTBY\LTBY_Audio.cs" />
+    <Compile Include="Scr\Game\LTBY\LTBY_Event.cs" />
+    <Compile Include="Scr\Game\LTBY\LTBY_Network.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_FreeLotteryTip.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_GetItemMessagebox.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_Help.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_LockFish.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_MedalTip.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_Messagebox.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_SelectBattery.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_Set.cs" />
+    <Compile Include="Scr\Game\LTBY\MessageBox\LTBY_TicketStoreTip.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_BatteryManager.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_BulletManager.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_DataReport.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_EffectManager.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_Extend.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_FishManager.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_FishStructData.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_PoolManager.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_ResourceManager.cs" />
+    <Compile Include="Scr\Game\LTBY\Modle\LTBY_ViewManager.cs" />
+    <Compile Include="Scr\Game\LTBY\NumberRoller.cs" />
+    <Compile Include="Scr\Game\LTBY\NumberRoller_UnitConfig.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_ChatView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_CountDownView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_FishMatchView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_FishPreView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_FreeLotteryView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_GameView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_JackpotView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_MatchGiftBtnView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_MenuView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_ScratchCardView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_SpecialItemView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_SummonView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_SwitchGameView.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_ViewBase.cs" />
+    <Compile Include="Scr\Game\LTBY\View\LTBY_WaitForServerView.cs" />
+    <Compile Include="Scr\Game\SG777\SG777Entry.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Audio.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_DataConfig.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Event.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Line.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Network.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Result.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Roll.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Rule.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Set.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_SmallGame.cs" />
+    <Compile Include="Scr\Game\SG777\SG777_Struct.cs" />
+    <Compile Include="Scr\Game\TGG\TGGEntry.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_Audio.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_DataConfig.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_Event.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_Line.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_Network.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_Result.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_Roll.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_Rule.cs" />
+    <Compile Include="Scr\Game\TGG\TGG_Struct.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTGEntry.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_Audio.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_DataConfig.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_Event.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_Free.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_FreeRoll.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_FreeRollItem.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_Network.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_NormalRoll.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_NormalRollItem.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_Result.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_Rule.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_Setting.cs" />
+    <Compile Include="Scr\Game\TiaoTiaoTangGuo\TTTG_Struct.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZEntry.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_Audio.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_DataConfig.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_Event.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_Line.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_Network.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_Result.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_Roll.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_Rule.cs" />
+    <Compile Include="Scr\Game\TJZ\TJZ_Struct.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKuiEntry.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Audio.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_DataConfig.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Event.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Free.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Lens.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Line.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Network.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Result.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Roll.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Rule.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_Struct.cs" />
+    <Compile Include="Scr\Game\TouKui\TouKui_TSUnit.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBYEntry.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Audio.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Bullet.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_BulletController.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_DataConfig.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Effect.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Event.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Fish.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_FishController.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_NetController.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Network.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Player.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_PlayerController.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Rule.cs" />
+    <Compile Include="Scr\Game\WPBY\WPBY_Struct.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBHEntry.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_Audio.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_DataConfig.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_Event.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_Line.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_Network.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_Result.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_Roll.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_Rule.cs" />
+    <Compile Include="Scr\Game\YGBH\YGBH_Struct.cs" />
+    <Compile Include="Scr\Hall\BankInfo.cs" />
+    <Compile Include="Scr\Hall\BankPanel.cs" />
+    <Compile Include="Scr\Hall\BindPanel.cs" />
+    <Compile Include="Scr\Hall\ChangeHeadPanel.cs" />
+    <Compile Include="Scr\Hall\ChangePassWord.cs" />
+    <Compile Include="Scr\Hall\CodeLogin.cs" />
+    <Compile Include="Scr\Hall\DownLoadGamePanel.cs" />
+    <Compile Include="Scr\Hall\Event\HallEvent.cs" />
+    <Compile Include="Scr\Hall\ExchangePanel.cs" />
+    <Compile Include="Scr\Hall\GameRoomListPanel.cs" />
+    <Compile Include="Scr\Hall\GameSetsPanel.cs" />
+    <Compile Include="Scr\Hall\GiveAndSendMoneyRecord.cs" />
+    <Compile Include="Scr\Hall\GWPanel.cs" />
+    <Compile Include="Scr\Hall\HallExtend.cs" />
+    <Compile Include="Scr\Hall\HallGameShow.cs" />
+    <Compile Include="Scr\Hall\HallIconItem.cs" />
+    <Compile Include="Scr\Hall\HallScenPanel.cs" />
+    <Compile Include="Scr\Hall\HeadIcons.cs" />
+    <Compile Include="Scr\Hall\LogonScenPanel.cs" />
+    <Compile Include="Scr\Hall\MusicPanel.cs" />
+    <Compile Include="Scr\Hall\PanelBase.cs" />
+    <Compile Include="Scr\Hall\PersonalInfoPanel.cs" />
+    <Compile Include="Scr\Hall\PopBigPanel.cs" />
+    <Compile Include="Scr\Hall\RechargePanel.cs" />
+    <Compile Include="Scr\Hall\SetPanel.cs" />
+    <Compile Include="Scr\Hall\TaskPanel.cs" />
+    <Compile Include="Scr\Hall\UpdateBankPWPanel.cs" />
+    <Compile Include="Scr\Hall\WaitPanel.cs" />
+    <Compile Include="Scr\Hall\ZSCardPanel.cs" />
+    <Compile Include="Scr\Helper\DebugHelper.cs" />
+    <Compile Include="Scr\Helper\HotfixActionHelper.cs" />
+    <Compile Include="Scr\Helper\HotfixTimerHandle.cs" />
+    <Compile Include="Scr\Helper\LongClickData.cs" />
+    <Compile Include="Scr\Helper\SaveHelper.cs" />
+    <Compile Include="Scr\Helper\Singleton.cs" />
+    <Compile Include="Scr\Helper\SingletonEntity.cs" />
+    <Compile Include="Scr\Helper\StateMachine.cs" />
+    <Compile Include="Scr\Helper\ToolHelper.cs" />
+    <Compile Include="Scr\ILHotfixEntity.cs" />
+    <Compile Include="Scr\Manager\HttpManager.cs" />
+    <Compile Include="Scr\Manager\ILGameManager.cs" />
+    <Compile Include="Scr\Manager\ILMusicManager.cs" />
+    <Compile Include="Scr\Manager\UIManager.cs" />
+    <Compile Include="Scr\Struct\DataStruct.cs" />
+    <Compile Include="Scr\ILEntity.cs" />
+    <Compile Include="Scr\ILLauncher.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scr\Struct\GameStruct.cs" />
+    <Compile Include="Scr\Struct\HallStruct.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <Target Name="AfterBuild">
+            <Copy SourceFiles="$(OutDir)$(TargetName).dll" DestinationFiles="$(ProjectDir)/../Res/CodeForIL/$(TargetName).dll.bytes" />
+            <Copy SourceFiles="$(OutDir)$(TargetName).pdb" DestinationFiles="$(ProjectDir)/../Res/CodeForIL/$(TargetName).pdb.bytes" />
+    </Target>
+</Project>
