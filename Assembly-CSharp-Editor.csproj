@@ -53,85 +53,72 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\ILRuntime\Editor\ILRuntimeCrossBinding.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\CustomSettings.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\Startup.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\HomeWindow.cs" />
      <Compile Include="Assets\DragonBones\Editor\UnityArmatureEditor.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineAtlasAssetInspector.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Modules\Ragdoll\Editor\SkeletonRagdoll2DInspector.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineMaskUtilities.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\Editor\ToLuaTree.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Modules\Timeline\Editor\SpineAnimationStateDrawer.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineInspectorUtility.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\SkeletonUtility\Editor\SkeletonUtilityInspector.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Modules\SkeletonRenderSeparator\Editor\SkeletonPartsRendererInspector.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\AddSpriteEdit.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonBakingWindow.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3PlayMakerEditor.cs" />
-     <Compile Include="Assets\DragonBones\Editor\ShowSlotsWindow.cs" />
-     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIShinyEditor.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_LuaInterface_LuaConstructor.cs" />
-     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIGradientEditor.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Modules\SkeletonGraphic\Editor\SkeletonGraphicInspector.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_LuaInterface_LuaProperty.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3EditorUtility.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\AssetDatabaseAvailabilityDetector.cs" />
-     <Compile Include="Assets\DragonBones\Editor\DragonBonesIcons.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Modules\SkeletonRenderSeparator\Editor\SkeletonRenderSeparatorInspector.cs" />
-     <Compile Include="Assets\DragonBones\Editor\AssetProcess.cs" />
-     <Compile Include="Assets\Editor\ILRuntime\Editor\ILRuntimeMenu.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineAttributeDrawers.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\BoneFollowerInspector.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineEditorUtilities.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\SettingsWindow.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonMecanimInspector.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\SkeletonUtility\Editor\SkeletonUtilityBoneInspector.cs" />
-     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\BaseMeshEffectEditor.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\AppVersion.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\TypesWindow.cs" />
-     <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenPreviewManager.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Menus.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\AutoSaveWindow.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\DownAssetBundleAsset.cs" />
-     <Compile Include="Assets\DragonBones\Editor\PickJsonDataWindow.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\ToolsWindow.cs" />
-     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UITransitionEffectEditor.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_System_Object.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Modules\SkeletonGraphic\Editor\BoneFollowerGraphicInspector.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3AutoSaveMgrEditor.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\Editor\ToLuaMenu.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\AddES3Prefab.cs" />
-     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\ForTMPro\Editor\TMP_SDFShaderGUI.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\PointFollowerEditor.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_LuaInterface_LuaField.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_System_Type.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\CustomSettings.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\Startup.cs" />
-     <Compile Include="Assets\Editor\Easy Save 3\Editor\HomeWindow.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineAtlasAssetInspector.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineMaskUtilities.cs" />
-     <Compile Include="Assets\Spine\Editor\spine-unity\Modules\Ragdoll\Editor\SkeletonRagdoll2DInspector.cs" />
-     <Compile Include="Assets\Editor\LuaFramework\Editor\ToLuaTree.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Modules\CustomMaterials\Editor\SkeletonRendererCustomMaterialsInspector.cs" />
      <Compile Include="Assets\DragonBones\Editor\UnityEditor.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Modules\BoundingBoxFollower\Editor\BoundingBoxFollowerInspector.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\AddSpriteEdit.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Modules\Timeline\Editor\SpineSkeletonFlipDrawer.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonBakingWindow.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3PlayMakerEditor.cs" />
      <Compile Include="Assets\Editor\ILRuntime\Editor\ILRuntimeCLRBinding.cs" />
+     <Compile Include="Assets\DragonBones\Editor\ShowSlotsWindow.cs" />
      <Compile Include="Assets\Editor\LuaFramework\BuildTool.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonDebugWindow.cs" />
+     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIShinyEditor.cs" />
      <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3SettingsEditor.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_LuaInterface_LuaConstructor.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_LuaInterface_EventObject.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_UnityEngine_Object.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_LuaInterface_LuaMethod.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonBaker.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Modules\SlotBlendModes\Editor\SlotBlendModesEditor.cs" />
      <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3ReferenceMgrEditor.cs" />
+     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIGradientEditor.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Modules\SkeletonGraphic\Editor\SkeletonGraphicInspector.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_LuaInterface_LuaProperty.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3EditorUtility.cs" />
      <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\DeprecatedRemover.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\AssetDatabaseAvailabilityDetector.cs" />
      <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3Postprocessor.cs" />
+     <Compile Include="Assets\DragonBones\Editor\DragonBonesIcons.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Modules\SkeletonRenderSeparator\Editor\SkeletonRenderSeparatorInspector.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_UnityEngine_Input.cs" />
+     <Compile Include="Assets\DragonBones\Editor\AssetProcess.cs" />
+     <Compile Include="Assets\Editor\ILRuntime\Editor\ILRuntimeMenu.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineAttributeDrawers.cs" />
      <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenAnimationInspector.cs" />
      <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIShadowEditor.cs" />
      <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIHsvModifierEditor.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonDataAssetInspector.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\BoneFollowerInspector.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_System_Delegate.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SpineEditorUtilities.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Editor\AnimationReferenceAssetEditor.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\SettingsWindow.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_UnityEngine_GameObject.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonMecanimInspector.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\SkeletonUtility\Editor\SkeletonUtilityBoneInspector.cs" />
+     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\BaseMeshEffectEditor.cs" />
      <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIDissolveEditor.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\AppVersion.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\TypesWindow.cs" />
      <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3EditorStyle.cs" />
+     <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenPreviewManager.cs" />
      <Compile Include="Assets\Editor\LuaFramework\BuildToolMenu.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\Menus.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\AutoSaveWindow.cs" />
      <Compile Include="Assets\Editor\LuaFramework\FilesData.cs" />
      <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3PrefabEditor.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_UnityEngine_RectTransform.cs" />
@@ -139,16 +126,29 @@
      <Compile Include="Assets\Editor\LuaFramework\Packager.cs" />
      <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3InspectorInfoEditor.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Modules\Ragdoll\Editor\SkeletonRagdollInspector.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\DownAssetBundleAsset.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_System_Enum.cs" />
      <Compile Include="Assets\Editor\LuaFramework\ResData.cs" />
+     <Compile Include="Assets\DragonBones\Editor\PickJsonDataWindow.cs" />
      <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIEffectEditor.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\ToolsWindow.cs" />
+     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UITransitionEffectEditor.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_System_Object.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Modules\SkeletonGraphic\Editor\BoneFollowerGraphicInspector.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonRendererInspector.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\ToLuaExport.cs" />
      <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_System_String.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3AutoSaveMgrEditor.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\Editor\ToLuaMenu.cs" />
+     <Compile Include="Assets\Editor\Easy Save 3\Editor\AddES3Prefab.cs" />
      <Compile Include="Assets\Editor\Easy Save 3\Editor\ES3AutoSaveEditor.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Editor\SkeletonAnimationInspector.cs" />
+     <Compile Include="Assets\Coffee\UIExtensions\UIEffect\ForTMPro\Editor\TMP_SDFShaderGUI.cs" />
      <Compile Include="Assets\Coffee\UIExtensions\UIEffect\Scripts\Editor\UIEffectCapturedImageEditor.cs" />
+     <Compile Include="Assets\Spine\Editor\spine-unity\Editor\PointFollowerEditor.cs" />
      <Compile Include="Assets\Spine\Editor\spine-unity\Modules\Shaders\Sprite\Editor\SpineSpriteShaderGUI.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_LuaInterface_LuaField.cs" />
+     <Compile Include="Assets\Editor\LuaFramework\Editor\Extend\ToLua_System_Type.cs" />
      <None Include="Assets\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
      <None Include="Assets\Editor\Easy Save 3\Editor\ES3ValueTypeTemplate.txt" />
      <None Include="Assets\Spine\Editor\spine-unity\Editor\Resources\SpineAssetDatabaseMarker.txt" />
@@ -828,12 +828,6 @@
  <Reference Include="Unity.VSCode.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.CacheServer">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Addressables">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Addressables.dll</HintPath>
- </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
@@ -855,32 +849,20 @@
  <Reference Include="Unity.DeviceSimulator.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.DeviceSimulator.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
- </Reference>
  <Reference Include="Unity.2D.Sprite.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Addressables.Editor">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Addressables.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ResourceManager">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ResourceManager.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline.Editor">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.PlasticSCM.Editor">
+ <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Advertisement.IosSupport.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Advertisement.IosSupport.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.PlasticSCM.Editor">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
