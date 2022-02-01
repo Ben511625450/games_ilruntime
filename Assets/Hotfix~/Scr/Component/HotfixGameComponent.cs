@@ -79,7 +79,7 @@ namespace Hotfix
         {
             base.OnApplicationFocus(isFocus);
             if (!isFocus)
-            {
+            {            
                 _resetTime = Time.realtimeSinceStartup;
                 DebugHelper.LogError($"切后台");
                 return;
@@ -89,7 +89,6 @@ namespace Hotfix
             DebugHelper.LogError($"重置游戏");
             isUseILRuntime = false;
             isConnectGameNet = false;
-            isRealGameHeart = false;
             isConnectHallNet = false;
             CloseNetwork(SocketType.Game);
             CloseNetwork(SocketType.Hall);
@@ -126,7 +125,6 @@ namespace Hotfix
         {
             isUseILRuntime = false;
             isConnectGameNet = false;
-            isRealGameHeart = false;
 
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteUInt32(GameLocalMode.Instance.SCPlayerInfo.DwUser_Id);
@@ -187,6 +185,7 @@ namespace Hotfix
             DebugHelper.Log($"ip:{ip} port:{port}");
             var session1 = new Session(ip, port, id, timeOut, (state, session) =>
             {
+                session.run = state == "Yes";
                 ActionComponent.Instance?.Add(() =>
                 {
                     DebugHelper.Log($"session:{id}connect net:{state}");
@@ -414,10 +413,22 @@ namespace Hotfix
         /// </summary>
         public void ReconnectGame()
         {
+            ToolHelper.PopBigWindow(new BigMessage()
+            {
+                content = "重连游戏失败，即将回到大厅",
+                okCall = EventHelper.DispatchLeaveGame,
+                cancelCall = EventHelper.DispatchLeaveGame
+            });
+            return;
             //判断大厅是否断线
             if (!State(SocketType.Hall)) //断线,直接离开游戏
             {
-                EventHelper.DispatchLeaveGame();
+                ToolHelper.PopBigWindow(new BigMessage()
+                {
+                    content = "重连游戏失败，即将回到大厅",
+                    okCall = EventHelper.DispatchLeaveGame,
+                    cancelCall = EventHelper.DispatchLeaveGame
+                });
                 return;
             }
 
@@ -507,7 +518,6 @@ namespace Hotfix
                 case DataStruct.LoginStruct.SUB_3D_SC_ACCOUNT_OFFLINE:
                     isUseILRuntime = false;
                     isConnectGameNet = false;
-                    isRealGameHeart = false;
                     isConnectHallNet = false;
                     CloseNetwork(SocketType.Game);
                     CloseNetwork(SocketType.Hall);
@@ -1021,7 +1031,6 @@ namespace Hotfix
 
         private void DispatchGameFrameInfo(BytesPack pack)
         {
-            if (!isUseILRuntime) return;
             var buffer = new ByteBuffer(pack.bytes);
             switch (pack.sid)
             {
@@ -1059,6 +1068,7 @@ namespace Hotfix
                     RoomBreakLineAction?.Invoke((ushort) pack.sid, pack);
                     break;
                 case DataStruct.FrameStruct.SUB_3D_SC_GAME_HEART: //心跳返回
+                    DebugHelper.LogError($"游戏心跳");
                     isRealGameHeart = true;
                     break;
             }
