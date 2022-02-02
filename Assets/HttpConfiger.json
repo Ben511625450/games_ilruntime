@@ -5,6 +5,7 @@
   "PCUrls": [
     "8.136.81.62:8080"
   ],
+  "version":1.1,
   "ShowDebug": false,
   "isUseLoginIP": true,
   "isUseGameIP": true,
@@ -23,8 +24,10 @@
     "47.108.171.84"
   ],
   "GWUrl": "http://www.zy999.me",
-  "PCUrl": "http://yuyul.oss-cn-beijing.aliyuncs.com/ZY999Res/zy999_setup.exe",
-  "PC32Url": "http://yuyul.oss-cn-beijing.aliyuncs.com/ZY999Res/zy999_setup.exe",
+  "PCUrl": "http://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
+  "PC32Url": "http://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
+  "AndroidUrl": "http://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
+  "iOSUrl": "http://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
   "IPUrls": [
     "http://pv.sohu.com/cityjson",
     "http://ifconfig.me/ip",
