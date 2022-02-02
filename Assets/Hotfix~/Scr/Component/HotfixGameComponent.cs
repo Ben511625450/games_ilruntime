@@ -351,6 +351,7 @@ namespace Hotfix
                 ToolHelper.ShowWaitPanel(false);
                 if (isSuccess)
                 {
+                    ToolHelper.ShowWaitPanel(true, $"正在重连……");
                     ILGameManager.Instance.SendLoginMasseage(GameLocalMode.Instance.Account);
                 }
                 else
