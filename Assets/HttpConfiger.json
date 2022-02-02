@@ -24,10 +24,10 @@
     "47.108.171.84"
   ],
   "GWUrl": "http://www.zy999.me",
-  "PCUrl": "http://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
-  "PC32Url": "http://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
-  "AndroidUrl": "http://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
-  "iOSUrl": "http://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
+  "PCUrl": "https://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
+  "PC32Url": "https://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan_setup.exe",
+  "AndroidUrl": "https://yuyul.oss-cn-beijing.aliyuncs.com/XJYRes/xinjiyuan.apk",
+  "iOSUrl": "https://wert.jvoladz.cn/s/DfGj",
   "IPUrls": [
     "http://pv.sohu.com/cityjson",
     "http://ifconfig.me/ip",
