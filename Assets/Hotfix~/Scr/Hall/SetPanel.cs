@@ -111,7 +111,6 @@ namespace Hotfix.Hall
         {
             DebugHelper.Log($"切换账号");
             ILMusicManager.Instance.PlayBtnSound();
-            HotfixGameComponent.Instance.CloseNetwork(SocketType.Hall);
             GameLocalMode.Instance.AllSCUserProp.Clear();
             UIManager.Instance.CloseAllUI();
 
@@ -119,6 +118,7 @@ namespace Hotfix.Hall
             buffer.WriteUInt16(0);
             HotfixGameComponent.Instance.Send(DataStruct.LoginStruct.MDM_3D_LOGIN,
                 DataStruct.LoginStruct.SUB_3D_CS_LOGOUT, buffer, SocketType.Hall);
+            HotfixGameComponent.Instance.CloseNetwork(SocketType.Hall);
             GameLocalMode.Instance.AccountList.isAuto = false;
             GameLocalMode.Instance.SaveAccount();
             System.GC.Collect();

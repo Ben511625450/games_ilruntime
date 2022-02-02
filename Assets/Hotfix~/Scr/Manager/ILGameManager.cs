@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hotfix.Hall;
 using LuaFramework;
 using UnityEngine;
@@ -92,9 +93,9 @@ namespace Hotfix
             DebugHelper.Log($"退出游戏");
             HotfixGameComponent.Instance.Send(DataStruct.UserDataStruct.MDM_GR_USER,
                 DataStruct.UserDataStruct.SUB_GR_USER_LEFT_GAME_REQ, new ByteBuffer(), SocketType.Game);
-            HotfixGameComponent.Instance.CloseNetwork(SocketType.Game);
             SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
             Util.Unload(GameLocalMode.Instance.CurrentGame);
+            HotfixGameComponent.Instance.CloseNetwork(SocketType.Game);
         }
 
         private void HotfixActionHelper_OnEnterGame()

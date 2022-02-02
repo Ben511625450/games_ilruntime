@@ -1,6 +1,7 @@
 ﻿using LitJson;
 using LuaFramework;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -110,7 +111,7 @@ namespace Hotfix.Hall
                     ToolHelper.PopSmallWindow($"网络连接失败");
                     return;
                 }
-
+                ToolHelper.ShowWaitPanel(true, $"正在登录……");
                 ILGameManager.Instance.SendLoginMasseage(GameLocalMode.Instance.Account);
             });
         }
@@ -226,7 +227,7 @@ namespace Hotfix.Hall
                         hsm?.ChangeState(nameof(IdleState));
                         return;
                     }
-
+                    ToolHelper.ShowWaitPanel(true, $"正在登录……");
                     ILGameManager.Instance.SendLoginMasseage(GameLocalMode.Instance.Account);
                 });
             }
@@ -494,7 +495,7 @@ namespace Hotfix.Hall
                         ToolHelper.PopSmallWindow($"网络连接失败");
                         return;
                     }
-
+                    ToolHelper.ShowWaitPanel(true, $"正在登录……");
                     ILGameManager.Instance.SendLoginMasseage(GameLocalMode.Instance.Account);
                 });
             }
