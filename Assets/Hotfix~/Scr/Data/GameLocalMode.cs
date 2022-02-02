@@ -316,6 +316,7 @@ namespace Hotfix
 
     public class HttpDataConfiger : BaseSave
     {
+        public double version;
         public string CNameGold;
         public bool ShowDebug;
         public Dictionary<string, HttpGame> GameList;
@@ -325,6 +326,8 @@ namespace Hotfix
         public string GameIP;
         public string LoginIP;
         public string PCUrl;
+        public string AndroidUrl;
+        public string iOSUrl;
         public List<string> PCUrls;
         public List<string> REQGameList;
         public List<string> REQLoginList;

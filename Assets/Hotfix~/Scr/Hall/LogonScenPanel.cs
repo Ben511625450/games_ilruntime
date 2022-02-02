@@ -93,17 +93,12 @@ namespace Hotfix.Hall
                 ToolHelper.PopBigWindow(new BigMessage()
                 {
                     content = "请重启游戏获取登录配置！",
-                    okCall = () =>
-                    {
-                        Application.Quit(0);
-                    },
-                    cancelCall = () =>
-                    {
-                        Application.Quit(0);
-                    }
+                    okCall = () => { Application.Quit(0); },
+                    cancelCall = () => { Application.Quit(0); }
                 });
                 return;
             }
+
             HotfixGameComponent.Instance.ConnectHallServer(isSuccess =>
             {
                 if (!isSuccess)
@@ -111,6 +106,7 @@ namespace Hotfix.Hall
                     ToolHelper.PopSmallWindow($"网络连接失败");
                     return;
                 }
+
                 ToolHelper.ShowWaitPanel(true, $"正在登录……");
                 ILGameManager.Instance.SendLoginMasseage(GameLocalMode.Instance.Account);
             });
@@ -126,17 +122,12 @@ namespace Hotfix.Hall
                 ToolHelper.PopBigWindow(new BigMessage()
                 {
                     content = "请重启游戏获取登录配置！",
-                    okCall = () =>
-                    {
-                        Application.Quit(0);
-                    },
-                    cancelCall = () =>
-                    {
-                        Application.Quit(0);
-                    }
+                    okCall = () => { Application.Quit(0); },
+                    cancelCall = () => { Application.Quit(0); }
                 });
                 return;
             }
+
             hsm?.ChangeState(nameof(LoginState));
         }
 
@@ -227,6 +218,7 @@ namespace Hotfix.Hall
                         hsm?.ChangeState(nameof(IdleState));
                         return;
                     }
+
                     ToolHelper.ShowWaitPanel(true, $"正在登录……");
                     ILGameManager.Instance.SendLoginMasseage(GameLocalMode.Instance.Account);
                 });
@@ -251,7 +243,7 @@ namespace Hotfix.Hall
                 base.OnEnter();
                 reqLoginIndex = 0;
                 reqLoginCount = 0;
-                ToolHelper.ShowWaitPanel(true,$"获取基础配置中，请稍后…");
+                ToolHelper.ShowWaitPanel(true, $"获取基础配置中，请稍后…");
                 GetHttpConfiger();
             }
 
@@ -295,7 +287,7 @@ namespace Hotfix.Hall
             /// </summary>
             private void ReqIP()
             {
-                ToolHelper.ShowWaitPanel(true,$"获取其他配置中，请稍后…");
+                ToolHelper.ShowWaitPanel(true, $"获取其他配置中，请稍后…");
                 DebugHelper.Log($"获取IP");
                 FormData form = new FormData();
                 form.AddField("time", System.DateTime.Now.ToString("yyyyMMddHHmmSS"));
@@ -323,7 +315,7 @@ namespace Hotfix.Hall
                     reqLoginIndex = 0;
                     reqLoginCount = 0;
                     ReqLoginConfig();
-                    
+
                     GameLocalMode.Instance.HallHost = GameLocalMode.Instance.GWData.isUseLoginIP
                         ? GameLocalMode.Instance.GWData.LoginIP
                         : GameLocalMode.Instance.M_HttpData.login_ip;
@@ -375,8 +367,42 @@ namespace Hotfix.Hall
                             : GameLocalMode.Instance.M_HttpData.login_ip;
                         GameLocalMode.Instance.HallPort = GameLocalMode.Instance.M_HttpData.login_port;
                         // GameLocalMode.Instance.HallPort = $"{28101}";
-                        hsm?.ChangeState(nameof(CheckAutoLogin));
+                        hsm?.ChangeState(CheckVersion() ? nameof(CheckAutoLogin) : nameof(IdleState));
                     });
+            }
+
+            /// <summary>
+            /// 检查版本
+            /// </summary>
+            /// <returns></returns>
+            private bool CheckVersion()
+            {
+                double.TryParse(Application.version, out double version);
+                if (version >= GameLocalMode.Instance.GWData.version) return true;
+
+                void OpenUrl()
+                {
+                    if (Util.isPc || Util.isEditor)
+                    {
+                        Application.OpenURL(GameLocalMode.Instance.GWData.PCUrl);
+                    }
+                    else if (Util.isAndroidPlatform)
+                    {
+                        Application.OpenURL(GameLocalMode.Instance.GWData.AndroidUrl);
+                    }
+                    else if (Util.isApplePlatform)
+                    {
+                        Application.OpenURL(GameLocalMode.Instance.GWData.iOSUrl);
+                    }
+                    Util.Quit();
+                }
+                ToolHelper.PopBigWindow(new BigMessage()
+                {
+                    content = "请下载更新最新游戏版本！",
+                    okCall = OpenUrl,
+                    cancelCall = OpenUrl
+                });
+                return false;
             }
         }
 
@@ -481,10 +507,12 @@ namespace Hotfix.Hall
                         GameLocalMode.Instance.Account.account = LoginIDInput.text;
                         GameLocalMode.Instance.Account.password = MD5Helper.MD5String(LoginPassword.text);
                     }
-                    if (!$"{LoginIDInput.text}md5".Equals(LoginPassword.text) && GameLocalMode.Instance.Account.password != MD5Helper.MD5String(LoginPassword.text))
+
+                    if (!$"{LoginIDInput.text}md5".Equals(LoginPassword.text) &&
+                        GameLocalMode.Instance.Account.password != MD5Helper.MD5String(LoginPassword.text))
                     {
                         GameLocalMode.Instance.Account.password = MD5Helper.MD5String(LoginPassword.text);
-                    }                
+                    }
                 }
 
                 HotfixGameComponent.Instance.ConnectHallServer(isSuccess =>
@@ -495,6 +523,7 @@ namespace Hotfix.Hall
                         ToolHelper.PopSmallWindow($"网络连接失败");
                         return;
                     }
+
                     ToolHelper.ShowWaitPanel(true, $"正在登录……");
                     ILGameManager.Instance.SendLoginMasseage(GameLocalMode.Instance.Account);
                 });
@@ -533,7 +562,9 @@ namespace Hotfix.Hall
             private bool isInit;
             private Button RegisterCloseBtn;
             private InputField RegisterCodeInput;
+
             private Button RegisterGetCodeBtn;
+
             // private Transform codeImg;
             private Text codeTimeTxt;
 
@@ -916,7 +947,8 @@ namespace Hotfix.Hall
                     findPassword.password = MD5Helper.MD5String(pw);
                     findPassword.code = uint.Parse(code);
                     findPassword.platform = GameLocalMode.Instance.PlatformID;
-                    HotfixGameComponent.Instance.Send(DataStruct.LoginStruct.MDM_3D_LOGIN, 19, findPassword.ByteBuffer, SocketType.Hall);
+                    HotfixGameComponent.Instance.Send(DataStruct.LoginStruct.MDM_3D_LOGIN, 19, findPassword.ByteBuffer,
+                        SocketType.Hall);
                 });
             }
 
