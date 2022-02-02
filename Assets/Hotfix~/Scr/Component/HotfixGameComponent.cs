@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Hotfix.Hall;
 using LitJson;
 using LuaFramework;
@@ -28,9 +31,10 @@ namespace Hotfix
         private int reGameConnectCount;
 
         private bool isShowReconnectTip;
-        
-        private float _resetTime;
 
+        private float _resetTime;
+        private bool _canReqHallHeart;
+        private bool _canReqGameHeart;
         private HierarchicalStateMachine hsm;
         private bool isConnectGameNet;
         private bool isConnectHallNet;
@@ -54,6 +58,8 @@ namespace Hotfix
         {
             base.Start();
             isUseILRuntime = false;
+            _canReqGameHeart = true;
+            _canReqHallHeart = true;
             hsm = new HierarchicalStateMachine(false, gameObject);
             states = new List<IState>();
             states.Add(new IdleState(this, hsm));
@@ -73,19 +79,27 @@ namespace Hotfix
         {
             base.OnDestroy();
             isUseILRuntime = false;
+            CloseNetwork(SocketType.Game);
+            CloseNetwork(SocketType.Hall);
         }
 
         protected override void OnApplicationFocus(bool isFocus)
         {
             base.OnApplicationFocus(isFocus);
             if (!isFocus)
-            {            
+            {
                 _resetTime = Time.realtimeSinceStartup;
+                _canReqGameHeart = false;
+                _canReqHallHeart = false;
                 DebugHelper.LogError($"切后台");
                 return;
             }
 
+            _canReqGameHeart = true;
+            _canReqHallHeart = true;
+            DebugHelper.LogError($"切回");
             if (!(Time.realtimeSinceStartup - _resetTime >= AppConst.ResetGameTimer)) return;
+            if (Util.isPc || Util.isEditor) return;
             DebugHelper.LogError($"重置游戏");
             isUseILRuntime = false;
             isConnectGameNet = false;
@@ -94,7 +108,7 @@ namespace Hotfix
             CloseNetwork(SocketType.Hall);
             GameLocalMode.Instance.AccountList.isAuto = false;
             GameLocalMode.Instance.SaveAccount();
-            if(GameLocalMode.Instance.IsInGame) EventHelper.DispatchLeaveGame();
+            if (GameLocalMode.Instance.IsInGame) EventHelper.DispatchLeaveGame();
             UIManager.Instance.CloseAllUI();
             UIManager.Instance.OpenUI<LogonScenPanel>();
         }
@@ -179,9 +193,9 @@ namespace Hotfix
             hsm.ChangeState(nameof(EnterState));
         }
 
-        public void Connect(string ip, int port, int id, int timeOut = 7000, Action<string> callBack = null)
+        public async void Connect(string ip, int port, int id, int timeOut = 7000, Action<string> callBack = null)
         {
-            CloseNetwork((SocketType) id);
+            await AsyncCloseNetwork((SocketType) id);
             DebugHelper.Log($"ip:{ip} port:{port}");
             var session1 = new Session(ip, port, id, timeOut, (state, session) =>
             {
@@ -218,15 +232,16 @@ namespace Hotfix
             if (byteBuffer == null) byteBuffer = new ByteBuffer();
             DebugHelper.Log($"<color=green>发送消息 mid={mid},sid={sid},id={(int) socketType}</color>");
             var issend = session.Send(mid, sid, byteBuffer);
-            byteBuffer.Close();
+            byteBuffer?.Close();
             return issend;
         }
 
         /// <summary>
         ///     发送大厅心跳
         /// </summary>
-        private void ReqHallHeart()
+        private async void ReqHallHeart()
         {
+            if (!_canReqHallHeart) return;
             if (!isConnectHallNet) return;
             currentHallHeartTimer -= Time.deltaTime;
             if (currentHallHeartTimer > 0) return;
@@ -235,7 +250,7 @@ namespace Hotfix
             {
                 if (!isConnectHallNet) return;
                 DebugHelper.LogError($"currentHallHeartTimer:{currentHallHeartTimer}");
-                CloseNetwork(SocketType.Hall);
+                await AsyncCloseNetwork(SocketType.Hall);
                 ReconnectHall();
                 return;
             }
@@ -249,8 +264,9 @@ namespace Hotfix
         /// <summary>
         ///     发送游戏心跳
         /// </summary>
-        private void ReqGameHeart()
+        private async void ReqGameHeart()
         {
+            if (!_canReqGameHeart) return;
             if (!isConnectGameNet) return;
             currentGameHeartTimer -= Time.deltaTime;
             if (currentGameHeartTimer > 0) return;
@@ -258,7 +274,7 @@ namespace Hotfix
             if (!isRealGameHeart)
             {
                 if (!isConnectGameNet) return;
-                CloseNetwork(SocketType.Game);
+                await AsyncCloseNetwork(SocketType.Game);
                 ReconnectGame();
                 return;
             }
@@ -314,11 +330,12 @@ namespace Hotfix
                 ToolHelper.ShowWaitPanel(false);
                 return;
             }
+
             ToolHelper.ShowWaitPanel(true, $"连接服务器中…");
             var ip = GameLocalMode.Instance.HallHost;
             var port = int.Parse(GameLocalMode.Instance.HallPort);
             var id = (int) SocketType.Hall;
-            Connect(ip, port, id, 5000, CallBack);
+            Connect(ip, port, id, 5, CallBack);
         }
 
         /// <summary>
@@ -345,11 +362,15 @@ namespace Hotfix
                             content = "网络错误！重连大厅失败",
                             okCall = () =>
                             {
+                                GameLocalMode.Instance.AccountList.isAuto = false;
+                                GameLocalMode.Instance.SaveAccount();
                                 UIManager.Instance.CloseAllUI();
                                 UIManager.Instance.OpenUI<LogonScenPanel>();
                             },
                             cancelCall = () =>
                             {
+                                GameLocalMode.Instance.AccountList.isAuto = false;
+                                GameLocalMode.Instance.SaveAccount();
                                 UIManager.Instance.CloseAllUI();
                                 UIManager.Instance.OpenUI<LogonScenPanel>();
                             }
@@ -936,16 +957,8 @@ namespace Hotfix
                     ToolHelper.PopBigWindow(new BigMessage
                     {
                         content = error,
-                        okCall = () =>
-                        {
-                            //TODO 退出游戏
-                            QuitGame();
-                        },
-                        cancelCall = () =>
-                        {
-                            //TODO 退出游戏
-                            QuitGame();
-                        }
+                        okCall = QuitGame,
+                        cancelCall = QuitGame
                     });
                     break;
                 case DataStruct.LoginGameStruct.SUB_GR_LOGON_FINISH: //登录游戏完成
@@ -980,7 +993,7 @@ namespace Hotfix
                 SocketType.Game); //入座
         }
 
-        public void CloseNetwork(SocketType socketType)
+        public Task AsyncCloseNetwork(SocketType socketType)
         {
             switch (socketType)
             {
@@ -994,15 +1007,31 @@ namespace Hotfix
                     break;
             }
 
-            Session session = null;
-            NetworkManager.DicSession.TryGetValue((int) socketType, out session);
-            if (session?.CloseFunc != null) session.CloseFunc = null;
-            session?.Dispose();
-            if (session != null)
+            string netType = socketType == SocketType.Hall ? "大厅" : "游戏";
+            ActionComponent.Instance?.Add(() => { ToolHelper.ShowWaitPanel(true, $"正在重置{netType}网络"); });
+            return Task.Run(() =>
             {
+                Session session = null;
+                NetworkManager.DicSession.TryGetValue((int) socketType, out session);
+                if (session != null)
+                {
+                    session.CloseFunc = null;
+                    session.CallBack = null;
+                    session?.Dispose();
+                }
+
+                ActionComponent.Instance?.Add(() =>
+                {
+                    ToolHelper.ShowWaitPanel(false);
+                });
+                if (session == null) return;
                 DebugHelper.LogError($"释放session：{session.Id}");
                 session.Id = -1;
-            }
+            });
+        }
+        public async void CloseNetwork(SocketType socketType)
+        {
+            await AsyncCloseNetwork(socketType);
         }
 
         /// <summary>

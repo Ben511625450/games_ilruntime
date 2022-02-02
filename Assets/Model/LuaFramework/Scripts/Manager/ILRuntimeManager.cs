@@ -2,31 +2,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DragonBones;
 using ILRuntime.CLR.Method;
 using ILRuntime.CLR.TypeSystem;
+using ILRuntime.Mono.Cecil.Pdb;
 using ILRuntime.Runtime;
 using ILRuntime.Runtime.Generated;
 using ILRuntime.Runtime.Intepreter;
 using ILRuntime.Runtime.Stack;
+using LitJson;
+using Spine;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using AnimationState = Spine.AnimationState;
+using AppDomain = ILRuntime.Runtime.Enviorment.AppDomain;
 using Object = UnityEngine.Object;
+using Transform = UnityEngine.Transform;
 
 namespace LuaFramework
 {
     public class ILRuntimeManager : Manager
     {
-        ILRuntime.Runtime.Enviorment.AppDomain _appdomain;
-        System.IO.MemoryStream _fs;
-        System.IO.MemoryStream _p;
+        AppDomain _appdomain;
+        MemoryStream _fs;
+        MemoryStream _p;
 
         public const string AesKey = "ILRuntime";
 
         public override void OnInitialize()
         {
             base.OnInitialize();
-            _appdomain = new ILRuntime.Runtime.Enviorment.AppDomain(ILRuntimeJITFlags.JITOnDemand);
+            _appdomain = new AppDomain(ILRuntimeJITFlags.JITOnDemand);
             EventHelper.LeaveGame += EventHelperOnLeaveGame;
         }
 
@@ -55,7 +66,7 @@ namespace LuaFramework
 #if !UNITY_EDITOR
                 _p = null;
 #endif
-                _appdomain?.LoadAssembly(_fs, _p, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
+                _appdomain?.LoadAssembly(_fs, _p, new PdbReaderProvider());
             }
             catch
             {
@@ -93,9 +104,10 @@ namespace LuaFramework
         /// </summary>
         private void InitializeILRuntime()
         {
-            LitJson.JsonMapper.RegisterILRuntimeCLRRedirection(_appdomain);
+            JsonMapper.RegisterILRuntimeCLRRedirection(_appdomain);
             _appdomain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
             _appdomain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
+            _appdomain.RegisterCrossBindingAdaptor(new IAsyncStateMachineClassInheritanceAdaptor());
             _appdomain.DelegateManager.RegisterMethodDelegate<int>();
             _appdomain.DelegateManager.RegisterMethodDelegate<string>();
             _appdomain.DelegateManager.RegisterMethodDelegate<float>();
@@ -108,140 +120,201 @@ namespace LuaFramework
             _appdomain.DelegateManager.RegisterMethodDelegate<decimal>();
             _appdomain.DelegateManager.RegisterMethodDelegate<bool>();
             _appdomain.DelegateManager.RegisterMethodDelegate<byte>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<object>();
             _appdomain.DelegateManager.RegisterMethodDelegate<byte[]>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Vector2>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Vector3>();
             _appdomain.DelegateManager.RegisterMethodDelegate<ByteBuffer>();
             _appdomain.DelegateManager.RegisterMethodDelegate<GameObject>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Transform>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<Object>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Collider>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Collision>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Collider2D>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Collision2D>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<ILRuntime.Runtime.Intepreter.ILTypeInstance>();
-            _appdomain.DelegateManager.RegisterFunctionDelegate<ILRuntime.Runtime.Intepreter.ILTypeInstance>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<System.IAsyncResult>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<Spine.TrackEntry>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<LuaFramework.BytesPack>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<IAsyncResult>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<TrackEntry>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<BytesPack>();
             _appdomain.DelegateManager.RegisterMethodDelegate<AssetBundle>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<System.String, LuaFramework.Session>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<String, Session>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Scene, LoadSceneMode>();
             _appdomain.DelegateManager.RegisterMethodDelegate<GameObject, GameObject>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<Object, Object,Object>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<Object, Object, Object>();
             _appdomain.DelegateManager.RegisterMethodDelegate<Object, Object>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<Object>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<GameObject, PointerEventData>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<Single, System.Object>();
+            _appdomain.DelegateManager.RegisterMethodDelegate<ILTypeInstance>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<int>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<string>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<float>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<double>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<short>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<long>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<uint>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ushort>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ulong>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<decimal>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<bool>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<byte>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<object>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<byte[]>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Vector2>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Vector3>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ByteBuffer>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<GameObject>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Transform>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Collider>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Collision>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Collider2D>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Collision2D>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, ILTypeInstance>();
             _appdomain.DelegateManager.RegisterFunctionDelegate<Object>();
             _appdomain.DelegateManager.RegisterFunctionDelegate<Object, Object>();
-            _appdomain.DelegateManager.RegisterFunctionDelegate<Object, Object,Object>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<GameObject, PointerEventData>();
-            _appdomain.DelegateManager.RegisterMethodDelegate<System.Single, System.Object>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<Object, Object, Object>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, Object, Object>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, Int32>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, string>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, long>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, double>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, bool>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, byte>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, float>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, short>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, decimal>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, object>();
+            _appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, ILTypeInstance, Object>();
+            _appdomain.DelegateManager.RegisterDelegateConvertor<ThreadStart>(act =>
+            {
+                return new ThreadStart(() => { ((Action) act)(); });
+            });
+
             _appdomain.DelegateManager
-                .RegisterDelegateConvertor<UnityEngine.Events.UnityAction<UnityEngine.SceneManagement.Scene,
-                    UnityEngine.SceneManagement.LoadSceneMode>>((act) =>
+                .RegisterDelegateConvertor<UnityAction<Scene,
+                    LoadSceneMode>>(act =>
                 {
                     return new
-                        UnityEngine.Events.UnityAction<UnityEngine.SceneManagement.Scene,
-                            UnityEngine.SceneManagement.LoadSceneMode>((arg0, arg1) =>
+                        UnityAction<Scene,
+                            LoadSceneMode>((arg0, arg1) =>
                         {
-                            ((Action<UnityEngine.SceneManagement.Scene,
-                                UnityEngine.SceneManagement.LoadSceneMode>) act)(arg0, arg1);
+                            ((Action<Scene,
+                                LoadSceneMode>) act)(arg0, arg1);
                         });
                 });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.TweenCallback>((act) =>
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<ILTypeInstance>>((act) =>
             {
-                return new DG.Tweening.TweenCallback(() => { ((System.Action) act)(); });
+                return new Comparison<ILTypeInstance>((x, y) =>
+                    ((Func<ILTypeInstance, ILTypeInstance, System.Int32>) act)(x, y));
+            });
+
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<int>>((act) =>
+            {
+                return new Comparison<int>((x, y) => ((Func<int, int, System.Int32>) act)(x, y));
+            });
+
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<string>>((act) =>
+            {
+                return new Comparison<string>((x, y) => ((Func<string, string, System.Int32>) act)(x, y));
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<short>>((act) =>
+            {
+                return new Comparison<short>((x, y) => ((Func<short, short, System.Int32>) act)(x, y));
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<long>>((act) =>
+            {
+                return new Comparison<long>((x, y) => ((Func<long, long, System.Int32>) act)(x, y));
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<float>>((act) =>
+            {
+                return new Comparison<float>((x, y) => ((Func<float, float, System.Int32>) act)(x, y));
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<double>>((act) =>
+            {
+                return new Comparison<double>((x, y) => ((Func<double, double, System.Int32>) act)(x, y));
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<decimal>>((act) =>
+            {
+                return new Comparison<decimal>((x, y) => ((Func<decimal, decimal, System.Int32>) act)(x, y));
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<object>>((act) =>
+            {
+                return new Comparison<object>((x, y) => ((Func<object, object, System.Int32>) act)(x, y));
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<TweenCallback>(act =>
+            {
+                return new TweenCallback(() => { ((Action) act)(); });
             });
 
 
-            _appdomain.DelegateManager.RegisterDelegateConvertor<System.AsyncCallback>((act) =>
+            _appdomain.DelegateManager.RegisterDelegateConvertor<AsyncCallback>(act =>
             {
-                return new System.AsyncCallback((ar) => { ((Action<System.IAsyncResult>) act)(ar); });
+                return new AsyncCallback(ar => { ((Action<IAsyncResult>) act)(ar); });
             });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.TweenCallback>((act) =>
+            _appdomain.DelegateManager.RegisterDelegateConvertor<TweenCallback>(act =>
             {
-                return new DG.Tweening.TweenCallback(() => { ((Action) act)(); });
+                return new TweenCallback(() => { ((Action) act)(); });
             });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.Core.DOSetter<System.Single>>((act) =>
+            _appdomain.DelegateManager.RegisterDelegateConvertor<DOSetter<Single>>(act =>
             {
-                return new DG.Tweening.Core.DOSetter<System.Single>((pNewValue) =>
+                return new DOSetter<Single>(pNewValue => { ((Action<Single>) act)(pNewValue); });
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<DOSetter<Decimal>>(act =>
+            {
+                return new DOSetter<Decimal>(pNewValue => { ((Action<Decimal>) act)(pNewValue); });
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<DOSetter<Double>>(act =>
+            {
+                return new DOSetter<Double>(pNewValue => { ((Action<Double>) act)(pNewValue); });
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<DOSetter<Int16>>(act =>
+            {
+                return new DOSetter<Int16>(pNewValue => { ((Action<Int16>) act)(pNewValue); });
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<DOSetter<Int32>>(act =>
+            {
+                return new DOSetter<Int32>(pNewValue => { ((Action<Int32>) act)(pNewValue); });
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<DOSetter<Int64>>(act =>
+            {
+                return new DOSetter<Int64>(pNewValue => { ((Action<Int64>) act)(pNewValue); });
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<DOSetter<Color>>(act =>
+            {
+                return new DOSetter<Color>(pNewValue => { ((Action<Color>) act)(pNewValue); });
+            });
+            _appdomain.DelegateManager.RegisterDelegateConvertor<AnimationState.TrackEntryDelegate>(act =>
+            {
+                return new AnimationState.TrackEntryDelegate(trackEntry =>
                 {
-                    ((Action<System.Single>) act)(pNewValue);
+                    ((Action<TrackEntry>) act)(trackEntry);
                 });
             });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.Core.DOSetter<System.Decimal>>((act) =>
-            {
-                return new DG.Tweening.Core.DOSetter<System.Decimal>((pNewValue) =>
+            _appdomain.DelegateManager.RegisterMethodDelegate<String, EventObject>();
+            _appdomain.DelegateManager.RegisterDelegateConvertor<ListenerDelegate<EventObject>>(
+                act =>
                 {
-                    ((Action<System.Decimal>) act)(pNewValue);
-                });
-            });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.Core.DOSetter<System.Double>>((act) =>
-            {
-                return new DG.Tweening.Core.DOSetter<System.Double>((pNewValue) =>
-                {
-                    ((Action<System.Double>) act)(pNewValue);
-                });
-            });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.Core.DOSetter<System.Int16>>((act) =>
-            {
-                return new DG.Tweening.Core.DOSetter<System.Int16>((pNewValue) =>
-                {
-                    ((Action<System.Int16>) act)(pNewValue);
-                });
-            });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.Core.DOSetter<System.Int32>>((act) =>
-            {
-                return new DG.Tweening.Core.DOSetter<System.Int32>((pNewValue) =>
-                {
-                    ((Action<System.Int32>) act)(pNewValue);
-                });
-            });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.Core.DOSetter<System.Int64>>((act) =>
-            {
-                return new DG.Tweening.Core.DOSetter<System.Int64>((pNewValue) =>
-                {
-                    ((Action<System.Int64>) act)(pNewValue);
-                });
-            });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.Core.DOSetter<Color>>((act) =>
-            {
-                return new DG.Tweening.Core.DOSetter<Color>((pNewValue) => { ((Action<Color>) act)(pNewValue); });
-            });
-            _appdomain.DelegateManager.RegisterDelegateConvertor<Spine.AnimationState.TrackEntryDelegate>((act) =>
-            {
-                return new Spine.AnimationState.TrackEntryDelegate((trackEntry) =>
-                {
-                    ((Action<Spine.TrackEntry>) act)(trackEntry);
-                });
-            });
-            _appdomain.DelegateManager.RegisterMethodDelegate<System.String, DragonBones.EventObject>();
-            _appdomain.DelegateManager.RegisterDelegateConvertor<DragonBones.ListenerDelegate<DragonBones.EventObject>>(
-                (act) =>
-                {
-                    return new DragonBones.ListenerDelegate<DragonBones.EventObject>((type, eventObject) =>
+                    return new ListenerDelegate<EventObject>((type, eventObject) =>
                     {
-                        ((Action<System.String, DragonBones.EventObject>) act)(type, eventObject);
+                        ((Action<String, EventObject>) act)(type, eventObject);
                     });
                 });
 
-            _appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.String>>((act) =>
+            _appdomain.DelegateManager.RegisterDelegateConvertor<UnityAction<String>>(act =>
             {
-                return new UnityEngine.Events.UnityAction<System.String>((arg0) =>
-                {
-                    ((Action<System.String>) act)(arg0);
-                });
+                return new UnityAction<String>(arg0 => { ((Action<String>) act)(arg0); });
             });
 
 
             CLRBindings.Initialize(_appdomain);
         }
 
-        unsafe void OnHotFixLoaded()
+        void OnHotFixLoaded()
         {
             try
             {
                 _appdomain?.Invoke("Hotfix.ILLauncher", "Init", null, null);
-                DebugTool.LogError($"加载ILRuntime成功");
+                DebugTool.LogError("加载ILRuntime成功");
             }
             catch (Exception e)
             {
@@ -249,7 +322,7 @@ namespace LuaFramework
             }
         }
 
-        unsafe void OnHotFixUnLoaded()
+        void OnHotFixUnLoaded()
         {
             try
             {
@@ -301,13 +374,13 @@ namespace LuaFramework
             CLRMethod __method, bool isNewObj)
         {
             //CLR重定向的说明请看相关文档和教程，这里不多做解释
-            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            AppDomain __domain = __intp.AppDomain;
 
             var ptr = __esp - 1;
             //成员方法的第一个参数为this
             GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
             if (instance == null)
-                throw new System.NullReferenceException();
+                throw new NullReferenceException();
             __intp.Free(ptr);
 
             var genericArgument = __method.GenericArguments;
@@ -349,13 +422,13 @@ namespace LuaFramework
             CLRMethod __method, bool isNewObj)
         {
             //CLR重定向的说明请看相关文档和教程，这里不多做解释
-            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            AppDomain __domain = __intp.AppDomain;
 
             var ptr = __esp - 1;
             //成员方法的第一个参数为this
             GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
             if (instance == null)
-                throw new System.NullReferenceException();
+                throw new NullReferenceException();
             __intp.Free(ptr);
 
             var genericArgument = __method.GenericArguments;

@@ -243,7 +243,7 @@ namespace Hotfix
             {
                 if (uiList[i] == null) continue;
                 DebugHelper.Log($"关闭{uiList[i].Behaviour.BehaviourName}");
-                uiList[i].transform.SetParent(Pools);
+                uiList[i]?.transform.SetParent(Pools);
                 Destroy(uiList[i]);
             }
 
