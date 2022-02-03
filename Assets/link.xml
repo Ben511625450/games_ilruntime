@@ -6,6 +6,8 @@
     <assembly fullname="System.Collections.Generic" preserve="all"/>
     <assembly fullname="System.Collections" preserve="all"/>
     <assembly fullname="System.Thread" preserve="all"/>
+    <assembly fullname="System.Runtime" preserve="all"/>
+    <assembly fullname="System.Runtime.CompilerServices" preserve="all"/>
     <assembly fullname="ILRuntime" preserve="all"/>
     <assembly fullname="Spine" preserve="all"/>
     <assembly fullname="TMPro" preserve="all"/>

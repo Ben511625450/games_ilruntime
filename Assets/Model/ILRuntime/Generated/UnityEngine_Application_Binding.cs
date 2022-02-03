@@ -37,9 +37,15 @@ namespace ILRuntime.Runtime.Generated
             args = new Type[]{};
             method = type.GetMethod("get_version", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, get_version_4);
+            args = new Type[]{typeof(System.String)};
+            method = type.GetMethod("OpenURL", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, OpenURL_5);
+            args = new Type[]{typeof(System.Int32)};
+            method = type.GetMethod("Quit", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, Quit_6);
             args = new Type[]{};
             method = type.GetMethod("get_targetFrameRate", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, get_targetFrameRate_5);
+            app.RegisterCLRMethodRedirection(method, get_targetFrameRate_7);
 
 
         }
@@ -106,7 +112,38 @@ namespace ILRuntime.Runtime.Generated
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
 
-        static StackObject* get_targetFrameRate_5(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* OpenURL_5(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            System.String @url = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
+            __intp.Free(ptr_of_this_method);
+
+
+            UnityEngine.Application.OpenURL(@url);
+
+            return __ret;
+        }
+
+        static StackObject* Quit_6(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            System.Int32 @exitCode = ptr_of_this_method->Value;
+
+
+            UnityEngine.Application.Quit(@exitCode);
+
+            return __ret;
+        }
+
+        static StackObject* get_targetFrameRate_7(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* __ret = ILIntepreter.Minus(__esp, 0);

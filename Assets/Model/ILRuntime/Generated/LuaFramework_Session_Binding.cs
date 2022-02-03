@@ -42,6 +42,10 @@ namespace ILRuntime.Runtime.Generated
             app.RegisterCLRFieldGetter(field, get_CloseFunc_2);
             app.RegisterCLRFieldSetter(field, set_CloseFunc_2);
             app.RegisterCLRFieldBinding(field, CopyToStack_CloseFunc_2, AssignFromStack_CloseFunc_2);
+            field = type.GetField("CallBack", flag);
+            app.RegisterCLRFieldGetter(field, get_CallBack_3);
+            app.RegisterCLRFieldSetter(field, set_CallBack_3);
+            app.RegisterCLRFieldBinding(field, CopyToStack_CallBack_3, AssignFromStack_CallBack_3);
 
             args = new Type[]{typeof(System.String), typeof(System.Int32), typeof(System.Int32), typeof(System.Int32), typeof(System.Action<System.String, LuaFramework.Session>)};
             method = type.GetConstructor(flag, null, args, null);
@@ -171,6 +175,30 @@ namespace ILRuntime.Runtime.Generated
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             System.Object @CloseFunc = (System.Object)typeof(System.Object).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             ((LuaFramework.Session)o).CloseFunc = @CloseFunc;
+            return ptr_of_this_method;
+        }
+
+        static object get_CallBack_3(ref object o)
+        {
+            return ((LuaFramework.Session)o).CallBack;
+        }
+
+        static StackObject* CopyToStack_CallBack_3(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        {
+            var result_of_this_method = ((LuaFramework.Session)o).CallBack;
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static void set_CallBack_3(ref object o, object v)
+        {
+            ((LuaFramework.Session)o).CallBack = (System.Action<System.String>)v;
+        }
+
+        static StackObject* AssignFromStack_CallBack_3(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            System.Action<System.String> @CallBack = (System.Action<System.String>)typeof(System.Action<System.String>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
+            ((LuaFramework.Session)o).CallBack = @CallBack;
             return ptr_of_this_method;
         }
 
