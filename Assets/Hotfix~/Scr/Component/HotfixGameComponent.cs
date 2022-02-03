@@ -335,7 +335,7 @@ namespace Hotfix
             var ip = GameLocalMode.Instance.HallHost;
             var port = int.Parse(GameLocalMode.Instance.HallPort);
             var id = (int) SocketType.Hall;
-            Connect(ip, port, id, 5, CallBack);
+            Connect(ip, port, id, 5000, CallBack);
         }
 
         /// <summary>
@@ -1021,15 +1021,13 @@ namespace Hotfix
                     session?.Dispose();
                 }
 
-                ActionComponent.Instance?.Add(() =>
-                {
-                    ToolHelper.ShowWaitPanel(false);
-                });
+                ActionComponent.Instance?.Add(() => { ToolHelper.ShowWaitPanel(false); });
                 if (session == null) return;
                 DebugHelper.LogError($"释放session：{session.Id}");
                 session.Id = -1;
             });
         }
+
         public async void CloseNetwork(SocketType socketType)
         {
             await AsyncCloseNetwork(socketType);
