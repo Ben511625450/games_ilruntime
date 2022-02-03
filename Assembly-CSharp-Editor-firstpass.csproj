@@ -725,6 +725,12 @@
  <Reference Include="Unity.VSCode.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.CacheServer">
+ <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Addressables">
+ <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Addressables.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
@@ -746,14 +752,23 @@
  <Reference Include="Unity.DeviceSimulator.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.DeviceSimulator.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.ScriptableBuildPipeline">
+ <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.2D.Sprite.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Addressables.Editor">
+ <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Addressables.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ResourceManager">
+ <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ResourceManager.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ScriptableBuildPipeline.Editor">
+ <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.PlasticSCM.Editor">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
@@ -761,29 +776,14 @@
  <Reference Include="Unity.Advertisement.IosSupport.Editor">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Advertisement.IosSupport.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.PlasticSCM.Editor">
+ <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Advertisement.IosSupport">
  <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Advertisement.IosSupport.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Addressables">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Addressables.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Addressables.Editor">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.Addressables.Editor.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.CacheServer">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ResourceManager">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ResourceManager.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline.Editor">
- <HintPath>D:/Projects/2022/games_zy999_ilruntime/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
