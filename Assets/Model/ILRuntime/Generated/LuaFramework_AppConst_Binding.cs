@@ -19,9 +19,13 @@ namespace ILRuntime.Runtime.Generated
         public static void Register(ILRuntime.Runtime.Enviorment.AppDomain app)
         {
             BindingFlags flag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+            MethodBase method;
             FieldInfo field;
             Type[] args;
             Type type = typeof(LuaFramework.AppConst);
+            args = new Type[]{};
+            method = type.GetMethod("get_ResetGameTimer", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, get_ResetGameTimer_0);
 
             field = type.GetField("csConfiger", flag);
             app.RegisterCLRFieldGetter(field, get_csConfiger_0);
@@ -43,6 +47,19 @@ namespace ILRuntime.Runtime.Generated
 
         }
 
+
+        static StackObject* get_ResetGameTimer_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 0);
+
+
+            var result_of_this_method = LuaFramework.AppConst.ResetGameTimer;
+
+            __ret->ObjectType = ObjectTypes.Integer;
+            __ret->Value = result_of_this_method;
+            return __ret + 1;
+        }
 
 
         static object get_csConfiger_0(ref object o)
