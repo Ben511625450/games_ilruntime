@@ -490,7 +490,7 @@ namespace Hotfix
                 case DataStruct.LoginStruct.SUB_3D_SC_LOGIN_SUCCESS:
                     GameLocalMode.Instance.SCPlayerInfo = new HallStruct.ACP_SC_LOGIN_SUCCESS(buffer);
                     DebugHelper.LogError($"{LitJson.JsonMapper.ToJson(GameLocalMode.Instance.SCPlayerInfo)}");
-                    HallEvent.DispatchLogonResult(true);
+                    EventComponent.Instance.DispatchListener(HallEvent.LogonResultCallBack,true);
                     isShowReconnectTip = false;
                     if (GameLocalMode.Instance.SCPlayerInfo.ReconnectGameID == 0 ||
                         GameLocalMode.Instance.SCPlayerInfo.ReconnectFloorID == 0) return;
@@ -534,7 +534,8 @@ namespace Hotfix
                     var logFile = new HallStruct.ACP_SC_LOGIN_FAILE(buffer);
                     DebugHelper.LogError(logFile.Error);
                     ToolHelper.PopSmallWindow(logFile.Error);
-                    HallEvent.DispatchLogonResult(false);
+                    EventComponent.Instance.DispatchListener(HallEvent.LogonResultCallBack,false);
+                    // HallEvent.DispatchLogonResult(false);
                     break;
                 }
                 case DataStruct.LoginStruct.SUB_3D_SC_ACCOUNT_OFFLINE:
@@ -573,13 +574,13 @@ namespace Hotfix
                 case DataStruct.LoginStruct.SUB_3D_SC_REGISTER:
                 {
                     var registerInfo = new HallStruct.ACP_SC_LOGIN_REGISTER(buffer);
-                    HallEvent.DispatchRegister(registerInfo);
+                    EventComponent.Instance.DispatchListener(HallEvent.LogonRegisterCallBack, registerInfo);
                     break;
                 }
                 case DataStruct.LoginStruct.SUB_3D_SC_CODE:
                 {
                     var codeInfo = new HallStruct.ACP_SC_CODE(buffer);
-                    HallEvent.DispatchCodeCallBack(codeInfo.Code);
+                    EventComponent.Instance.DispatchListener(HallEvent.LogonCodeCallBack, codeInfo.Code);
                     break;
                 }
                 case DataStruct.LoginStruct.SUB_SC_RES_MODIFY_USER_PASSWD_RESULT:
@@ -588,11 +589,11 @@ namespace Hotfix
                     if (pack.bytes.Length > 0)
                     {
                         PWInfo = new HallStruct.ACP_SC_LOGIN_FINDPW(buffer);
-                        HallEvent.DispatchLogonFindPW(PWInfo);
+                        EventComponent.Instance.DispatchListener(HallEvent.LogonFindPWCallBack, PWInfo);
                     }
                     else
                     {
-                        HallEvent.DispatchLogonFindPW();
+                        EventComponent.Instance.DispatchListener(HallEvent.LogonFindPWCallBack);
                     }
 
                     break;
@@ -600,28 +601,22 @@ namespace Hotfix
                 case DataStruct.LoginStruct.SUB_3D_SC_RESET_PASSWORD_CODE:
                 {
                     var codeInfo = new HallStruct.ACP_SC_CODE(buffer);
-                    HallEvent.DispatchLogonFindPW_GetCode((int) codeInfo.Code);
+                    EventComponent.Instance.DispatchListener(HallEvent.LogonFindPW_GetCode, (int) codeInfo.Code);
                     break;
                 }
                 case DataStruct.LoginStruct.SUB_3D_SC_LOGIN_CODE_RESULT:
                 {
-                    HallEvent.DispatchOnShowCodeLogin();
+                    EventComponent.Instance.DispatchListener(HallEvent.OnShowCodeLogin);
                     break;
                 }
                 case DataStruct.LoginStruct.SUB_SC_RES_MODIFY_USER_PASSWD_CHECK_CODE:
                 {
                     var code = buffer.ReadInt32();
-                    HallEvent.DispatchLogonFindPW_GetCode(code);
+                    EventComponent.Instance.DispatchListener(HallEvent.LogonFindPW_GetCode, code);
                     break;
                 }
                 default:
                 {
-                    if (pack.sid == DataStruct.LoginStruct.SUB_3D_CS_CODE)
-                    {
-                        var bind = new HallStruct.ACP_SC_BindGetCodeCallBack(buffer);
-                        HallEvent.DispatchSC_BindCodeCallBack(bind.index);
-                    }
-
                     break;
                 }
             }
@@ -691,69 +686,74 @@ namespace Hotfix
                 case DataStruct.PersonalStruct.SUB_3D_SC_USER_INFO_SELECT:
                 {
                     HallStruct.ACP_SC_QueryPlayer queryPlayer = new HallStruct.ACP_SC_QueryPlayer(buffer);
-                    HallEvent.DispatchOnQueryPlayer(queryPlayer);
+                    EventComponent.Instance.DispatchListener(HallEvent.OnQueryPlayer, queryPlayer);
                     break;
                 }
                 case DataStruct.PersonalStruct.SUB_3D_SC_CHANGE_SIGN when pack.bytes.Length > 0:
                 {
                     var sign = new HallStruct.ACP_SC_CHANGE_SIGN(buffer);
-                    HallEvent.DispatchChange_Sign(sign);
+                    EventComponent.Instance.DispatchListener(HallEvent.Change_Sign, sign);
                     break;
                 }
                 case DataStruct.PersonalStruct.SUB_3D_SC_CHANGE_SIGN:
-                    HallEvent.DispatchChange_Sign();
+                    EventComponent.Instance.DispatchListener(HallEvent.Change_Sign);
                     break;
                 case DataStruct.PersonalStruct.SUB_3D_SC_CHANGE_NICKNAME when pack.bytes.Length > 0:
                 {
                     var nickName = new HallStruct.ACP_SC_UpdataNickName(buffer);
-                    HallEvent.DispatchSC_UpdataNickName(nickName);
+                    EventComponent.Instance.DispatchListener(HallEvent.SC_UpdataNickName, nickName);
                     break;
                 }
                 case DataStruct.PersonalStruct.SUB_3D_SC_CHANGE_NICKNAME:
-                    HallEvent.DispatchSC_UpdataNickName();
+                    EventComponent.Instance.DispatchListener(HallEvent.SC_UpdataNickName);
                     break;
                 case DataStruct.PersonalStruct.SUB_3D_SC_CHANGE_ACCOUNT when pack.bytes.Length > 0:
                 {
                     var acc = new HallStruct.ACP_SC_CHANGE_ACCOUNT(buffer);
-                    HallEvent.DispatchSC_CHANGE_ACCOUNT(acc);
+                    EventComponent.Instance.DispatchListener(HallEvent.SC_CHANGE_ACCOUNT, acc);
                     break;
                 }
                 case DataStruct.PersonalStruct.SUB_3D_SC_CHANGE_ACCOUNT:
-                    HallEvent.DispatchSC_CHANGE_ACCOUNT();
+                    EventComponent.Instance.DispatchListener(HallEvent.SC_CHANGE_ACCOUNT);
                     break;
                 case DataStruct.PersonalStruct.SUB_3D_SC_CHANGE_PASSWORD when pack.bytes.Length > 0:
                 {
                     var acc = new HallStruct.ACP_SC_CHANGE_PASSWOR(buffer);
-                    HallEvent.DispatchSC_CHANGE_PASSWORD(acc);
+                    EventComponent.Instance.DispatchListener(HallEvent.SC_CHANGE_PASSWORD, acc);
                     break;
                 }
                 case DataStruct.PersonalStruct.SUB_3D_SC_CHANGE_PASSWORD:
-                    HallEvent.DispatchSC_CHANGE_PASSWORD();
+                    EventComponent.Instance.DispatchListener(HallEvent.SC_CHANGE_PASSWORD);
                     break;
                 case DataStruct.PersonalStruct.SUB_3D_SC_DIANKA_QUERY:
                 {
-                    HallEvent.DispatchDIANKA_QUERY(new HallStruct.ACP_SC_DIANKA_QUERY(buffer));
+                    EventComponent.Instance.DispatchListener(HallEvent.DIANKA_QUERY,
+                        new HallStruct.ACP_SC_DIANKA_QUERY(buffer));
                     break;
                 }
                 case DataStruct.PersonalStruct.SUB_3D_SC_DIANKA_GIVE:
-                    HallEvent.DispatchZSCardResult(buffer);
+                    EventComponent.Instance.DispatchListener(HallEvent.ZSCardResult,
+                        new HallStruct.ACP_SC_ZSCardResult(buffer));
                     break;
                 case DataStruct.PersonalStruct.SUB_3D_SC_DIANKA_RECEIVE:
                 {
-                    HallEvent.DispatchDIANKA_RECEIVE(new HallStruct.ACP_SC_DIANKA_RECEIVE(buffer));
+                    EventComponent.Instance.DispatchListener(HallEvent.DIANKA_RECEIVE,
+                        new HallStruct.ACP_SC_DIANKA_RECEIVE(buffer));
                     break;
                 }
                 case DataStruct.PersonalStruct.SUB_3D_SC_QUERY_UP_SCORE_RECORD:
-                    HallEvent.DispatchSC_QUERY_UP_SCORE_RECORD(buffer);
+                    EventComponent.Instance.DispatchListener(HallEvent.SC_QUERY_UP_SCORE_RECORD,
+                        new HallStruct.ACP_SC_QueryID(buffer));
                     break;
                 case DataStruct.PersonalStruct.SUB_3D_SC_QUERYLOGINVERIFY_RES:
                 {
-                    HallEvent.DispatchOnQueryLoginVerifyCallBack(new HallStruct.ACP_SC_QueryLoginVerify(buffer));
+                    EventComponent.Instance.DispatchListener(HallEvent.OnQueryLoginVerifyCallBack,
+                        new HallStruct.ACP_SC_QueryLoginVerify(buffer));
                 }
                     break;
                 case DataStruct.PersonalStruct.SUB_3D_SC_STRONG_BOX_COME_IN:
                 {
-                    HallEvent.DispatchOnEnterBank(new HallStruct.InitBank(buffer));
+                    EventComponent.Instance.DispatchListener(HallEvent.OnEnterBank, new HallStruct.InitBank(buffer));
                 }
                     break;
             }
@@ -772,7 +772,7 @@ namespace Hotfix
             }
             else
             {
-                HallEvent.DispatchChangeHeader(changeResult);
+                EventComponent.Instance.DispatchListener(HallEvent.ChangeHeader, (uint) changeResult);
                 ToolHelper.PopSmallWindow("更改头像成功");
                 UIManager.Instance.Close();
             }
@@ -793,7 +793,7 @@ namespace Hotfix
             if (tmeNum >= 0)
                 GameLocalMode.Instance.ChangProp(select.Self_Gold, Prop_Id.E_PROP_GOLD);
 
-            HallEvent.DispatchChangeGoldTicket();
+            EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
         }
 
         /// <summary>
@@ -816,8 +816,7 @@ namespace Hotfix
                 else
                     GameLocalMode.Instance.AllSCUserProp.Add(USER_PROP);
             }
-
-            HallEvent.DispatchChangeGoldTicket();
+            EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
         }
 
 
@@ -833,23 +832,24 @@ namespace Hotfix
             {
                 //转账
                 case DataStruct.GoldMineStruct.SUB_3D_SC_TRANSFERACCOUNTS when pack.bytes.Length == 0:
-                    HallEvent.DispatchOnTransferComplete(true);
+                    EventComponent.Instance.DispatchListener(HallEvent.OnTransferComplete, true);
                     break;
                 case DataStruct.GoldMineStruct.SUB_3D_SC_TRANSFERACCOUNTS when pack.bytes.Length == 100:
                     ToolHelper.PopSmallWindow("网络错误，请重新操作");
-                    HallEvent.DispatchOnTransferComplete(false);
+                    EventComponent.Instance.DispatchListener(HallEvent.OnTransferComplete, false);
                     break;
                 case DataStruct.GoldMineStruct.SUB_3D_SC_TRANSFERACCOUNTS:
                 {
                     int num = buffer.ReadUInt16();
                     var msg = buffer.ReadString(num);
-                    HallEvent.DispatchOnTransferComplete(false);
+                    EventComponent.Instance.DispatchListener(HallEvent.OnTransferComplete, false);
                     ToolHelper.PopSmallWindow(msg);
                     break;
                 }
                 //获取记录
                 case DataStruct.GoldMineStruct.SUB_2D_SC_GIVE_RECORD_LIST:
-                    HallEvent.DispatchSC_Give_Record_List(buffer);
+                    EventComponent.Instance.DispatchListener(HallEvent.SC_Give_Record_List,
+                        new HallStruct.ACP_SC_Bank_AllRecord(buffer));
                     break;
                 case DataStruct.GoldMineStruct.SUB_3D_SC_UPDATEBANKERSAVEGOLD:
                 {
@@ -857,7 +857,7 @@ namespace Hotfix
                         new HallStruct.ACP_SC_UPDATEBANKERSAVEGOLD(buffer);
                     long gold = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_STRONG) + updatebankersavegold.gold;
                     GameLocalMode.Instance.ChangProp(gold, Prop_Id.E_PROP_STRONG);
-                    HallEvent.DispatchChangeGoldTicket();
+                    EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
                     break;
                 }
                 case DataStruct.GoldMineStruct.SUB_3D_SC_WITHDRAW:
@@ -873,7 +873,7 @@ namespace Hotfix
                         GameLocalMode.Instance.ChangProp(gold + recall.recallGold, Prop_Id.E_PROP_STRONG);
                     }
 
-                    HallEvent.DispatchChangeGoldTicket();
+                    EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
                     ToolHelper.PopSmallWindow(recall.recallMsg);
                     break;
                 }
@@ -903,7 +903,7 @@ namespace Hotfix
                     GameLocalMode.Instance.ChangProp(bankGold, Prop_Id.E_PROP_STRONG);
                     if (ILGameManager.isOpenBank) UIManager.Instance.OpenUI<BankPanel>();
 
-                    HallEvent.DispatchChangeGoldTicket();
+                    EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
                     break;
                 }
                 case DataStruct.BankStruct.SUB_GP_SETBANKPASSRESULT:
@@ -913,21 +913,21 @@ namespace Hotfix
                     list.Add(buffer.ReadInt64Str());
                     list.Add(buffer.ReadInt64Str());
                     list.Add(buffer.ReadString(1024));
-                    HallEvent.DispatchChangeGoldTicket();
-                    HallEvent.DispatchSETBANKPASSRESULT(list);
+                    EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
+                    EventComponent.Instance.DispatchListener(HallEvent.SETBANKPASSRESULT, list);
                     break;
                 }
                 case DataStruct.BankStruct.SUB_GP_USER_BANK_OPERATE_RESULT:
                 {
                     var data = new HallStruct.ACP_SC_SaveOrGetGold(buffer);
-                    HallEvent.DispatchBank_Operate_Result(data);
-                    HallEvent.DispatchChangeGoldTicket();
+                    EventComponent.Instance.DispatchListener(HallEvent.Bank_Operate_Result, data);
+                    EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
                     break;
                 }
                 case DataStruct.BankStruct.SUB_GP_MODIFY_BANK_PASSWD_CHECK_CODE_RESULT:
                 {
-                    var data = new HallStruct.ACP_SC_Bank_Change_PW(buffer);
-                    HallEvent.DispatchBank_Change_PW(data);
+                    EventComponent.Instance.DispatchListener(HallEvent.Bank_Change_PW,
+                        new HallStruct.ACP_SC_Bank_Change_PW(buffer));
                     break;
                 }
             }
@@ -1133,15 +1133,6 @@ namespace Hotfix
         private void DispatchGameDataInfo(BytesPack pack)
         {
             GameAction?.Invoke((ushort) pack.sid, pack);
-        }
-
-        /// <summary>
-        ///     心跳消息
-        /// </summary>
-        /// <param name="pack"></param>
-        private void DispatchHallHeart(BytesPack pack)
-        {
-            HallEvent.DispatchS_CHallHeart();
         }
 
         private class IdleState : State<HotfixGameComponent>

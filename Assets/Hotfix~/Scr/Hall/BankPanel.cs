@@ -37,7 +37,7 @@ namespace Hotfix.Hall
         {
             base.Create(args);
             ILGameManager.isOpenBank = true;
-            HallEvent.DispatchChangeGoldTicket();
+            EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
             states = new List<IState>();
             hsm = new HierarchicalStateMachine(false, gameObject);
             states.Add(new IdleState(this, hsm));
@@ -130,17 +130,18 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.OnEnterBank += HallEventOnOnEnterBank;
+            EventComponent.Instance.AddListener(HallEvent.OnEnterBank, HallEventOnOnEnterBank);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.OnEnterBank -= HallEventOnOnEnterBank;
+            EventComponent.Instance.RemoveListener(HallEvent.OnEnterBank, HallEventOnOnEnterBank);
         }
 
-        private void HallEventOnOnEnterBank(HallStruct.InitBank bankInfo)
+        private void HallEventOnOnEnterBank(params object[] args)
         {
+            HallStruct.InitBank bankInfo = (HallStruct.InitBank) args[0];
             if (bankInfo.count > 200)
             {
                 ToolHelper.PopBigWindow(new BigMessage()
@@ -153,7 +154,7 @@ namespace Hotfix.Hall
             }
 
             GameLocalMode.Instance.ChangProp(bankInfo.bankGold, Prop_Id.E_PROP_STRONG);
-            HallEvent.DispatchChangeGoldTicket();
+            EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
             if (bankInfo.count == 0) return;
             ToolHelper.PopBigWindow(new BigMessage()
             {
@@ -256,9 +257,9 @@ namespace Hotfix.Hall
                 allSaveBtn.transform.Find("Qu").gameObject.SetActive(false);
                 getBtn.gameObject.SetActive(false);
                 saveBtn.gameObject.SetActive(true);
-                HallEvent.ChangeGoldTicket += HallEventOnChangeGoldTicket;
-                HallEvent.Bank_Operate_Result += GetOrSaveCallBack;
-                HallEvent.DispatchChangeGoldTicket();
+                EventComponent.Instance.AddListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
+                EventComponent.Instance.AddListener(HallEvent.Bank_Operate_Result,GetOrSaveCallBack);
+                EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
             }
 
             public override void OnExit()
@@ -267,8 +268,8 @@ namespace Hotfix.Hall
                 selectObj.gameObject.SetActive(false);
                 owner.leftSaveBtn.interactable = true;
                 owner.getSavePanel.gameObject.SetActive(false);
-                HallEvent.ChangeGoldTicket -= HallEventOnChangeGoldTicket;
-                HallEvent.Bank_Operate_Result -= GetOrSaveCallBack;
+                EventComponent.Instance.RemoveListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
+                EventComponent.Instance.RemoveListener(HallEvent.Bank_Operate_Result,GetOrSaveCallBack);
             }
 
             private void Init()
@@ -324,9 +325,10 @@ namespace Hotfix.Hall
             /// <summary>
             /// 存取金币服务器返回
             /// </summary>
-            /// <param name="data"></param>
-            private void GetOrSaveCallBack(HallStruct.ACP_SC_SaveOrGetGold data)
+            /// <param name="args"></param>
+            private void GetOrSaveCallBack(params object[] args)
             {
+                HallStruct.ACP_SC_SaveOrGetGold data = (HallStruct.ACP_SC_SaveOrGetGold) args[0];
                 if (data.cbDrawOut != 0) return;
                 SaveGoldBtnCallBack(data);
             }
@@ -358,7 +360,7 @@ namespace Hotfix.Hall
                 UIManager.Instance.OpenUI<UpdateBankPWPanel>();
             }
 
-            private void HallEventOnChangeGoldTicket()
+            private void HallEventOnChangeGoldTicket(params object[] args)
             {
                 selfGoldNum.text = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD).ToString();
                 bankGoldNum.text = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_STRONG).ToString();
@@ -371,7 +373,7 @@ namespace Hotfix.Hall
             private void SaveGoldBtnOnClick()
             {
                 var str = saveNum.text;
-                long gold = long.Parse(str);
+                long.TryParse(str,out long gold);
                 if (string.IsNullOrEmpty(str) || gold < 1)
                 {
                     ToolHelper.PopSmallWindow("请检查你输入的金币是否正确");
@@ -460,9 +462,9 @@ namespace Hotfix.Hall
                 allSaveBtn.transform.Find("Qu").gameObject.SetActive(true);
                 getBtn.gameObject.SetActive(true);
                 saveBtn.gameObject.SetActive(false);
-                HallEvent.ChangeGoldTicket += HallEventOnChangeGoldTicket;
-                HallEvent.Bank_Operate_Result += GetOrSaveCallBack;
-                HallEvent.DispatchChangeGoldTicket();
+                EventComponent.Instance.AddListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
+                EventComponent.Instance.AddListener(HallEvent.Bank_Operate_Result,GetOrSaveCallBack);
+                EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
             }
 
             public override void OnExit()
@@ -471,8 +473,8 @@ namespace Hotfix.Hall
                 selectObj.gameObject.SetActive(false);
                 owner.leftGetBtn.interactable = true;
                 owner.getSavePanel.gameObject.SetActive(false);
-                HallEvent.ChangeGoldTicket -= HallEventOnChangeGoldTicket;
-                HallEvent.Bank_Operate_Result -= GetOrSaveCallBack;
+                EventComponent.Instance.RemoveListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
+                EventComponent.Instance.RemoveListener(HallEvent.Bank_Operate_Result,GetOrSaveCallBack);
             }
 
             private void Init()
@@ -530,7 +532,7 @@ namespace Hotfix.Hall
                 UIManager.Instance.OpenUI<UpdateBankPWPanel>();
             }
 
-            private void HallEventOnChangeGoldTicket()
+            private void HallEventOnChangeGoldTicket(params object[] args)
             {
                 if (selfGoldNum != null)
                     selfGoldNum.text = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD).ToString();
@@ -538,8 +540,9 @@ namespace Hotfix.Hall
                     bankGoldNum.text = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_STRONG).ToString();
             }
 
-            private void GetOrSaveCallBack(HallStruct.ACP_SC_SaveOrGetGold data)
+            private void GetOrSaveCallBack(params object[] args)
             {
+                HallStruct.ACP_SC_SaveOrGetGold data = (HallStruct.ACP_SC_SaveOrGetGold) args[0];
                 if (data.cbDrawOut == 0) return;
                 GetGoldBtnCallBack(data);
             }
@@ -572,7 +575,7 @@ namespace Hotfix.Hall
             private void GetGoldBtnOnClick()
             {
                 var str = getNum.text;
-                long gold = long.Parse(str);
+                long.TryParse(str, out long gold);
                 if (string.IsNullOrEmpty(str) || gold < 1)
                 {
                     ToolHelper.PopSmallWindow("请检查你输入的金币是否正确");
@@ -666,10 +669,10 @@ namespace Hotfix.Hall
                 selectObj.gameObject.SetActive(true);
                 owner.leftTransferBtn.interactable = false;
                 rate = GameLocalMode.Instance.GWData.MoneyRate;
-                HallEvent.ChangeGoldTicket += HallEventOnChangeGoldTicket;
-                HallEvent.OnQueryPlayer += HallEventOnQueryPlayer;
-                HallEvent.OnTransferComplete += GiveGoldCallBack;
-                HallEvent.DispatchChangeGoldTicket();
+                EventComponent.Instance.AddListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
+                EventComponent.Instance.AddListener(HallEvent.OnQueryPlayer,HallEventOnQueryPlayer);
+                EventComponent.Instance.AddListener(HallEvent.OnTransferComplete,GiveGoldCallBack);
+                EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
                 owner.transferPanel.gameObject.SetActive(true);
             }
 
@@ -679,9 +682,9 @@ namespace Hotfix.Hall
                 selectObj.gameObject.SetActive(false);
                 owner.leftTransferBtn.interactable = true;
                 owner.transferPanel.gameObject.SetActive(false);
-                HallEvent.ChangeGoldTicket -= HallEventOnChangeGoldTicket;
-                HallEvent.OnQueryPlayer -= HallEventOnQueryPlayer;
-                HallEvent.OnTransferComplete -= GiveGoldCallBack;
+                EventComponent.Instance.RemoveListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
+                EventComponent.Instance.RemoveListener(HallEvent.OnQueryPlayer,HallEventOnQueryPlayer);
+                EventComponent.Instance.RemoveListener(HallEvent.OnTransferComplete,GiveGoldCallBack);
             }
 
             private void Init()
@@ -760,7 +763,7 @@ namespace Hotfix.Hall
                 transferMoney = 0;
             }
 
-            private void HallEventOnChangeGoldTicket()
+            private void HallEventOnChangeGoldTicket(params object[] args)
             {
                 selfGoldNum.text = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD).ToString();
                 bankGoldNum.text = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_STRONG).ToString();
@@ -776,9 +779,9 @@ namespace Hotfix.Hall
                     DataStruct.PersonalStruct.SUB_3D_CS_USER_INFO_SELECT, queryPlayer.ByteBuffer, SocketType.Hall);
             }
 
-            private void HallEventOnQueryPlayer(HallStruct.ACP_SC_QueryPlayer obj)
+            private void HallEventOnQueryPlayer(params object[] args)
             {
-                queryPlayer = obj;
+                queryPlayer = (HallStruct.ACP_SC_QueryPlayer) args[0];
                 if (givePlayerNickName == null) return;
                 if (!queryPlayer.isReal)
                 {
@@ -914,8 +917,9 @@ namespace Hotfix.Hall
                 }
             }
 
-            private void GiveGoldCallBack(bool isSuccess)
+            private void GiveGoldCallBack(params object[] args)
             {
+                bool isSuccess = (bool) args[0];
                 if (isSuccess)
                 {
                     GiveGoldSuccess();
@@ -997,7 +1001,7 @@ namespace Hotfix.Hall
                 owner.queryPanel.gameObject.SetActive(true);
                 queryIdObj.gameObject.SetActive(true);
                 queryIdText.gameObject.SetActive(false);
-                HallEvent.SC_QUERY_UP_SCORE_RECORD += RecordCallBack;
+                EventComponent.Instance.AddListener(HallEvent.SC_QUERY_UP_SCORE_RECORD, RecordCallBack);
                 isStart = false;
             }
 
@@ -1008,7 +1012,7 @@ namespace Hotfix.Hall
                 selectObj.gameObject.SetActive(false);
                 owner.leftQueryBtn.interactable = true;
                 owner.queryPanel.gameObject.SetActive(false);
-                HallEvent.SC_QUERY_UP_SCORE_RECORD -= RecordCallBack;
+                EventComponent.Instance.RemoveListener(HallEvent.SC_QUERY_UP_SCORE_RECORD, RecordCallBack);
             }
 
             public override void Update()
@@ -1085,11 +1089,11 @@ namespace Hotfix.Hall
             }
 
 
-            private void RecordCallBack(ByteBuffer buffer)
+            private void RecordCallBack(params object[] args)
             {
                 queryId.text = "";
                 balancegold.text = "";
-                HallStruct.ACP_SC_QueryID queryResult = new HallStruct.ACP_SC_QueryID(buffer);
+                HallStruct.ACP_SC_QueryID queryResult = (HallStruct.ACP_SC_QueryID) args[0];
                 DebugHelper.Log($"{LitJson.JsonMapper.ToJson(queryResult)}");
                 if (!queryResult.cbRes)
                 {

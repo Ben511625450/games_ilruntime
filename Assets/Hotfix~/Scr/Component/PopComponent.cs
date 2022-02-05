@@ -26,14 +26,14 @@ namespace Hotfix
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.OnClosePopBig += HallEvent_OnClosePopBig;
+            EventComponent.Instance.AddListener(HallEvent.OnClosePopBig, HallEvent_OnClosePopBig);
         }
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.OnClosePopBig -= HallEvent_OnClosePopBig;
+            EventComponent.Instance.RemoveListener(HallEvent.OnClosePopBig, HallEvent_OnClosePopBig);
         }
-        private void HallEvent_OnClosePopBig()
+        private void HallEvent_OnClosePopBig(params object[] args)
         {
             isShowBig = false;
         }

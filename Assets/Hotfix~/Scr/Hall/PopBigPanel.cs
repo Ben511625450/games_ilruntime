@@ -107,7 +107,7 @@ namespace Hotfix.Hall
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            HallEvent.DispatchOnClosePopBig();
+            EventComponent.Instance.DispatchListener(HallEvent.OnClosePopBig);
         }
     }
 

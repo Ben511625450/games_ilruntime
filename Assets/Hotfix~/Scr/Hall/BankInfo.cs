@@ -20,7 +20,7 @@ namespace Hotfix.Hall
             maskCloseBtn = transform.FindChildDepth<Button>("Mask");
 
             info.text = args[0].ToString();
-            HallEvent.DispatchChangeGoldTicket();
+            EventComponent.Instance.DispatchListener(HallEvent.ChangeGoldTicket);
 
             closeBtn.onClick.RemoveAllListeners();
             closeBtn.onClick.Add(OnClickClose);
@@ -31,7 +31,7 @@ namespace Hotfix.Hall
 
         private void OnClickClose()
         {
-            HallEvent.DispatchOnTransferComplete(false);
+            EventComponent.Instance.DispatchListener(HallEvent.OnTransferComplete, false);
             info.text = "";
             UIManager.Instance.Close();
         }

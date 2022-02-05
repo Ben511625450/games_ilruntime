@@ -150,15 +150,20 @@ namespace Hotfix
             _instance = null;
         }
 
-        public long GetProp(Prop_Id prop_Id)
+        public long GetProp(Prop_Id propId)
         {
             long num = 0;
             for (var i = 0; i < AllSCUserProp.Count; i++)
             {
-                if (AllSCUserProp[i].User_Id == SCPlayerInfo.DwUser_Id)
+                if (AllSCUserProp[i].User_Id != SCPlayerInfo.DwUser_Id) continue;
+                switch (propId)
                 {
-                    if (prop_Id == Prop_Id.E_PROP_GOLD) num = AllSCUserProp[i].dwAmount;
-                    if (prop_Id == Prop_Id.E_PROP_STRONG) num = AllSCUserProp[i].Bank_Gold;
+                    case Prop_Id.E_PROP_GOLD:
+                        num = AllSCUserProp[i].dwAmount;
+                        break;
+                    case Prop_Id.E_PROP_STRONG:
+                        num = AllSCUserProp[i].Bank_Gold;
+                        break;
                 }
             }
 
@@ -166,12 +171,12 @@ namespace Hotfix
         }
 
 
-        public void ChangProp(long num, Prop_Id prop_Id)
+        public void ChangProp(long num, Prop_Id propId)
         {
             for (var i = 0; i < AllSCUserProp.Count; i++)
             {
                 if (AllSCUserProp[i].User_Id != SCPlayerInfo.DwUser_Id) continue;
-                switch (prop_Id)
+                switch (propId)
                 {
                     case Prop_Id.E_PROP_GOLD:
                         AllSCUserProp[i].dwAmount = num;

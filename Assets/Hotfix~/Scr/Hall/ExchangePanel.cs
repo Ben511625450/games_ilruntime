@@ -33,15 +33,15 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.DIANKA_QUERY += InitData;
-            HallEvent.DIANKA_RECEIVE += OnReceiveData;
+            EventComponent.Instance.AddListener(HallEvent.DIANKA_QUERY,InitData);
+            EventComponent.Instance.AddListener(HallEvent.DIANKA_RECEIVE,OnReceiveData);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.DIANKA_QUERY -= InitData;
-            HallEvent.DIANKA_RECEIVE -= OnReceiveData;
+            EventComponent.Instance.RemoveListener(HallEvent.DIANKA_QUERY,InitData);
+            EventComponent.Instance.RemoveListener(HallEvent.DIANKA_RECEIVE,OnReceiveData);
         }
 
 
@@ -72,8 +72,9 @@ namespace Hotfix.Hall
             ReceiveBtn.onClick.Add(OnClickReceive);
         }
 
-        private void InitData(HallStruct.ACP_SC_DIANKA_QUERY data)
+        private void InitData(params object[] args)
         {
+            HallStruct.ACP_SC_DIANKA_QUERY data = (HallStruct.ACP_SC_DIANKA_QUERY) args[0];
             ReceiveBtn.gameObject.SetActive(data.Count > 0);
 
             if (data.Count <= 0) return;
@@ -86,8 +87,9 @@ namespace Hotfix.Hall
             goldText.text = data.Gold.ToString();
         }
 
-        private void OnReceiveData(HallStruct.ACP_SC_DIANKA_RECEIVE data)
+        private void OnReceiveData(params object[] args)
         {
+            HallStruct.ACP_SC_DIANKA_RECEIVE data = (HallStruct.ACP_SC_DIANKA_RECEIVE) args[0];
             ToolHelper.PopSmallWindow(data.Msg);
             ILGameManager.Instance.QuerySelfGold();
             GrouoItem.gameObject.SetActive(false);

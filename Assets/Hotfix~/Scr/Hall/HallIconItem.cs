@@ -127,7 +127,7 @@ namespace Hotfix.Hall
                 }
             }
 
-            HallEvent.DispatchEnterGamePre(true);
+            EventComponent.Instance.DispatchListener(HallEvent.EnterGamePre, true);
             UIManager.Instance.OpenUI<GameRoomListPanel>(Id, list);
         }
 

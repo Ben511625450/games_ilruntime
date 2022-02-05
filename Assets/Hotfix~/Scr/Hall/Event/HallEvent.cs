@@ -1,369 +1,147 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using LuaFramework;
-using static Hotfix.HallStruct;
-
-namespace Hotfix
+﻿namespace Hotfix
 {
     public class HallEvent
     {
         /// <summary>
-        ///     登录成功
-        /// </summary>
-        public static event CAction<bool> LogonResultCallBack;
-
-        public static void DispatchLogonResult(bool isSuccess)
-        {
-            LogonResultCallBack?.Invoke(isSuccess);
-        }
-
-        /// <summary>
         /// 登录成功
         /// </summary>
-        public static event CAction EnterHall;
-
-        public static void DispatchEnterHall()
-        {
-            EnterHall?.Invoke();
-        }
-
+        public const string LogonResultCallBack = "LogonResultCallBack";
 
         /// <summary>
         /// 确认注册
         /// </summary>
-        public static event CAction<ACP_SC_LOGIN_REGISTER> LogonRegisterCallBack;
-
-        public static void DispatchRegister(ACP_SC_LOGIN_REGISTER registerInfo)
-        {
-            LogonRegisterCallBack?.Invoke(registerInfo);
-        }
+        public const string LogonRegisterCallBack = "LogonRegisterCallBack";
 
         /// <summary>
-        ///     注册验证码
+        /// 注册验证码
         /// </summary>
-        public static event CAction<uint> LogonCodeCallBack;
-
-        public static void DispatchCodeCallBack(uint num)
-        {
-            LogonCodeCallBack?.Invoke(num);
-        }
+        public const string LogonCodeCallBack = "LogonCodeCallBack";
 
 
         /// <summary>
-        ///     修改密码
+        /// 修改密码
         /// </summary>
-        public static event CAction<ACP_SC_LOGIN_FINDPW> LogonFindPWCallBack;
-
-        public static void DispatchLogonFindPW(ACP_SC_LOGIN_FINDPW pwInfo = null)
-        {
-            LogonFindPWCallBack?.Invoke(pwInfo);
-        }
+        public const string LogonFindPWCallBack = "LogonFindPWCallBack";
 
         /// <summary>
-        ///     修改密码获取验证码
+        /// 修改密码获取验证码
         /// </summary>
-        public static event CAction<int> LogonFindPW_GetCode;
-
-        public static void DispatchLogonFindPW_GetCode(int code)
-        {
-            LogonFindPW_GetCode?.Invoke(code);
-        }
+        public const string LogonFindPW_GetCode = "LogonFindPW_GetCode";
 
         /// <summary>
-        ///     心跳消息
+        /// 更新金币
         /// </summary>
-        public static event CAction S_CHallHeart;
-
-        public static void DispatchS_CHallHeart()
-        {
-            S_CHallHeart?.Invoke();
-        }
+        public const string ChangeGoldTicket = "ChangeGoldTicket";
 
         /// <summary>
-        ///     更新金币
+        /// 大厅名字同步
         /// </summary>
-        public static event CAction ChangeGoldTicket;
-
-        public static void DispatchChangeGoldTicket()
-        {
-            ChangeGoldTicket?.Invoke();
-        }
+        public const string ChangeHallNiKeName = "ChangeHallNiKeName";
 
         /// <summary>
-        ///     大厅名字同步
+        /// 更改头像
         /// </summary>
-        public static event CAction ChangeHallNiKeName;
-
-        public static void DispatchChangeHallNiKeName()
-        {
-            ChangeHallNiKeName?.Invoke();
-        }
+        public const string ChangeHeader = "ChangeHeader";
 
         /// <summary>
-        ///     更改头像
+        /// 更新签名
         /// </summary>
-        public static event CAction<int> ChangeHeader;
-
-        public static void DispatchChangeHeader(int faceID)
-        {
-            ChangeHeader?.Invoke(faceID);
-        }
+        public const string Change_Sign = "Change_Sign";
 
         /// <summary>
-        ///     更新签名
+        /// 更新昵称
         /// </summary>
-        public static event CAction<ACP_SC_CHANGE_SIGN> Change_Sign;
-
-        public static void DispatchChange_Sign(ACP_SC_CHANGE_SIGN str = null)
-        {
-            Change_Sign?.Invoke(str);
-        }
-
-        /// <summary>
-        ///     更新昵称
-        /// </summary>
-        public static event CAction<ACP_SC_UpdataNickName> SC_UpdataNickName;
-
-        public static void DispatchSC_UpdataNickName(ACP_SC_UpdataNickName str = null)
-        {
-            SC_UpdataNickName?.Invoke(str);
-        }
+        public const string SC_UpdataNickName = "SC_UpdataNickName";
 
         /// <summary>
         /// 查询玩家回调
         /// </summary>
-        public static event CAction<ACP_SC_QueryPlayer> OnQueryPlayer;
-
-        public static void DispatchOnQueryPlayer(ACP_SC_QueryPlayer queryPlayer)
-        {
-            OnQueryPlayer?.Invoke(queryPlayer);
-        }
+        public const string OnQueryPlayer = "OnQueryPlayer";
 
         /// <summary>
-        ///     点卡查询
+        /// 点卡查询
         /// </summary>
-        public static event CAction<ACP_SC_DIANKA_QUERY> DIANKA_QUERY;
-
-        public static void DispatchDIANKA_QUERY(ACP_SC_DIANKA_QUERY query)
-        {
-            DIANKA_QUERY?.Invoke(query);
-        }
+        public const string DIANKA_QUERY = "DIANKA_QUERY";
 
         /// <summary>
-        ///     点卡领取
+        /// 点卡领取
         /// </summary>
-        public static event CAction<ACP_SC_DIANKA_RECEIVE> DIANKA_RECEIVE;
-
-        public static void DispatchDIANKA_RECEIVE(ACP_SC_DIANKA_RECEIVE receive)
-        {
-            DIANKA_RECEIVE?.Invoke(receive);
-        }
+        public const string DIANKA_RECEIVE = "DIANKA_RECEIVE";
 
         /// <summary>
-        ///     点卡赠送
+        /// 进入银行
         /// </summary>
-        public static event CAction<ACP_SC_DIANKA_GIVE> DIANKA_GIVE;
-
-        public static void DispatchDIANKA_GIVE(ACP_SC_DIANKA_GIVE give)
-        {
-            DIANKA_GIVE?.Invoke(give);
-        }
-
-        /// <summary>
-        ///     进入银行
-        /// </summary>
-        public static event CAction<List<string>> SETBANKPASSRESULT;
-
-        public static void DispatchSETBANKPASSRESULT(List<string> list)
-        {
-            SETBANKPASSRESULT?.Invoke(list);
-        }
+        public const string SETBANKPASSRESULT = "SETBANKPASSRESULT";
 
         /// <summary>
         /// 银行存取
         /// </summary>
-        public static event CAction<ACP_SC_SaveOrGetGold> Bank_Operate_Result;
-
-        public static void DispatchBank_Operate_Result(ACP_SC_SaveOrGetGold list)
-        {
-            Bank_Operate_Result?.Invoke(list);
-        }
-
+        public const string Bank_Operate_Result = "Bank_Operate_Result";
 
         /// <summary>
-        ///     转账
+        /// 转账
         /// </summary>
-        public static event CAction<bool> OnTransferComplete;
-
-        public static void DispatchOnTransferComplete(bool isSuccess)
-        {
-            OnTransferComplete?.Invoke(isSuccess);
-        }
+        public const string OnTransferComplete = "OnTransferComplete";
 
         /// <summary>
-        ///     查询
+        /// 查询
         /// </summary>
-        public static event CAction<ByteBuffer> SC_QUERY_UP_SCORE_RECORD;
-
-        public static void DispatchSC_QUERY_UP_SCORE_RECORD(ByteBuffer buffer)
-        {
-            SC_QUERY_UP_SCORE_RECORD?.Invoke(buffer);
-        }
+        public const string SC_QUERY_UP_SCORE_RECORD = "SC_QUERY_UP_SCORE_RECORD";
 
         /// <summary>
-        ///     赠送卡
+        /// 赠送卡
         /// </summary>
-        public static event CAction<ByteBuffer> ZSCardResult;
-
-        public static void DispatchZSCardResult(ByteBuffer buffer)
-        {
-            ZSCardResult?.Invoke(buffer);
-        }
+        public const string ZSCardResult = "ZSCardResult";
 
         /// <summary>
-        ///     转账记录
+        /// 转账记录
         /// </summary>
-        public static event CAction<ByteBuffer> SC_Give_Record_List;
-
-        public static void DispatchSC_Give_Record_List(ByteBuffer buffer)
-        {
-            SC_Give_Record_List?.Invoke(buffer);
-        }
+        public const string SC_Give_Record_List = "SC_Give_Record_List";
 
         /// <summary>
-        ///     修改银行密码
+        /// 修改银行密码
         /// </summary>
-        public static event CAction<ACP_SC_Bank_Change_PW> Bank_Change_PW;
-
-        public static void DispatchBank_Change_PW(ACP_SC_Bank_Change_PW data)
-        {
-            Bank_Change_PW?.Invoke(data);
-        }
-
+        public const string Bank_Change_PW = "Bank_Change_PW";
 
         /// <summary>
-        ///     绑定验证码
+        /// 绑定账号
         /// </summary>
-        public static event CAction<uint> SC_BindCodeCallBack;
-
-        public static void DispatchSC_BindCodeCallBack(uint data)
-        {
-            SC_BindCodeCallBack?.Invoke(data);
-        }
-
-        /// <summary>
-        ///     绑定账号
-        /// </summary>
-        public static event CAction<ACP_SC_CHANGE_ACCOUNT> SC_CHANGE_ACCOUNT;
-
-        public static void DispatchSC_CHANGE_ACCOUNT(ACP_SC_CHANGE_ACCOUNT str = null)
-        {
-            SC_CHANGE_ACCOUNT?.Invoke(str);
-        }
-
-        public static event CAction<bool> EnterGamePre;
+        public const string SC_CHANGE_ACCOUNT = "SC_CHANGE_ACCOUNT";
 
         /// <summary>
         /// 进入选场
         /// </summary>
-        public static void DispatchEnterGamePre(bool isEnter)
-        {
-            EnterGamePre?.Invoke(isEnter);
-        }
-
-        /// <summary>
-        /// 登录游戏
-        /// </summary>
-        public static event CAction LoginGame;
-
-        public static void DispatchLoginGame()
-        {
-            LoginGame?.Invoke();
-        }
+        public const string EnterGamePre = "EnterGamePre";
 
 
         /// <summary>
-        ///     修改密码
+        /// 修改密码
         /// </summary>
-        public static event CAction<ACP_SC_CHANGE_PASSWOR> SC_CHANGE_PASSWORD;
-
-        public static void DispatchSC_CHANGE_PASSWORD(ACP_SC_CHANGE_PASSWOR str = null)
-        {
-            SC_CHANGE_PASSWORD?.Invoke(str);
-        }
-
-        /// <summary>
-        /// 开始下载游戏
-        /// </summary>
-        public static event CAction<string> BeginDwonGame;
-
-        public static void DispatchLoginGame(string str)
-        {
-            BeginDwonGame?.Invoke(str);
-        }
-
-        /// <summary>
-        /// 下载游戏完成
-        /// </summary>
-        public static event CAction<AsyncOperation> DwonGameSucceed;
-
-        public static void DispatchLoginGame(AsyncOperation apt)
-        {
-            DwonGameSucceed?.Invoke(apt);
-        }
-
-        public static event CAction OnClosePopBig;
+        public const string SC_CHANGE_PASSWORD = "SC_CHANGE_PASSWORD";
 
         /// <summary>
         /// 关闭弹框
         /// </summary>
-        public static void DispatchOnClosePopBig()
-        {
-            OnClosePopBig?.Invoke();
-        }
-
-        public static event CAction OnShowCodeLogin;
+        public const string OnClosePopBig = "OnClosePopBig";
 
         /// <summary>
         /// 打开登录验证
         /// </summary>
-        public static void DispatchOnShowCodeLogin()
-        {
-            OnShowCodeLogin?.Invoke();
-        }
-
-        public static event CAction<HallStruct.ACP_SC_QueryLoginVerify> OnQueryLoginVerifyCallBack;
+        public const string OnShowCodeLogin = "OnShowCodeLogin";
 
         /// <summary>
         /// 登录验证返回
         /// </summary>
-        /// <param name="acpScQueryLoginVerify"></param>
-        public static void DispatchOnQueryLoginVerifyCallBack(ACP_SC_QueryLoginVerify acpScQueryLoginVerify)
-        {
-            OnQueryLoginVerifyCallBack?.Invoke(acpScQueryLoginVerify);
-        }
-
-        public static event CAction<InitBank> OnEnterBank;
+        public const string OnQueryLoginVerifyCallBack = "OnQueryLoginVerifyCallBack";
 
         /// <summary>
         /// 初始化银行
         /// </summary>
-        /// <param name="bank"></param>
-        public static void DispatchOnEnterBank(InitBank bank)
-        {
-            OnEnterBank?.Invoke(bank);
-        }
-
-
-        public static event CAction<bool> OnMoveHallIcon;
+        public const string OnEnterBank = "OnEnterBank";
 
         /// <summary>
-        /// 移动大厅icon
+        /// 打开子平台
         /// </summary>
-        /// <param name="isMove"></param>
-        public static void DispatchOnMoveHallIcon(bool isMove)
-        {
-            OnMoveHallIcon?.Invoke(isMove);
-        }
+        public const string OpenSubPlatform = "OpenSubPlatform";
     }
 }

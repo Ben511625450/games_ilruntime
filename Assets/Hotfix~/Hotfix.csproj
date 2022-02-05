@@ -290,6 +290,7 @@
     <Compile Include="Scr\Action\CAction.cs" />
     <Compile Include="Scr\Component\ActionComponent.cs" />
     <Compile Include="Scr\Component\EntityComponent.cs" />
+    <Compile Include="Scr\Component\EventComponent.cs" />
     <Compile Include="Scr\Component\HotfixComponent.cs" />
     <Compile Include="Scr\Component\HotfixGameComponent.cs" />
     <Compile Include="Scr\Component\LoadGameComponent.cs" />

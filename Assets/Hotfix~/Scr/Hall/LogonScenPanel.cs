@@ -56,15 +56,15 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.LogonResultCallBack += LogonBtnCallBack;
-            HallEvent.OnShowCodeLogin += HallEventOnOnShowCodeLogin;
+            EventComponent.Instance.AddListener(HallEvent.LogonResultCallBack,LogonBtnCallBack);
+            EventComponent.Instance.AddListener(HallEvent.OnShowCodeLogin,HallEventOnOnShowCodeLogin);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.LogonResultCallBack -= LogonBtnCallBack;
-            HallEvent.OnShowCodeLogin -= HallEventOnOnShowCodeLogin;
+            EventComponent.Instance.RemoveListener(HallEvent.LogonResultCallBack,LogonBtnCallBack);
+            EventComponent.Instance.RemoveListener(HallEvent.OnShowCodeLogin,HallEventOnOnShowCodeLogin);
         }
 
         protected override void Update()
@@ -134,8 +134,9 @@ namespace Hotfix.Hall
         /// <summary>
         /// 登录大厅成功
         /// </summary>
-        private void LogonBtnCallBack(bool isSuccess)
+        private void LogonBtnCallBack(params object[] args)
         {
+            bool isSuccess = (bool) args[0];
             ToolHelper.ShowWaitPanel(false);
             if (!isSuccess)
             {
@@ -151,11 +152,10 @@ namespace Hotfix.Hall
             GameLocalMode.Instance.SaveAccount();
             UIManager.Instance.CloseUI<LogonScenPanel>();
             UIManager.Instance.OpenUI<HallScenPanel>();
-            HallEvent.DispatchEnterHall();
         }
 
 
-        private void HallEventOnOnShowCodeLogin()
+        private void HallEventOnOnShowCodeLogin(params object[] args)
         {
             UIManager.Instance.OpenUI<CodeLogin>();
         }
@@ -588,16 +588,16 @@ namespace Hotfix.Hall
                 RegisterPasswordInput.text = "";
                 RegisterPassword2Input.text = "";
                 RegisterCodeInput.text = "";
-                HallEvent.LogonRegisterCallBack += RegisterS2CCallBack;
-                HallEvent.LogonCodeCallBack += GetCodeBtnCallBack;
+                EventComponent.Instance.AddListener(HallEvent.LogonRegisterCallBack, RegisterS2CCallBack);
+                EventComponent.Instance.AddListener(HallEvent.LogonCodeCallBack, GetCodeBtnCallBack);
                 owner.RegisterBg.gameObject.SetActive(true);
             }
 
             public override void OnExit()
             {
                 base.OnExit();
-                HallEvent.LogonRegisterCallBack -= RegisterS2CCallBack;
-                HallEvent.LogonCodeCallBack -= GetCodeBtnCallBack;
+                EventComponent.Instance.RemoveListener(HallEvent.LogonRegisterCallBack, RegisterS2CCallBack);
+                EventComponent.Instance.RemoveListener(HallEvent.LogonCodeCallBack, GetCodeBtnCallBack);
                 owner.RegisterBg.gameObject.SetActive(false);
             }
 
@@ -714,8 +714,9 @@ namespace Hotfix.Hall
             /// <summary>
             ///     注册回调
             /// </summary>
-            private void RegisterS2CCallBack(HallStruct.ACP_SC_LOGIN_REGISTER registerInfo)
+            private void RegisterS2CCallBack(params object[] args)
             {
+                HallStruct.ACP_SC_LOGIN_REGISTER registerInfo = (HallStruct.ACP_SC_LOGIN_REGISTER) args[0];
                 ToolHelper.ShowWaitPanel(false);
                 if (registerInfo.Length > 0)
                 {
@@ -772,9 +773,10 @@ namespace Hotfix.Hall
             /// <summary>
             ///     注册验证码返回
             /// </summary>
-            /// <param name="num"></param>
-            private void GetCodeBtnCallBack(uint num)
+            /// <param name="args"></param>
+            private void GetCodeBtnCallBack(params object[] args)
             {
+                uint num = (uint) args[0];
                 DebugHelper.Log("------注册验证码返回--------------");
                 var str = num.ToString();
                 HotfixGameComponent.Instance.CloseNetwork(SocketType.Hall);
@@ -841,15 +843,15 @@ namespace Hotfix.Hall
                 FindPwdPassword2Input.text = "";
                 FindPwdCodeInput.text = "";
                 owner.FindPwdBg.gameObject.SetActive(true);
-                HallEvent.LogonFindPWCallBack += UpdatePwdSuccess;
-                HallEvent.LogonFindPW_GetCode += UpdatePwdCodeSC;
+                EventComponent.Instance.AddListener(HallEvent.LogonFindPWCallBack,UpdatePwdSuccess);
+                EventComponent.Instance.AddListener(HallEvent.LogonFindPW_GetCode,UpdatePwdCodeSC);
             }
 
             public override void OnExit()
             {
                 base.OnExit();
-                HallEvent.LogonFindPWCallBack -= UpdatePwdSuccess;
-                HallEvent.LogonFindPW_GetCode -= UpdatePwdCodeSC;
+                EventComponent.Instance.RemoveListener(HallEvent.LogonFindPWCallBack,UpdatePwdSuccess);
+                EventComponent.Instance.RemoveListener(HallEvent.LogonFindPW_GetCode,UpdatePwdCodeSC);
                 owner.FindPwdBg.gameObject.SetActive(false);
             }
 
@@ -955,12 +957,12 @@ namespace Hotfix.Hall
             /// <summary>
             ///     修改密码返回
             /// </summary>
-            /// <param name="pwInfo"></param>
-            private void UpdatePwdSuccess(HallStruct.ACP_SC_LOGIN_FINDPW pwInfo)
+            /// <param name="args"></param>
+            private void UpdatePwdSuccess(params object[] args)
             {
                 HotfixGameComponent.Instance.CloseNetwork(SocketType.Hall);
                 FindPwdSureBtn.interactable = true;
-                if (pwInfo == null)
+                if (args.Length <= 0)
                 {
                     GameLocalMode.Instance.Account.account = FindPwdMobileNumInput.text;
                     GameLocalMode.Instance.Account.password = MD5Helper.MD5String(FindPwdPasswordInput.text);
@@ -970,6 +972,7 @@ namespace Hotfix.Hall
                 }
                 else
                 {
+                    HallStruct.ACP_SC_LOGIN_FINDPW pwInfo = (HallStruct.ACP_SC_LOGIN_FINDPW) args[0];
                     ToolHelper.PopSmallWindow(pwInfo.Error);
                 }
 
@@ -980,9 +983,10 @@ namespace Hotfix.Hall
             /// <summary>
             /// 找回密码验证码返回
             /// </summary>
-            /// <param name="code"></param>
-            private void UpdatePwdCodeSC(int code)
+            /// <param name="args"></param>
+            private void UpdatePwdCodeSC(params object[] args)
             {
+                int code = (int) args[0];
                 HotfixGameComponent.Instance.CloseNetwork(SocketType.Hall);
                 ToolHelper.ShowWaitPanel(false);
                 if (code <= 0) ToolHelper.PopSmallWindow("手机号未注册");

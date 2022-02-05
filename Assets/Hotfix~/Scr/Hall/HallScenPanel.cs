@@ -53,7 +53,7 @@ namespace Hotfix.Hall
             id.text = $"ID:{GameLocalMode.Instance.SCPlayerInfo.BeautifulID}";
             headIcon.sprite = ILGameManager.Instance.GetHeadIcon();
             showContent = midNode.AddILComponent<HallGameShow>();
-            HallEvent.DispatchEnterGamePre(false);
+            EventComponent.Instance.DispatchListener(HallEvent.EnterGamePre, false);
         }
 
         protected override void OnDestroy()
@@ -111,55 +111,60 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.ChangeGoldTicket += HallEventOnChangeGoldTicket;
-            HallEvent.EnterGamePre += HallEventOnEnterGamePre;
-            HallEvent.OnQueryLoginVerifyCallBack += HallEventOnOnQueryLoginVerifyCallBack;
-            HallEvent.ChangeHeader += ChangeHead;
-            HallEvent.ChangeHallNiKeName += HallEventOnChangeHallNiKeName;
-            HallGameShow.OpenSubPlatform += HallGameShowOnOpenSubPlatform;
+            EventComponent.Instance.AddListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
+            EventComponent.Instance.AddListener(HallEvent.ChangeHallNiKeName,HallEventOnChangeHallNiKeName);
+            EventComponent.Instance.AddListener(HallEvent.ChangeHeader,ChangeHead);
+            EventComponent.Instance.AddListener(HallEvent.EnterGamePre,HallEventOnEnterGamePre);
+            EventComponent.Instance.AddListener(HallEvent.OnQueryLoginVerifyCallBack,HallEventOnOnQueryLoginVerifyCallBack);
+            EventComponent.Instance.AddListener(HallEvent.OpenSubPlatform,HallGameShowOnOpenSubPlatform);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.ChangeGoldTicket -= HallEventOnChangeGoldTicket;
-            HallEvent.EnterGamePre -= HallEventOnEnterGamePre;
-            HallEvent.OnQueryLoginVerifyCallBack -= HallEventOnOnQueryLoginVerifyCallBack;
-            HallEvent.ChangeHeader -= ChangeHead;
-            HallEvent.ChangeHallNiKeName -= HallEventOnChangeHallNiKeName;
-            HallGameShow.OpenSubPlatform -= HallGameShowOnOpenSubPlatform;
+            EventComponent.Instance.RemoveListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
+            EventComponent.Instance.RemoveListener(HallEvent.ChangeHallNiKeName,HallEventOnChangeHallNiKeName);
+            EventComponent.Instance.RemoveListener(HallEvent.ChangeHeader,ChangeHead);
+            EventComponent.Instance.RemoveListener(HallEvent.EnterGamePre,HallEventOnEnterGamePre);
+            EventComponent.Instance.RemoveListener(HallEvent.OnQueryLoginVerifyCallBack,HallEventOnOnQueryLoginVerifyCallBack);
+            EventComponent.Instance.RemoveListener(HallEvent.OpenSubPlatform,HallGameShowOnOpenSubPlatform);
         }
 
-        private void HallEventOnOnQueryLoginVerifyCallBack(HallStruct.ACP_SC_QueryLoginVerify obj)
+        private void HallEventOnOnQueryLoginVerifyCallBack(params object[] args)
         {
+            HallStruct.ACP_SC_QueryLoginVerify obj = (HallStruct.ACP_SC_QueryLoginVerify) args[0];
             GameLocalMode.Instance.IsSetLoginValidation = obj.isOn;
             DebugHelper.Log(LitJson.JsonMapper.ToJson(obj));
         }
 
 
-        private void ChangeHead(int faceID)
+        private void ChangeHead(params object[] args)
         {
-            headIcon.sprite = ILGameManager.Instance.GetHeadIcon((uint) faceID);
+            uint faceId = (uint) args[0];
+            headIcon.sprite = ILGameManager.Instance.GetHeadIcon(faceId);
         }
 
-        private void HallEventOnChangeHallNiKeName()
+        private void HallEventOnChangeHallNiKeName(params object[] args)
         {
             nickName.text = GameLocalMode.Instance.SCPlayerInfo.NickName;
         }
 
-        private void HallGameShowOnOpenSubPlatform(bool isOpen,string platformName)
+        private void HallGameShowOnOpenSubPlatform(params object[] args)
         {
+            bool isOpen = (bool) args[0];
+            string platformName = args.Length > 1 ? args[1].ToString() : null;
             if (platformName == HallGameShow.DefaultPlatform) return;
             // gwBtn.gameObject.SetActive(!isOpen);
         }
 
-        private void HallEventOnChangeGoldTicket()
+        private void HallEventOnChangeGoldTicket(params object[] args)
         {
             selfGold.text = $"{GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD)}";
         }
 
-        private void HallEventOnEnterGamePre(bool isEnter)
+        private void HallEventOnEnterGamePre(params object[] args)
         {
+            bool isEnter = (bool) args[0];
             midNode.gameObject.SetActive(!isEnter);
             otherGroup.gameObject.SetActive(!isEnter);
         }

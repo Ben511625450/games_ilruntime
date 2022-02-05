@@ -41,15 +41,15 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.SC_CHANGE_ACCOUNT += BindAccCallBack;
-            HallEvent.SC_BindCodeCallBack += GetCodeCallBack;
+            EventComponent.Instance.AddListener(HallEvent.LogonCodeCallBack, GetCodeCallBack);
+            EventComponent.Instance.AddListener(HallEvent.SC_CHANGE_ACCOUNT, BindAccCallBack);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.SC_CHANGE_ACCOUNT -= BindAccCallBack;
-            HallEvent.SC_BindCodeCallBack -= GetCodeCallBack;
+            EventComponent.Instance.RemoveListener(HallEvent.LogonCodeCallBack, GetCodeCallBack);
+            EventComponent.Instance.RemoveListener(HallEvent.SC_CHANGE_ACCOUNT, BindAccCallBack);
         }
 
         protected override void Update()
@@ -131,8 +131,9 @@ namespace Hotfix.Hall
         }
 
 
-        private void GetCodeCallBack(uint index)
+        private void GetCodeCallBack(params object[] args)
         {
+            uint index = (uint) args[0];
             if (index == 0) ToolHelper.PopSmallWindow("手机号已经绑定");
         }
 
@@ -178,9 +179,9 @@ namespace Hotfix.Hall
                 DataStruct.PersonalStruct.SUB_3D_CS_CHANGE_ACCOUNT, acc._ByteBuffer, SocketType.Hall);
         }
 
-        private void BindAccCallBack(HallStruct.ACP_SC_CHANGE_ACCOUNT data)
+        private void BindAccCallBack(params object[] args)
         {
-            if (data == null)
+            if (args.Length <= 0)
             {
                 ToolHelper.PopSmallWindow("绑定成功");
                 Clear();
@@ -190,6 +191,7 @@ namespace Hotfix.Hall
             }
             else
             {
+                HallStruct.ACP_SC_CHANGE_ACCOUNT data = (HallStruct.ACP_SC_CHANGE_ACCOUNT) args[0];
                 ToolHelper.PopSmallWindow($"绑定手机号失败:{data.Error}");
             }
         }

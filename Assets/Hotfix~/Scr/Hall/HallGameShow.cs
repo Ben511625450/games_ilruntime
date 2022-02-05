@@ -39,7 +39,7 @@ namespace Hotfix.Hall
 
         private bool isShowLocal = false;
 
-        private GameObject iconGroup;
+        private GameObject _iconGroup;
         private EventTriggerHelper trigger;
         private Vector3 startPos;
         private Vector3 endPos;
@@ -52,14 +52,7 @@ namespace Hotfix.Hall
         private const float spaceDistance = 450;
         public Dictionary<string, ScrollRect> contentDic = new Dictionary<string, ScrollRect>();
 
-        public static event CAction<bool, string> OpenSubPlatform;
-
-        public static void DispatchOpenSubPlatform(bool isOpen, string platformName)
-        {
-            OpenSubPlatform?.Invoke(isOpen, platformName);
-        }
-
-        private ScrollRect currentShowContent;
+        private ScrollRect _currentShowContent;
 
         protected override void Awake()
         {
@@ -67,7 +60,7 @@ namespace Hotfix.Hall
             AddListener();
             showList.Clear();
             noShowList.Clear();
-            iconGroup = Util.LoadAsset("module02/Pool/gameimg", $"GameImg");
+            _iconGroup = Util.LoadAsset("module02/Pool/gameimg", $"GameImg");
             if (!isShowLocal) IconList = GameLocalMode.Instance.GWData.GameList;
             if (IconList.Count == 1) //单平台处理
             {
@@ -82,9 +75,9 @@ namespace Hotfix.Hall
                 
                 HttpGame list = IconList[DefaultPlatform];
                 GameLocalMode.Instance.CurrentSelectPlatform = DefaultPlatform;
-                currentShowContent = showRect;
-                InitHallIcon(list, showRect, iconGroup.transform.FindChildDepth(DefaultPlatform));
-                DispatchOpenSubPlatform(true, DefaultPlatform);
+                _currentShowContent = showRect;
+                InitHallIcon(list, showRect, _iconGroup.transform.FindChildDepth(DefaultPlatform));
+                EventComponent.Instance.DispatchListener(HallEvent.OpenSubPlatform, true, DefaultPlatform);
             }
             else
             {
@@ -101,7 +94,7 @@ namespace Hotfix.Hall
                     contentDic.Add(o.name, rect);
                     rect.movementType = ScrollRect.MovementType.Elastic;
                 }
-                DispatchOpenSubPlatform(false, null);
+                EventComponent.Instance.DispatchListener(HallEvent.OpenSubPlatform, false);
             }
 
         }
@@ -109,18 +102,20 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            OpenSubPlatform += OnOpenSubPlatform;
+            EventComponent.Instance.AddListener(HallEvent.OpenSubPlatform, OnOpenSubPlatform);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            OpenSubPlatform -= OnOpenSubPlatform;
+            EventComponent.Instance.RemoveListener(HallEvent.OpenSubPlatform, OnOpenSubPlatform);
         }
 
-        private void OnOpenSubPlatform(bool isOpen, string platformName)
+        private void OnOpenSubPlatform(params object[] args)
         {
-            currentShowContent?.gameObject.SetActive(isOpen);
+            bool isOpen = (bool) args[0];
+            string platformName = args.Length > 1 ? args[1].ToString() : null;
+            _currentShowContent?.gameObject.SetActive(isOpen);
             mutipleContent.gameObject.SetActive(!isOpen);
             backBtn.gameObject.SetActive(isOpen && platformName != DefaultPlatform);
         }
@@ -177,19 +172,19 @@ namespace Hotfix.Hall
 
         private void OnClickBackCall()
         {
-            DispatchOpenSubPlatform(false, null);
+            EventComponent.Instance.DispatchListener(HallEvent.OpenSubPlatform, false);
         }
 
         private void OnClickSelectPlatformCall(string gameObjectName)
         {
-            DispatchOpenSubPlatform(true, gameObjectName);
+            EventComponent.Instance.DispatchListener(HallEvent.OpenSubPlatform, true, gameObjectName);
             GameLocalMode.Instance.CurrentSelectPlatform = gameObjectName;
-            if (currentShowContent != null) currentShowContent.gameObject.SetActive(false);
-            currentShowContent = contentDic[gameObjectName];
-            Transform showIconContent = iconGroup.transform.FindChildDepth(gameObjectName);
+            if (_currentShowContent != null) _currentShowContent.gameObject.SetActive(false);
+            _currentShowContent = contentDic[gameObjectName];
+            Transform showIconContent = _iconGroup.transform.FindChildDepth(gameObjectName);
             var list = IconList[gameObjectName];
-            currentShowContent.gameObject.SetActive(true);
-            InitHallIcon(list, currentShowContent, showIconContent);
+            _currentShowContent.gameObject.SetActive(true);
+            InitHallIcon(list, _currentShowContent, showIconContent);
         }
 
         IEnumerator DelayRun(float timer, Action action = null)
@@ -245,7 +240,7 @@ namespace Hotfix.Hall
             {
                 itemRect.content.GetChild(i).gameObject.SetActive(false);
             }
-            Behaviour.StartCoroutine(DelayRun(0.1f, () => { currentShowContent.horizontalNormalizedPosition = 0; }));
+            Behaviour.StartCoroutine(DelayRun(0.1f, () => { _currentShowContent.horizontalNormalizedPosition = 0; }));
         }
 
         private void CreateItem(Transform showIconContent, Transform parent, List<int> _list, int i)

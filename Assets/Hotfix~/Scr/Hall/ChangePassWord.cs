@@ -49,15 +49,15 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.OnQueryLoginVerifyCallBack += HallEventOnOnQueryLoginVerifyCallBack;
-            HallEvent.SC_CHANGE_PASSWORD += UpdataPasswordCallBack;
+            EventComponent.Instance.AddListener(HallEvent.SC_CHANGE_PASSWORD, UpdataPasswordCallBack);
+            EventComponent.Instance.AddListener(HallEvent.OnQueryLoginVerifyCallBack, HallEventOnOnQueryLoginVerifyCallBack);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.OnQueryLoginVerifyCallBack -= HallEventOnOnQueryLoginVerifyCallBack;
-            HallEvent.SC_CHANGE_PASSWORD -= UpdataPasswordCallBack;
+            EventComponent.Instance.RemoveListener(HallEvent.SC_CHANGE_PASSWORD, UpdataPasswordCallBack);
+            EventComponent.Instance.RemoveListener(HallEvent.OnQueryLoginVerifyCallBack, HallEventOnOnQueryLoginVerifyCallBack);
         }
 
         protected override void AddListener()
@@ -74,8 +74,9 @@ namespace Hotfix.Hall
         }
 
 
-        private void HallEventOnOnQueryLoginVerifyCallBack(HallStruct.ACP_SC_QueryLoginVerify obj)
+        private void HallEventOnOnQueryLoginVerifyCallBack(params object[] args)
         {
+            HallStruct.ACP_SC_QueryLoginVerify obj = (HallStruct.ACP_SC_QueryLoginVerify) args[0];
             loginCodeOn.isOn = obj.isOn;
         }
         private void OnOpenLoginCodeCall(bool isOn)
@@ -114,9 +115,9 @@ namespace Hotfix.Hall
                 DataStruct.PersonalStruct.SUB_3D_CS_CHANGE_PASSWORD, changePW._ByteBuffer, SocketType.Hall);
         }
 
-        private void UpdataPasswordCallBack(HallStruct.ACP_SC_CHANGE_PASSWOR data)
+        private void UpdataPasswordCallBack(params object[] args)
         {
-            if (data == null)
+            if (args.Length <= 0)
             {
                 ToolHelper.PopSmallWindow("修改密码成功");
                 GameLocalMode.Instance.Account.password = MD5Helper.MD5String(newPW.text);
@@ -124,6 +125,7 @@ namespace Hotfix.Hall
             }
             else
             {
+                HallStruct.ACP_SC_CHANGE_PASSWOR data = (HallStruct.ACP_SC_CHANGE_PASSWOR) args[0];
                 ToolHelper.PopSmallWindow($"修改密码失败:{data.Error}");
             }
 

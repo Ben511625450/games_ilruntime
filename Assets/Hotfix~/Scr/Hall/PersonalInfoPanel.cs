@@ -23,7 +23,6 @@ namespace Hotfix.Hall
 
         public PersonalInfoPanel() : base(UIType.Middle, nameof(PersonalInfoPanel))
         {
-
         }
 
         public override void Create(params object[] args)
@@ -31,6 +30,7 @@ namespace Hotfix.Hall
             base.Create(args);
             UpdataPersonalInfo();
         }
+
         protected override void FindComponent()
         {
             mainPanel = transform.FindChildDepth("Bg/mainPanel");
@@ -48,6 +48,7 @@ namespace Hotfix.Hall
             closeBtn = transform.FindChildDepth<Button>("Bg/CloseBtn");
             maskCloseBtn = transform.FindChildDepth<Button>("Mask");
         }
+
         protected override void AddListener()
         {
             IDCopyBtn.onClick.RemoveAllListeners();
@@ -71,19 +72,19 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.ChangeGoldTicket += UpdatePanleGoldTextInfo;
-            HallEvent.ChangeHeader += ChangeHead;
-            HallEvent.Change_Sign += LeaveWordCallBack;
-            HallEvent.SC_UpdataNickName += UpdataNickNameCallBack;
+            EventComponent.Instance.AddListener(HallEvent.ChangeGoldTicket, UpdatePanleGoldTextInfo);
+            EventComponent.Instance.AddListener(HallEvent.ChangeHeader, ChangeHead);
+            EventComponent.Instance.AddListener(HallEvent.Change_Sign, LeaveWordCallBack);
+            EventComponent.Instance.AddListener(HallEvent.SC_UpdataNickName, UpdataNickNameCallBack);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.ChangeGoldTicket -= UpdatePanleGoldTextInfo;
-            HallEvent.ChangeHeader -= ChangeHead;
-            HallEvent.Change_Sign -= LeaveWordCallBack;
-            HallEvent.SC_UpdataNickName -= UpdataNickNameCallBack;
+            EventComponent.Instance.RemoveListener(HallEvent.ChangeGoldTicket, UpdatePanleGoldTextInfo);
+            EventComponent.Instance.RemoveListener(HallEvent.ChangeHeader, ChangeHead);
+            EventComponent.Instance.RemoveListener(HallEvent.Change_Sign, LeaveWordCallBack);
+            EventComponent.Instance.RemoveListener(HallEvent.SC_UpdataNickName, UpdataNickNameCallBack);
         }
 
         /// <summary>
@@ -103,16 +104,17 @@ namespace Hotfix.Hall
         /// <summary>
         ///     修改签名返回
         /// </summary>
-        /// <param name="sign"></param>
-        private void LeaveWordCallBack(HallStruct.ACP_SC_CHANGE_SIGN sign)
+        /// <param name="args"></param>
+        private void LeaveWordCallBack(params object[] args)
         {
-            if (sign != null)
+            if (args.Length > 0)
             {
+                HallStruct.ACP_SC_CHANGE_SIGN sign = (HallStruct.ACP_SC_CHANGE_SIGN) args[0];
                 ToolHelper.PopBigWindow(new BigMessage
                 {
                     content = sign.Error,
-                    okCall = () => { creatUpdataSignError(); },
-                    cancelCall = () => { creatUpdataSignError(); }
+                    okCall = CreatUpdataSignError,
+                    cancelCall = CreatUpdataSignError
                 });
             }
             else
@@ -125,7 +127,7 @@ namespace Hotfix.Hall
         /// <summary>
         ///     失败签名
         /// </summary>
-        private void creatUpdataSignError()
+        private void CreatUpdataSignError()
         {
             LeaveWordText.text = GameLocalMode.Instance.SCPlayerInfo.Sign;
         }
@@ -172,11 +174,8 @@ namespace Hotfix.Hall
                 ToolHelper.PopBigWindow(new BigMessage
                 {
                     content = "输入的昵称有误，请重新输入",
-                    okCall = ()=> 
-                    {
-                        CreatUpdataNameError();
-                    },
-                    cancelCall =()=> { CreatUpdataNameError(); } 
+                    okCall = () => { CreatUpdataNameError(); },
+                    cancelCall = () => { CreatUpdataNameError(); }
                 });
                 return;
             }
@@ -198,11 +197,12 @@ namespace Hotfix.Hall
         /// <summary>
         ///     修改昵称返回
         /// </summary>
-        /// <param name="obj"></param>
-        private void UpdataNickNameCallBack(HallStruct.ACP_SC_UpdataNickName obj)
+        /// <param name="args"></param>
+        private void UpdataNickNameCallBack(params object[] args)
         {
-            if (obj != null)
+            if (args.Length > 0)
             {
+                HallStruct.ACP_SC_UpdataNickName obj = (HallStruct.ACP_SC_UpdataNickName) args[0];
                 ToolHelper.PopBigWindow(new BigMessage
                 {
                     content = obj.Error,
@@ -213,7 +213,7 @@ namespace Hotfix.Hall
             else
             {
                 GameLocalMode.Instance.SCPlayerInfo.NickName = NickNameText.text;
-                HallEvent.DispatchChangeHallNiKeName();
+                EventComponent.Instance.DispatchListener(HallEvent.ChangeHallNiKeName);
                 ToolHelper.PopSmallWindow("修改成功");
             }
         }
@@ -221,7 +221,7 @@ namespace Hotfix.Hall
         /// <summary>
         ///     更新金币
         /// </summary>
-        private void UpdatePanleGoldTextInfo()
+        private void UpdatePanleGoldTextInfo(params object[] args)
         {
             if (goldText == null) return;
             goldText.text = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD).ToString();
@@ -240,9 +240,10 @@ namespace Hotfix.Hall
             tipText.text = GameLocalMode.Instance.GWData.CNameGold;
         }
 
-        private void ChangeHead(int faceID)
+        private void ChangeHead(params object[] args)
         {
-            GameLocalMode.Instance.SCPlayerInfo.FaceID = (uint) faceID;
+            uint faceId = (uint) args[0];
+            GameLocalMode.Instance.SCPlayerInfo.FaceID = faceId;
             headIamge.sprite = ILGameManager.Instance.GetHeadIcon();
         }
     }

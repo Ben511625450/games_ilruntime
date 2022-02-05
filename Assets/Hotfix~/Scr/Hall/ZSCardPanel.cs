@@ -36,16 +36,16 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.ZSCardResult += InitData;
-            HallEvent.DIANKA_QUERY += QueryCardResult;
-            HallEvent.OnQueryPlayer += HallEventOnQueryPlayer;
+            EventComponent.Instance.AddListener(HallEvent.OnQueryPlayer,HallEventOnQueryPlayer);
+            EventComponent.Instance.AddListener(HallEvent.DIANKA_QUERY,QueryCardResult);
+            EventComponent.Instance.AddListener(HallEvent.ZSCardResult,InitData);
         }
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.ZSCardResult -= InitData;
-            HallEvent.DIANKA_QUERY -= QueryCardResult;
-            HallEvent.OnQueryPlayer -= HallEventOnQueryPlayer;
+            EventComponent.Instance.RemoveListener(HallEvent.OnQueryPlayer,HallEventOnQueryPlayer);
+            EventComponent.Instance.RemoveListener(HallEvent.DIANKA_QUERY,QueryCardResult);
+            EventComponent.Instance.RemoveListener(HallEvent.ZSCardResult,InitData);
         }
 
         protected override void FindComponent()
@@ -77,15 +77,13 @@ namespace Hotfix.Hall
         /// <summary>
         ///     服务器返回赠送
         /// </summary>
-        /// <param name="buffer"></param>
-        private void InitData(ByteBuffer buffer)
+        /// <param name="args"></param>
+        private void InitData(params object[] args)
         {
-            var count = buffer.ReadInt32();
-            var dianka = buffer.ReadString(40);
-            var msg = buffer.ReadString(100);
-            ToolHelper.PopSmallWindow(msg);
-            DKCount.text = $"点卡剩余数量: {count} 张";
-            cardCount = count;
+            HallStruct.ACP_SC_ZSCardResult result = (HallStruct.ACP_SC_ZSCardResult) args[0];
+            ToolHelper.PopSmallWindow(result.msg);
+            DKCount.text = $"点卡剩余数量: {result.count} 张";
+            cardCount = result.count;
         }
 
 
@@ -99,17 +97,19 @@ namespace Hotfix.Hall
         /// <summary>
         ///     初始化数量
         /// </summary>
-        /// <param name="data"></param>
-        private void QueryCardResult(HallStruct.ACP_SC_DIANKA_QUERY data)
+        /// <param name="args"></param>
+        private void QueryCardResult(params object[] args)
         {
+            HallStruct.ACP_SC_DIANKA_QUERY data = (HallStruct.ACP_SC_DIANKA_QUERY) args[0];
             DebugHelper.LogErrorObject(data);
             DKCount.text = $"点卡剩余数量: {data.Count} 张";
             cardCount = data.Count;
         }
 
 
-        private void HallEventOnQueryPlayer(HallStruct.ACP_SC_QueryPlayer obj)
+        private void HallEventOnQueryPlayer(params object[] args)
         {
+            HallStruct.ACP_SC_QueryPlayer obj = (HallStruct.ACP_SC_QueryPlayer) args[0];
             if (!obj.isReal)
             {
                 ToolHelper.PopSmallWindow($"ID不存在");

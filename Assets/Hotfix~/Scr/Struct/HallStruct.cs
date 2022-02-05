@@ -552,7 +552,24 @@ namespace Hotfix
                 Card = byteBuffer.ReadString(40);
             }
         }
+        /// <summary>
+        ///     点卡查询
+        /// </summary>
+        public class ACP_SC_ZSCardResult
+        {
+            public int count;
 
+            public string dianka;
+
+            public string msg;
+
+            public ACP_SC_ZSCardResult(ByteBuffer byteBuffer)
+            {
+                count = byteBuffer.ReadInt32();
+                dianka = byteBuffer.ReadString(40);
+                msg = byteBuffer.ReadString(100);
+            }
+        }
         /// <summary>
         ///     点卡领取
         /// </summary>
@@ -626,6 +643,24 @@ namespace Hotfix
             }
         }
 
+        /// <summary>
+        /// 转账记录
+        /// </summary>
+        public class ACP_SC_Bank_AllRecord
+        {
+            public int length;
+            public List<ACP_SC_Bank_Annal> Annals;
+
+            public ACP_SC_Bank_AllRecord(ByteBuffer byteBuffer)
+            {
+                length = byteBuffer.ReadInt32();
+                Annals = new List<ACP_SC_Bank_Annal>();
+                for (int i = 0; i < length; i++)
+                {
+                    Annals.Add(new ACP_SC_Bank_Annal(byteBuffer));
+                }
+            }
+        }
         /// <summary>
         ///     转账记录
         /// </summary>

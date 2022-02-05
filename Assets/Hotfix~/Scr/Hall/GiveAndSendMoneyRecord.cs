@@ -46,13 +46,13 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.SC_Give_Record_List += AllRecord;
+            EventComponent.Instance.AddListener(HallEvent.SC_Give_Record_List, AllRecord);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.SC_Give_Record_List -= AllRecord;
+            EventComponent.Instance.RemoveListener(HallEvent.SC_Give_Record_List, AllRecord);
         }
 
         protected override void FindComponent()
@@ -107,10 +107,10 @@ namespace Hotfix.Hall
             }
         }
 
-        private void AllRecord(ByteBuffer buffer)
+        private void AllRecord(params object[] args)
         {
-            var length = buffer.ReadInt32();
-            if (length <= 0)
+            HallStruct.ACP_SC_Bank_AllRecord record = (HallStruct.ACP_SC_Bank_AllRecord) args[0];
+            if (record.length <= 0)
             {
                 DebugHelper.Log("没有赠送记录");
                 isReqData = false;
@@ -119,9 +119,9 @@ namespace Hotfix.Hall
 
             var isInit = false;
             var isSendReadPacket = false;
-            for (var i = 0; i < length; i++)
+            for (var i = 0; i < record.length; i++)
             {
-                var annal = new HallStruct.ACP_SC_Bank_Annal(buffer);
+                var annal = record.Annals[i];
                 if (isInit == false)
                 {
                     if (annal.rid == GameLocalMode.Instance.SCPlayerInfo.BeautifulID)
@@ -149,7 +149,7 @@ namespace Hotfix.Hall
                 }
             }
 
-            DebugHelper.Log($"送礼记录返回,共:{length}条记录");
+            DebugHelper.Log($"送礼记录返回,共:{record.length}条记录");
             if (isSendReadPacket)
                 EndRecord();
             else

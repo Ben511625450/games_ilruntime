@@ -38,16 +38,15 @@ namespace Hotfix.Hall
         protected override void AddEvent()
         {
             base.AddEvent();
-
-            HallEvent.LogonFindPW_GetCode += UpdatePwdCodeSC;
-            HallEvent.Bank_Change_PW += UpdatePwdSuccess;
+            EventComponent.Instance.AddListener(HallEvent.LogonFindPW_GetCode,UpdatePwdCodeSC);
+            EventComponent.Instance.AddListener(HallEvent.Bank_Change_PW,UpdatePwdSuccess);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.LogonFindPW_GetCode -= UpdatePwdCodeSC;
-            HallEvent.Bank_Change_PW -= UpdatePwdSuccess;
+            EventComponent.Instance.RemoveListener(HallEvent.LogonFindPW_GetCode,UpdatePwdCodeSC);
+            EventComponent.Instance.RemoveListener(HallEvent.Bank_Change_PW,UpdatePwdSuccess);
         }
 
         protected override void Update()
@@ -124,8 +123,9 @@ namespace Hotfix.Hall
                 DataStruct.BankStruct.SUB_GP_MODIFY_BANK_PASSWD, resetPW._ByteBuffer, SocketType.Hall);
         }
 
-        private void UpdatePwdSuccess(HallStruct.ACP_SC_Bank_Change_PW data)
+        private void UpdatePwdSuccess(params object[] args)
         {
+            HallStruct.ACP_SC_Bank_Change_PW data = (HallStruct.ACP_SC_Bank_Change_PW) args[0];
             resetBtn.GetComponent<Button>().interactable = true;
             if (data.cbSuccess == 1)
             {
@@ -177,9 +177,10 @@ namespace Hotfix.Hall
         /// <summary>
         ///     获取验证码返回
         /// </summary>
-        /// <param name="code"></param>
-        private void UpdatePwdCodeSC(int code)
+        /// <param name="args"></param>
+        private void UpdatePwdCodeSC(params object[] args)
         {
+            int code = (int) args[0];
             if (code > 0) return;
             ToolHelper.PopSmallWindow("找不到该手机号");
             codeBtn.transform.FindChildDepth("Show").gameObject.SetActive(true);

@@ -24,6 +24,7 @@ namespace Hotfix
         }
         private static void AddComponent()
         {
+            ILRumtimeObj.AddILComponent<EventComponent>();
             ILRumtimeObj.AddILComponent<EntityComponent>();
             ILRumtimeObj.AddILComponent<HotfixGameComponent>();
             ILRumtimeObj.AddILComponent<ActionComponent>();

@@ -46,19 +46,19 @@ namespace Hotfix.Hall
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            HallEvent.DispatchEnterGamePre(false);
+            EventComponent.Instance.DispatchListener(HallEvent.EnterGamePre, false);
         }
 
         protected override void AddEvent()
         {
             base.AddEvent();
-            HallEvent.ChangeGoldTicket += HallEventOnChangeGoldTicket;
+            EventComponent.Instance.AddListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
         }
 
         protected override void RemoveEvent()
         {
             base.RemoveEvent();
-            HallEvent.ChangeGoldTicket -= HallEventOnChangeGoldTicket;
+            EventComponent.Instance.RemoveListener(HallEvent.ChangeGoldTicket,HallEventOnChangeGoldTicket);
         }
 
         protected override void FindComponent()
@@ -102,7 +102,7 @@ namespace Hotfix.Hall
             mainInfo = _contentInfo[GameLocalMode.Instance.CurrentSelectPlatform];
         }
 
-        private void HallEventOnChangeGoldTicket()
+        private void HallEventOnChangeGoldTicket(params object[] args)
         {
             goldNum.text = $"{GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD)}";
         }
