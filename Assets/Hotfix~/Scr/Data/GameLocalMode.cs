@@ -95,11 +95,11 @@ namespace Hotfix
                 switch (Application.platform)
                 {
                     case RuntimePlatform.Android:
-                        return 3;
-                    case RuntimePlatform.IPhonePlayer:
-                        return 2;
-                    default:
                         return 1;
+                    case RuntimePlatform.IPhonePlayer:
+                        return 0;
+                    default:
+                        return 2;
                 }
             }
         }
