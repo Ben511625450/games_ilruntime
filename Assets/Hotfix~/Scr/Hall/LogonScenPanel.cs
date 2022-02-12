@@ -685,8 +685,8 @@ namespace Hotfix.Hall
 
                 args.interactable = false;
                 HallStruct.REQ_CS_Register register = new HallStruct.REQ_CS_Register();
-                register.platform = GameLocalMode.Instance.PlatformID;
-                register.channelID = GameLocalMode.Instance.Platform;
+                register.platform = GameLocalMode.Instance.Platform;
+                register.channelID = GameLocalMode.Instance.GameQuDao;
                 register.iD = GameLocalMode.Instance.PlatformID;
                 register.addMultiplyID =
                     (uint) (GameLocalMode.Instance.PlatformID * GameLocalMode.Instance.ResigterPlatMultiply +
