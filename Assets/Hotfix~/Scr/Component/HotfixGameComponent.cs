@@ -26,6 +26,7 @@ namespace Hotfix
         public bool connectHallSuccess; //是否链接成功
         public bool connectGameSuccess; //是否链接成功
         private bool isHallReconnect;
+
         private bool isGameReconnect;
         private int reHallConnectCount;
         private int reGameConnectCount;
@@ -196,6 +197,19 @@ namespace Hotfix
         public async void Connect(string ip, int port, int id, int timeOut = 7000, Action<string> callBack = null)
         {
             await AsyncCloseNetwork((SocketType) id);
+            if (Application.internetReachability == NetworkReachability.NotReachable)//没有网络
+            {
+                ActionComponent.Instance?.Add(() =>
+                {
+                    ToolHelper.PopBigWindow(new BigMessage()
+                    {
+                        content = "网络不可用！",
+                        okCall = ResetGame,
+                        cancelCall = ResetGame
+                    });
+                });
+                return;
+            }
             DebugHelper.Log($"ip:{ip} port:{port}");
             var session1 = new Session(ip, port, id, timeOut, (state, session) =>
             {
@@ -1180,6 +1194,21 @@ namespace Hotfix
                 LoadGameComponent.Instance.LoadGameScript(gameData);
                 hsm?.ChangeState(nameof(IdleState));
             }
+        }
+        
+        public void ResetGame()
+        {
+            isHallReconnect = false;
+            isGameReconnect = false;
+            GameLocalMode.Instance.AccountList.isAuto = false;
+            GameLocalMode.Instance.SaveAccount();
+            if (GameLocalMode.Instance.IsInGame)
+            {
+                EventHelper.DispatchLeaveGame();
+            }
+
+            UIManager.Instance?.CloseAllUI();
+            UIManager.Instance?.OpenUI<LogonScenPanel>();
         }
     }
 }
