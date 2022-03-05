@@ -860,17 +860,17 @@ namespace Hotfix.Hall
             /// </summary>
             private void GiveGoldYesBtnOnClick()
             {
-                long time = SaveHelper.GetLong(LastGiveTime);
-                long nowTime = 0;
-                nowTime = ToolHelper.GetTimeStamp(DateTime.Now, false);
-                if (time > 0)
-                {
-                    if (nowTime - time < 10)
-                    {
-                        ToolHelper.PopSmallWindow($"操作太频繁了，请稍后再试");
-                        return;
-                    }
-                }
+                // long time = SaveHelper.GetLong(LastGiveTime);
+                // long nowTime = 0;
+                // nowTime = ToolHelper.GetTimeStamp(DateTime.Now, false);
+                // if (time > 0)
+                // {
+                //     if (nowTime - time < 10)
+                //     {
+                //         ToolHelper.PopSmallWindow($"操作太频繁了，请稍后再试");
+                //         return;
+                //     }
+                // }
 
                 uint.TryParse(givePlayerId.text,out uint cornucopiaID);
                 long.TryParse(giveGoldNum.text, out long cornucopiaNum);
@@ -878,7 +878,7 @@ namespace Hotfix.Hall
 
                 var transfer = new HallStruct.REQ_CS_TRANSFERACCOUNTS(cornucopiaID, cornucopiaNum);
 
-                SaveHelper.SaveCommon(LastGiveTime, nowTime);
+                // SaveHelper.SaveCommon(LastGiveTime, nowTime);
                 HotfixGameComponent.Instance.Send(DataStruct.GoldMineStruct.MDM_3D_GOLDMINE,
                     DataStruct.GoldMineStruct.SUB_3D_CS_TRANSFERACCOUNTS, transfer._ByteBuffer, SocketType.Hall);
             }
