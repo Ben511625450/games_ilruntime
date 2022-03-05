@@ -1,4 +1,5 @@
-﻿using LitJson;
+﻿using System;
+using LitJson;
 
 namespace Hotfix
 {
@@ -23,9 +24,18 @@ namespace Hotfix
         /// </summary>
         /// <param name="key">存的名字</param>
         /// <returns></returns>
-        public static int GetInt(string key)
+        public static short GetShort(string key)
         {
-            return ES3.KeyExists(key) ? ES3.Load<int>(key) : 0;
+            return ES3.KeyExists(key) ? ES3.Load<short>(key) : (short)0;
+        }
+        /// <summary>
+        ///     返回long类型
+        /// </summary>
+        /// <param name="key">存的名字</param>
+        /// <returns></returns>
+        public static long GetLong(string key)
+        {
+            return ES3.KeyExists(key) ? ES3.Load<long>(key) : 0L;
         }
 
         /// <summary>
@@ -67,6 +77,16 @@ namespace Hotfix
         {
             return ES3.KeyExists(key) ? ES3.Load<double>(key) : 0;
         }
+        
+        /// <summary>
+        ///     返回double类型
+        /// </summary>
+        /// <param name="key">存的名字</param>
+        /// <returns></returns>
+        public static decimal GetDecimal(string key)
+        {
+            return ES3.KeyExists(key) ? ES3.Load<decimal>(key) : 0;
+        }
 
         /// <summary>
         ///     json存
@@ -86,7 +106,7 @@ namespace Hotfix
         /// <typeparam name="T">类型，只适用于基础类型</typeparam>
         /// <param name="key">键</param>
         /// <param name="t">基础类型值</param>
-        public static void SaveCommon<T>(string key, T t)
+        public static void SaveCommon<T>(string key, T t) where T : struct, IComparable
         {
             ES3.Save<T>(key, t);
         }

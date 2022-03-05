@@ -16,6 +16,8 @@ namespace Hotfix
         GameObject smallObj;
         public bool isShowBig = false;
         bool isShowSmall = false;
+        private static object object1 = new object();
+        private static object object2 = new object();
         protected override void Awake()
         {
             base.Awake();
@@ -46,13 +48,20 @@ namespace Hotfix
         protected override void Update()
         {
             base.Update();
-            if (NeedPopBigList.Count > 0)
+            lock (object1)
             {
-                PopBig();
+                if (NeedPopBigList.Count > 0)
+                {
+                    PopBig();
+                }
             }
-            if (NeedPopSmallList.Count > 0)
+
+            lock (object2)
             {
-                PopSmall();
+                if (NeedPopSmallList.Count > 0)
+                {
+                    PopSmall();
+                }
             }
         }
         private void Reset()
