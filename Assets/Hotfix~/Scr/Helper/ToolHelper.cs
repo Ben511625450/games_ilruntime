@@ -868,5 +868,18 @@ namespace Hotfix
 
             e.effectFactor = mode == EffectMode.Grayscale ? 1 : 0;
         }
+
+        /// <summary>
+        /// 获取时间戳
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="isMilliseconds"></param>
+        /// <returns></returns>
+        public static long GetTimeStamp(DateTime dt, bool isMilliseconds)
+        {
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            TimeSpan ts = dt - startTime;
+            return isMilliseconds ? Convert.ToInt64(ts.TotalMilliseconds) : Convert.ToInt64(ts.TotalSeconds);
+        }
     }
 }
