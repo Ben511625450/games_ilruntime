@@ -42,6 +42,7 @@ namespace Hotfix.Hall
         {
             base.Create(args);
             big = (BigMessage)args[0];
+            if (big == null) return;
             content.text = big.content;
             content.fontSize = 25;
             content.raycastTarget = false;
@@ -96,17 +97,20 @@ namespace Hotfix.Hall
         }
         private void SureCall()
         {
-            big.okCall?.Invoke();
+            big?.okCall?.Invoke();
+            big = null;
             UIManager.Instance.CloseUI(this);
         }
         private void CancelCall()
         {
-            big.cancelCall?.Invoke();
+            big?.cancelCall?.Invoke();
+            big = null;
             UIManager.Instance.CloseUI(this);
         }
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            big = null;
             HallEvent.DispatchOnClosePopBig();
         }
     }
