@@ -656,6 +656,9 @@ namespace Hotfix.Hall
             private int rate = 10000;
             private bool isInit;
 
+            private float _timer;
+            private float _giveDurationTime = 5;
+
             public override void OnEnter()
             {
                 base.OnEnter();
@@ -771,8 +774,15 @@ namespace Hotfix.Hall
             {
                 DebugHelper.Log($"查询玩家：{id}");
                 if (string.IsNullOrWhiteSpace(id)) return;
+                uint.TryParse(id, out uint Id);
+                if (Id <= 0)
+                {
+                    ToolHelper.PopSmallWindow($"ID不存在");
+                    givePlayerNickName.text = "";
+                    return;
+                }
                 HallStruct.REQ_CS_QueryPlayer queryPlayer = new HallStruct.REQ_CS_QueryPlayer();
-                queryPlayer.id = uint.Parse(id);
+                queryPlayer.id = Id;
                 HotfixGameComponent.Instance.Send(DataStruct.PersonalStruct.MDM_3D_PERSONAL_INFO,
                     DataStruct.PersonalStruct.SUB_3D_CS_USER_INFO_SELECT, queryPlayer.ByteBuffer, SocketType.Hall);
             }
@@ -811,6 +821,12 @@ namespace Hotfix.Hall
                     return;
                 }
 
+                if (cornucopiaID <= 0)
+                {
+                    ToolHelper.PopSmallWindow("接收人ID不正确");
+                    return;
+                }
+
                 if (cornucopiaID == GameLocalMode.Instance.SCPlayerInfo.DwUser_Id)
                 {
                     ToolHelper.PopSmallWindow("请勿给自己转账");
@@ -824,7 +840,7 @@ namespace Hotfix.Hall
                 }
 
                 args.interactable = false;
-                owner.transform.localPosition=Vector3.one *10000;
+                owner.transform.localPosition = Vector3.one * 10000;
                 ToolHelper.PopBigWindow(new BigMessage
                 {
                     content =
@@ -860,17 +876,15 @@ namespace Hotfix.Hall
             /// </summary>
             private void GiveGoldYesBtnOnClick()
             {
-                // long time = SaveHelper.GetLong(LastGiveTime);
-                // long nowTime = 0;
-                // nowTime = ToolHelper.GetTimeStamp(DateTime.Now, false);
-                // if (time > 0)
-                // {
-                //     if (nowTime - time < 10)
-                //     {
-                //         ToolHelper.PopSmallWindow($"操作太频繁了，请稍后再试");
-                //         return;
-                //     }
-                // }
+                if (_timer > 0)
+                {
+                    if (Time.realtimeSinceStartup - _timer < _giveDurationTime)
+                    {
+                        ToolHelper.PopSmallWindow(
+                            $"操作太频繁了，请稍后再试 {Mathf.Ceil(_giveDurationTime - (Time.realtimeSinceStartup - _timer))}s");
+                        return;
+                    }
+                }
 
                 uint.TryParse(givePlayerId.text,out uint cornucopiaID);
                 long.TryParse(giveGoldNum.text, out long cornucopiaNum);
@@ -878,7 +892,8 @@ namespace Hotfix.Hall
 
                 var transfer = new HallStruct.REQ_CS_TRANSFERACCOUNTS(cornucopiaID, cornucopiaNum);
 
-                // SaveHelper.SaveCommon(LastGiveTime, nowTime);
+                _timer = Time.realtimeSinceStartup;
+                ToolHelper.PopSmallWindow($"转账操作成功");
                 HotfixGameComponent.Instance.Send(DataStruct.GoldMineStruct.MDM_3D_GOLDMINE,
                     DataStruct.GoldMineStruct.SUB_3D_CS_TRANSFERACCOUNTS, transfer._ByteBuffer, SocketType.Hall);
             }
