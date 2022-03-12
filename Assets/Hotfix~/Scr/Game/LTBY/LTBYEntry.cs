@@ -41,6 +41,11 @@ namespace Hotfix.LTBY
         protected override void Awake()
         {
             base.Awake();
+            Screen.orientation = ScreenOrientation.Landscape;
+            Screen.autorotateToLandscapeLeft = true;
+            Screen.autorotateToLandscapeRight = true;
+            Screen.autorotateToPortrait = false;
+            Screen.autorotateToPortraitUpsideDown = false;
             UnityEngine.Physics2D.autoSyncTransforms = false;
             DOTween.defaultEaseType = Ease.Linear;
             GameData.Instance.Init();
@@ -248,9 +253,18 @@ namespace Hotfix.LTBY
         public Vector2 GetBackgroundWH()
         {
             float size = MainCam.orthographicSize;
-            float height = size * 2;
-            float width = height * ((float) Screen.width / Screen.height);
-            return new Vector2(width, height);
+            if (Screen.width > Screen.height)
+            {
+                float height = size * 2;
+                float width = height * ((float) Screen.width / Screen.height);
+                return new Vector2(width, height);
+            }
+            else
+            {
+                float height = size * 2;
+                float width = height * ((float) Screen.height / Screen.width);
+                return new Vector2(width, height);
+            }
         }
 
         public void DealHighFps()

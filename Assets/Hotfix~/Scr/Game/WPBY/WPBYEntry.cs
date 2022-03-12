@@ -171,7 +171,7 @@ namespace Hotfix.WPBY
             EventTriggerHelper touchAreaListener = touchArea.AddComponent<EventTriggerHelper>();
             touchAreaListener.onDown = (obj, eventData) =>
             {
-                DebugHelper.Log("µ„ª˜∑¢≈⁄");
+                DebugHelper.Log("ÁÇπÂáªÂèëÁÇÆ");
                 Vector2 vector2 = this.backgroundCamera.ScreenToWorldPoint(Input.mousePosition);
                 WPBY_Player player = WPBY_PlayerController.Instance.GetPlayer(this.GameData.ChairID);
                 player.gun_Function.gameObject.SetActive(false);
@@ -217,7 +217,7 @@ namespace Hotfix.WPBY
                 {
                     if (player.goldNum < (ulong)(GameData.Config.bulletScore[player.gungrade] * (player.gunLevel + 1)))
                     {
-                        ToolHelper.PopSmallWindow("Ω±“≤ª◊„!");
+                        ToolHelper.PopSmallWindow("ÈáëÂ∏Å‰∏çË∂≥!");
                         return;
                     }
                 }
@@ -415,8 +415,8 @@ namespace Hotfix.WPBY
         {
             Vector3 p = Vector3.zero;
             float n = 1 - t;
-            //œµ ˝ «∏˘æ›—Óª‘»˝Ω«µƒ÷µ «œ‡Õ¨µƒ
-            //TODO:  µœ÷»Œ“‚Ω◊±¥»˚∂˚«˙œﬂ
+            //Á≥ªÊï∞ÊòØÊ†πÊçÆÊù®Ëæâ‰∏âËßíÁöÑÂÄºÊòØÁõ∏ÂêåÁöÑ
+            //TODO: ÂÆûÁé∞‰ªªÊÑèÈò∂Ë¥ùÂ°ûÂ∞îÊõ≤Á∫ø
             float x = 0;
             float y = 0;
             int count = controlPosList.Count;
@@ -443,7 +443,7 @@ namespace Hotfix.WPBY
         }
         public void InitPanel()
         {
-            //≥ı ºªØ±≥æ∞
+            //ÂàùÂßãÂåñËÉåÊôØ
             WPBY_Effect.Instance.OnChangeBGStart(GameData.Config.bGID);
         }
 
@@ -452,7 +452,7 @@ namespace Hotfix.WPBY
             Transform tip = null;
             if (fishkind == -1)
             {
-                //”„≥±
+                //È±ºÊΩÆ
                 tip = this.tips.Find("YC");
             }
             if (tip != null)
