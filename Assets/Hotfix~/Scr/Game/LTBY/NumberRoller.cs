@@ -24,11 +24,14 @@ namespace Hotfix.LTBY
 
         private bool isTMP;
 
+        private bool isInit = false;
+
         public string text
         {
             get { return _baseNum.ToString(); }
             set
             {
+                FindComponent();
                 if (_useSplit)
                 {
                     if (isTMP)
@@ -43,14 +46,16 @@ namespace Hotfix.LTBY
             }
         }
 
-        protected override void Awake()
+        protected override void FindComponent()
         {
-            base.Awake();
+            base.FindComponent();
+            if(isInit) return;
             isTMP = false;
             _bindText = gameObject.GetComponent<Text>();
             if (_bindText != null) return;
             _bindTMPText = gameObject.GetComponent<TextMeshProUGUI>();
             isTMP = true;
+            isInit = true;
         }
 
         protected override void OnDestroy()
@@ -68,6 +73,7 @@ namespace Hotfix.LTBY
             _toNum = 0;
             _deltaNum = 0;
             _baseNum = 0;
+            FindComponent();
         }
 
         public void RollBy(long deltaNum, float time)
