@@ -278,10 +278,34 @@ namespace Hotfix.Hall
                         }
                     }
                     reqIPIndex = 0;
+                    GetSDKConfiger();
+                });
+            }
+            /// <summary>
+            /// 请求httpConfiger
+            /// </summary>
+            private void GetSDKConfiger()
+            {
+                DebugHelper.Log($"获取sdkkey");
+                FormData form = new FormData();
+                form.AddField("time", System.DateTime.Now.ToString("yyyyMMddHHmmSS"));
+                string url = AppConst.WebUrl.Replace("/android", "");
+                url = url.Replace("/ios", "");
+                url = url.Replace("/iOS", "");
+                url = url.Replace("/win", "");
+                HttpManager.Instance.GetText($"{url}SDKKey.json", form, (isSuccess, result) =>
+                {
+                    if (!isSuccess)
+                    {
+                        ReqIP();
+                        return;
+                    }
+
+                    string msg = result;
+                    Defence.Defence.InitDefenceSDK(msg);
                     ReqIP();
                 });
             }
-
             /// <summary>
             /// 请求IP
             /// </summary>
@@ -362,9 +386,27 @@ namespace Hotfix.Hall
 
                         GameLocalMode.Instance.M_HttpData = JsonMapper.ToObject<HttpData>(msg);
                         ToolHelper.ShowWaitPanel(false);
-                        GameLocalMode.Instance.HallHost = GameLocalMode.Instance.GWData.isUseLoginIP
-                            ? GameLocalMode.Instance.GWData.LoginIP
-                            : GameLocalMode.Instance.M_HttpData.login_ip;
+                        GameLocalMode.Instance.HallHost = GameLocalMode.Instance.M_HttpData.login_ip;
+                        if (GameLocalMode.Instance.GWData.isUseLoginIP)
+                        {
+                            if (GameLocalMode.Instance.GWData.isUseDefence)
+                            {
+                                GameLocalMode.Instance.HallHost = Util.isPc ? GameLocalMode.Instance.GWData.DefenceLoginIP : GameLocalMode.Instance.GWData.DefencePCLoginIP;
+                            }
+                            else
+                            {
+                                GameLocalMode.Instance.HallHost = Util.isPc ? GameLocalMode.Instance.GWData.PCLoginIP
+                                    : GameLocalMode.Instance.GWData.LoginIP;
+                            }
+                        }
+                        else
+                        {
+                            if (GameLocalMode.Instance.GWData.isUseDefence)
+                            {
+                                GameLocalMode.Instance.HallHost = Util.isPc ? GameLocalMode.Instance.GWData.DefenceLoginIP : GameLocalMode.Instance.GWData.DefencePCLoginIP;
+                            }
+                        }
+
                         GameLocalMode.Instance.HallPort = GameLocalMode.Instance.M_HttpData.login_port;
                         // GameLocalMode.Instance.HallPort = $"{28101}";
                         hsm?.ChangeState(CheckVersion() ? nameof(CheckAutoLogin) : nameof(IdleState));

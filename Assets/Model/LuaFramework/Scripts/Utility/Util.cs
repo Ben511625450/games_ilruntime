@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System;
 using System.IO;
 using System.Text;
@@ -75,8 +75,8 @@ namespace LuaFramework
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Defence.Exit();
+//#else
+            Defence.Defence.Exit();
             Application.Quit();
 #endif
         }
@@ -974,7 +974,7 @@ namespace LuaFramework
 
         public static void InitGF(string key)
         {
-            Defence.Init();
+            
         }
 
         /// <summary>
@@ -983,7 +983,7 @@ namespace LuaFramework
         /// <returns></returns>
         public static bool IsGFInit()
         {
-            return Defence.isInit;
+            return Defence.Defence.IsInit;
         }
 
         /// <summary>
@@ -995,7 +995,7 @@ namespace LuaFramework
         /// <returns></returns>
         public static string GetIPAndPort(string host, int port)
         {
-            return Defence.GetIPAndPort(host, (uint) port);
+            return "";
         }
 
         public static Tweener RunWinScore(float orginScore, float targetScore, float timer, LuaFunction callback)

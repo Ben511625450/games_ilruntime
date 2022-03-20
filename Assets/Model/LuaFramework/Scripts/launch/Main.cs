@@ -61,46 +61,8 @@ namespace LuaFramework
             //    DebugTool.LogError(e.Message);
             //}
 #endif
-#if UNITY_STANDALONE_WIN
-            rate = 1334f / 750;
-            currentwidth = (int) (Screen.height * rate);
-            currentheight = Screen.height;
-            lastwidth = currentwidth;
-            lastheight = currentheight;
-            Screen.SetResolution(currentwidth, currentheight, false);
-#endif
             this.InitGameMangager();
         }
-
-#if UNITY_STANDALONE_WIN
-        private void Update()
-        {
-            timer = timer += Time.deltaTime;
-            if (timer >= 0.3f)
-            {
-                timer = 0;
-                SetWindow();
-            }
-        }
-#endif
-        private float timer = 0;
-
-        void SetWindow()
-        {
-            if (Screen.height != lastheight)
-            {
-                lastwidth = (int) (Screen.height * rate);
-                lastheight = Screen.height;
-                Screen.SetResolution(lastwidth, lastheight, false);
-            }
-            else if (Screen.width != lastwidth)
-            {
-                lastwidth = Screen.width;
-                lastheight = (int) (Screen.width / rate);
-                Screen.SetResolution(lastwidth, lastheight, false);
-            }
-        }
-
         public void InitConfiger()
         {
             this.CsConfiger = Resources.Load<TextAsset>("CsConfiger");

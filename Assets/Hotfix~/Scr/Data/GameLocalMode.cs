@@ -325,16 +325,25 @@ namespace Hotfix
         public int MoneyRate;
         public string GameIP;
         public string LoginIP;
+        public string PCGameIP;
+        public string PCLoginIP;
+        public string DefenceGameIP;
+        public string DefenceLoginIP;
+        public string DefencePCGameIP;
+        public string DefencePCLoginIP;
         public string PCUrl;
         public string AndroidUrl;
         public string iOSUrl;
         public List<string> PCUrls;
         public List<string> REQGameList;
         public List<string> REQLoginList;
+        public List<string> PCREQGameList;
+        public List<string> PCREQLoginList;
         public List<int> TransferConfig;
         public List<string> Urls;
         public bool isUseLoginIP;
         public bool isUseGameIP;
+        public bool isUseDefence;
     }
 
     public class HttpGame

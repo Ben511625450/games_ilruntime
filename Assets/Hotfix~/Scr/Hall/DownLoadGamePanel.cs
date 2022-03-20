@@ -105,9 +105,24 @@ namespace Hotfix.Hall
                 owner.downProgress.value = 0;
                 GameLocalMode.Instance.GameHost = owner.info._4dwServerAddr;
                 GameLocalMode.Instance.GamePort = owner.info._5wServerPort;
-                if (GameLocalMode.Instance.GWData.isUseGameIP)
+                if (GameLocalMode.Instance.GWData.isUseLoginIP)
                 {
-                    GameLocalMode.Instance.GameHost = GameLocalMode.Instance.GWData.GameIP;
+                    if (GameLocalMode.Instance.GWData.isUseDefence)
+                    {
+                        GameLocalMode.Instance.GameHost = Util.isPc ? GameLocalMode.Instance.GWData.DefenceGameIP : GameLocalMode.Instance.GWData.DefencePCGameIP;
+                    }
+                    else
+                    {
+                        GameLocalMode.Instance.HallHost = Util.isPc ? GameLocalMode.Instance.GWData.PCGameIP
+                            : GameLocalMode.Instance.GWData.GameIP;
+                    }
+                }
+                else
+                {
+                    if (GameLocalMode.Instance.GWData.isUseDefence)
+                    {
+                        GameLocalMode.Instance.HallHost = Util.isPc ? GameLocalMode.Instance.GWData.DefenceGameIP : GameLocalMode.Instance.GWData.DefencePCGameIP;
+                    }
                 }
                 HotfixGameComponent.Instance.ConnectGameServer(isSuccess =>
                 {
