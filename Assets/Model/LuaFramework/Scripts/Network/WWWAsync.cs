@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -43,6 +43,28 @@ namespace LuaFramework
 				DebugTool.LogError("重复使用组件,WWWAsync.instance的唯一对象");
 			}
 			WWWAsync.instance = this;
+		}
+		
+		public Sprite GetSprite()
+		{
+			DownloadHandlerTexture handler = (DownloadHandlerTexture) this.pak.www.downloadHandler;
+			Texture2D texture = handler.texture;
+			Rect rect = new Rect(0f, 0f, (float)texture.width, (float)texture.height);
+			return Sprite.Create(texture, rect, Vector2.zero);
+		}
+		
+		public Texture2D GetTexture2D()
+		{
+			DownloadHandlerTexture handler = (DownloadHandlerTexture) this.pak.www.downloadHandler;
+			Texture2D texture = handler.texture;
+			return texture;
+		}
+		
+		public Texture2D GetTexture2DHD()
+		{
+			DownloadHandlerTexture handler = (DownloadHandlerTexture) this.pak.www.downloadHandler;
+			Texture2D texture = handler.texture;
+			return new Texture2D(texture.width, texture.height, TextureFormat.ARGB32, false);
 		}
 		
 		public void Update()
@@ -110,6 +132,92 @@ namespace LuaFramework
 			}
 			File.WriteAllBytes(this.pak.localPath, this.Bytes);
 		}
+		
+		public void LoadFromCacheOrDownload(string url, Action<float, object> f)
+		{
+			this.LoadFromCacheOrDownload(new UnityWebPacket
+			{
+				urlPath = url,
+				localPath = string.Empty,
+				func = f,
+				size = 1UL,
+				version = 1
+			});
+		}
+		
+		public Task<UnityWebPacket> LoadFromCacheOrDownload(UnityWebPacket pak)
+		{
+			string text = pak.urlPath;
+			text = text.Replace(" ", "%20");
+			this.pak = pak;
+			this.fileName = pak.name;
+            DebugTool.LogError("LoadFromCacheOrDownload:" + text);
+			bool flag = this.pak.version > 0;
+			if (flag)
+			{
+				this.pak.www = UnityWebRequestAssetBundle.GetAssetBundle(text, (uint) this.pak.version, (uint) pak.crc);
+			}
+			else
+			{
+				this.pak.www = UnityWebRequestAssetBundle.GetAssetBundle(text, this.pak.hash, (uint)pak.crc);
+			}
+			this.tcs = new TaskCompletionSource<UnityWebPacket>();
+			CancellationToken token = pak.token;
+			bool flag2 = true;
+			if (flag2)
+			{
+				pak.token.Register(delegate
+				{
+					this.isCancel = true;
+				});
+			}
+			this.isStart = true;
+			return this.tcs.Task;
+		}
+		
+		public async Task<bool> LoadFromCacheOrDownload(List<UnityWebPacket> paks, Action callBack)
+		{
+			foreach (UnityWebPacket p in paks)
+			{
+				await this.LoadFromCacheOrDownload(p);
+			
+			}
+
+			if (callBack != null)
+			{
+				callBack();
+			}
+			return true;
+		}
+		
+		public async Task<bool> LoadFromCacheOrDownload(List<UnityWebPacket> paks, Action<string, object> callBack)
+		{
+			bool ok = true;
+			foreach (UnityWebPacket p in paks)
+			{
+				UnityWebPacket unityWebPacket = await this.LoadFromCacheOrDownload(p);
+				UnityWebPacket pak = unityWebPacket;
+				unityWebPacket = null;
+				if (callBack != null)
+				{
+					callBack(pak.name, pak);
+				}
+				if (!string.IsNullOrEmpty(this.pak.www.error))
+				{
+					ok = false;
+				}
+				this.pak.www.Dispose();
+				if (!ok)
+				{
+					break;
+				}
+				pak = null;
+				
+			}
+
+			return ok;
+		}
+		
 		public void DownloadAsync(string url, Action<float, object> f)
 		{
 			bool flag = this.isDestroy;
@@ -140,7 +248,10 @@ namespace LuaFramework
 				if (flag2)
 				{
 					UnityWebRequest www = this.pak.www;
-					www?.Dispose();
+					if (www != null)
+					{
+						www.Dispose();
+					}
 					this.pak = null;
 				}
 				string text = string.Empty;
@@ -155,7 +266,8 @@ namespace LuaFramework
 				}
 				text = text.Replace(" ", "%20");
 				this.pak = pak;
-				this.pak.www = new UnityWebRequest(text);
+				this.pak.www = UnityWebRequest.Get(text);
+				this.pak.www.SendWebRequest();
 				this.tcs = new TaskCompletionSource<UnityWebPacket>();
 				this.isStart = true;
 				CancellationToken token = pak.token;

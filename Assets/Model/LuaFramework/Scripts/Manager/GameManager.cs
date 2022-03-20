@@ -145,11 +145,11 @@ namespace LuaFramework
         {
             this.CheckLocalVersion();
             bool flag = !File.Exists(PathHelp.AppHotfixResPath + AppConst.ValueConfigerName) && !AppConst.DebugMode;
-            // if (flag)
-            // {
-            //     Main.UpdateUIDesc("正在解压文件，请稍等");
-            //     await this.OnUnzip();
-            // }
+            if (flag)
+            {
+                Main.UpdateUIDesc("正在解压文件，请稍等");
+                await this.OnUnzip();
+            }
 
             Main.UpdateUIDesc("正在获取版本文件，请稍等");
             bool isOk = true;
