@@ -1,9 +1,11 @@
-﻿using LitJson;
+﻿using System;
+using LitJson;
 using LuaFramework;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Hotfix.Hall
 {
@@ -302,7 +304,17 @@ namespace Hotfix.Hall
                     }
 
                     string msg = result;
-                    Defence.Defence.InitDefenceSDK(msg);
+                    // if(GameLocalMode.Instance.GWData.isUseDefence)
+                    // {
+                    //     try
+                    //     {
+                    //         Defence.Defence.InitDefenceSDK(msg);
+                    //     }
+                    //     catch (Exception e)
+                    //     {
+                    //         DebugHelper.LogError($"Error:{e.Message}");
+                    //     }
+                    // }
                     ReqIP();
                 });
             }

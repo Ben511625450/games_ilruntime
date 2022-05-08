@@ -247,7 +247,9 @@ namespace Hotfix.LTBY
 
             if (_chairId == this.chairId)
             {
-                nameFrame.FindChildDepth<Text>("Name").text = $"{data.NickName.Substring(0, 6)}...";
+                nameFrame.FindChildDepth<Text>("Name").text = data.NickName.Length > 6
+                    ? $"{data.NickName.Substring(0, 6)}..."
+                    : $"{data.NickName}";
 
                 this.coinList[_chairId].FindChildDepth("Plus").gameObject.SetActive(true);
 
@@ -396,13 +398,17 @@ namespace Hotfix.LTBY
         public bool MinusScore(int _chairId, long delta)
         {
             if (_chairId != this.chairId) return true;
+            if (GameData.Instance.playScores.ContainsKey(_chairId))
+            {
+                userScore = GameData.Instance.playScores[_chairId];
+            }
             if (this.userScore - delta < 0)
             {
                 MoneyInsufficient();
                 return false;
             }
 
-            this.userScore -= delta;
+            GameData.Instance.playScores[_chairId] -= delta;
             SetScore(_chairId, this.userScore);
 
             return true;
@@ -433,10 +439,9 @@ namespace Hotfix.LTBY
 
         public void SetScore(int _chairId, long score)
         {
-            if (this.scoreList.ContainsKey(_chairId))
-            {
-                this.scoreList[_chairId].text = score.ToString();
-            }
+            if (!this.scoreList.ContainsKey(_chairId)) return;
+            if (!GameData.Instance.playScores.ContainsKey(_chairId)) return;
+            this.scoreList[_chairId].text = GameData.Instance.playScores[_chairId].ToString();
         }
 
         public void CreateAddUserScoreItem(int _chairId, long score, bool serial = false)

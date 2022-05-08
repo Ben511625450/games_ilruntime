@@ -458,5 +458,7 @@ namespace Hotfix.LTBY
         /// 玩家炮台数据
         /// </summary>
         public LTBY_Struct.CMD_S_PlayerGunLevel playerGuns { get; set; }
+        
+        public Dictionary<int,long> playScores { get; set; }
     }
 }

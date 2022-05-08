@@ -184,11 +184,11 @@ namespace Hotfix.Hall
             }
 
             gold = GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD);
-            if (gold < info._6iLessGold)
-            {
-                ToolHelper.PopSmallWindow($"你的金币不足，请充值");
-                return;
-            }
+            // if (gold < info._6iLessGold)
+            // {
+            //     ToolHelper.PopSmallWindow($"你的金币不足，请充值");
+            //     return;
+            // }
 
             if (info._2wGameID == roomInfo._2wGameID && info._3wRoomID == roomInfo._3wRoomID)
             {

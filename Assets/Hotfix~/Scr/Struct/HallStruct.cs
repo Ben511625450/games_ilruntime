@@ -455,6 +455,23 @@ namespace Hotfix
         }
 
         /// <summary>
+        /// 同步金币
+        /// </summary>
+        public class ACP_SC_SYNC_GOLD
+        {
+            public int User_Id;
+            public long User_Gold;
+
+            public ACP_SC_SYNC_GOLD()
+            {
+            }
+            public ACP_SC_SYNC_GOLD(ByteBuffer buffer)
+            {
+                User_Id = buffer.ReadInt32();
+                User_Gold = buffer.ReadInt64();
+            }
+        }
+        /// <summary>
         /// 查询id返回
         /// </summary>
         public class ACP_SC_QueryID

@@ -697,6 +697,9 @@ namespace Hotfix
                     OnSelectPlayerGold(buffer);
                     break;
                 }
+                case DataStruct.PersonalStruct.SUB_3D_SC_USER_GOLD:
+                    OnSyncPlayerGold(buffer);
+                    break;
                 case DataStruct.PersonalStruct.SUB_3D_SC_ChangeHeader:
                 {
                     OnUpdatePlayerHeadImg(buffer);
@@ -791,7 +794,23 @@ namespace Hotfix
                 UIManager.Instance.Close();
             }
         }
+        /// <summary>
+        /// 同步玩家金币
+        /// </summary>
+        /// <param name="buffer"></param>
+        private void OnSyncPlayerGold(ByteBuffer buffer)
+        {
+            var select = new HallStruct.ACP_SC_SYNC_GOLD(buffer);
+            var tmeNum = -1;
+            for (var i = 0; i < GameLocalMode.Instance.AllSCUserProp.Count; i++)
+                if (GameLocalMode.Instance.AllSCUserProp[i].User_Id == select.User_Id)
+                    tmeNum = i;
 
+            if (tmeNum >= 0)
+                GameLocalMode.Instance.ChangProp(select.User_Gold, Prop_Id.E_PROP_GOLD);
+
+            HallEvent.DispatchChangeGoldTicket();
+        }
         /// <summary>
         ///     查询玩家金币
         /// </summary>
@@ -799,14 +818,19 @@ namespace Hotfix
         private void OnSelectPlayerGold(ByteBuffer buffer)
         {
             var select = new HallStruct.ACP_SC_SELECT_GOLD(buffer);
+            DebugHelper.LogError($"select:{JsonMapper.ToJson(select)}");
+            DebugHelper.LogError($"select:{JsonMapper.ToJson(GameLocalMode.Instance.AllSCUserProp)}");
             var tmeNum = -1;
             for (var i = 0; i < GameLocalMode.Instance.AllSCUserProp.Count; i++)
                 if (GameLocalMode.Instance.AllSCUserProp[i].User_Id == select.User_Id)
                     tmeNum = i;
 
+            DebugHelper.LogError($"Gold:{GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD)}");
+            DebugHelper.LogError($"tmeNum:{tmeNum}");
             if (tmeNum >= 0)
                 GameLocalMode.Instance.ChangProp(select.Self_Gold, Prop_Id.E_PROP_GOLD);
 
+            DebugHelper.LogError($"Gold:{GameLocalMode.Instance.GetProp(Prop_Id.E_PROP_GOLD)}");
             HallEvent.DispatchChangeGoldTicket();
         }
 

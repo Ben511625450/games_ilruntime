@@ -45,6 +45,8 @@ namespace Hotfix
         private readonly List<PanelBase> uiList = new List<PanelBase>();
         private readonly Dictionary<string, PanelBase> uiMap = new Dictionary<string, PanelBase>();
         
+        public const string ScreenOrientation = "ScreenOrientation";
+        private string lastOrientation;
 
         protected override void Awake()
         {
@@ -61,12 +63,36 @@ namespace Hotfix
             TipPanel = transform.FindChildDepth("TipPanel");
             // Util.LoadAsset("module02/Pool/font", "font");
             ILMusicManager.Instance.PlayBackgroundMusic();
+
+            if (Util.isPc)
+            {
+                ES3.Save<string>(ScreenOrientation, UnityEngine.ScreenOrientation.Portrait.ToString());
+            }
+
             OpenUI<LogonScenPanel>();
         }
 
         protected override void Update()
         {
             base.Update();
+            if (Util.isPc)
+            {
+                bool hasKey = ES3.KeyExists(ScreenOrientation);
+                if (!hasKey) return;
+                string orientation = ES3.Load<string>(ScreenOrientation);
+                if (lastOrientation == orientation) return;
+                if (orientation == UnityEngine.ScreenOrientation.Portrait.ToString())
+                {
+                    AspectRatioController.Instance.SetAspectRatio(9, 16, true);
+                }
+                else
+                {
+                    AspectRatioController.Instance.SetAspectRatio(16, 9, true);
+                }
+
+                lastOrientation = orientation;
+            }
+
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 ToolHelper.PopBigWindow(new BigMessage

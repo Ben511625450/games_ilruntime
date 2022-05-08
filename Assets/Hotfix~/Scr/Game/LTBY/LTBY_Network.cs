@@ -1,6 +1,7 @@
 ﻿using LitJson;
 using LuaFramework;
 using System;
+using System.Collections.Generic;
 
 namespace Hotfix.LTBY
 {
@@ -160,6 +161,7 @@ namespace Hotfix.LTBY
         protected override void Start()
         {
             base.Start();
+            GameData.Instance.playScores = new Dictionary<int, long>();
             LoginGame();
         }
         protected override void OnDestroy()
@@ -262,10 +264,23 @@ namespace Hotfix.LTBY
                 case SUB_S_FISH_DEAD:
                     LTBY_Struct.CMD_S_FishDead fishDead = new LTBY_Struct.CMD_S_FishDead(buffer);
                     DebugHelper.LogError($"鱼死亡：{JsonMapper.ToJson(fishDead)}");
+                    if (GameData.Instance.playScores.ContainsKey(fishDead.wChairID))
+                    {
+                        GameData.Instance.playScores[fishDead.wChairID] = fishDead.score;
+                    }
                     LTBY_Event.DispatchOnFishDead(fishDead.wChairID, fishDead);
                     break;
                 case SUB_S_PLAYER_SHOOT:
                     LTBY_Struct.CMD_S_PlayerShoot shoot = new LTBY_Struct.CMD_S_PlayerShoot(buffer);
+                    if (GameData.Instance.playScores.ContainsKey(shoot.wChairID))
+                    {
+                        GameData.Instance.playScores[shoot.wChairID] = shoot.playCurScore;
+                    }
+
+                    if (LTBY_GameView.GameInstance.IsSelf(shoot.wChairID))
+                    {
+                        LTBY_GameView.GameInstance.SetScore(shoot.wChairID, shoot.playCurScore);
+                    }
                     LTBY_Event.DispatchOnPlayerShoot(shoot);
                     DebugHelper.Log($"玩家发炮:{shoot.playCurScore}");
                     break;
@@ -401,6 +416,10 @@ namespace Hotfix.LTBY
         /// <param name="data">数据</param>
         private void UserExitAction(ushort sid, GameUserData data)
         {
+            if (GameData.Instance.playScores.ContainsKey(data.ChairId))
+            {
+                GameData.Instance.playScores.Remove(data.ChairId);
+            }
             //DebugHelper.LogError($"玩家退出：{data.ChairId}");
             LTBY_Event.DispatchSCNotifyLogout(data);
         }
@@ -412,6 +431,12 @@ namespace Hotfix.LTBY
         /// <param name="data">数据</param>
         private void UserEnterAction(ushort sid, GameUserData data)
         {
+            if (!GameData.Instance.playScores.ContainsKey(data.ChairId))
+            {
+                GameData.Instance.playScores.Add(data.ChairId,0);
+            }
+
+            GameData.Instance.playScores[data.ChairId] = (long) data.Gold;
             LTBY_Event.DispatchSCUserReady(data);
         }
 

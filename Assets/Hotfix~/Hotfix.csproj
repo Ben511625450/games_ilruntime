@@ -401,6 +401,16 @@
     <Compile Include="Scr\Game\LTBY\View\LTBY_SwitchGameView.cs" />
     <Compile Include="Scr\Game\LTBY\View\LTBY_ViewBase.cs" />
     <Compile Include="Scr\Game\LTBY\View\LTBY_WaitForServerView.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHLEntry.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_Audio.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_DataConfig.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_Event.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_Line.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_Network.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_Result.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_Roll.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_Rule.cs" />
+    <Compile Include="Scr\Game\MJHL\MJHL_Struct.cs" />
     <Compile Include="Scr\Game\SG777\SG777Entry.cs" />
     <Compile Include="Scr\Game\SG777\SG777_Audio.cs" />
     <Compile Include="Scr\Game\SG777\SG777_DataConfig.cs" />
