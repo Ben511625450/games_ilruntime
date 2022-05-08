@@ -321,7 +321,7 @@ public class AspectRatioController : MonoBehaviour
  
 #endif
     
-#if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
     void Update()
     {
         // 如果不允许全屏，则阻止切换到全屏
