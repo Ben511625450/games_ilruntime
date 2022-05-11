@@ -521,6 +521,7 @@
     <Compile Include="Scr\Hall\RechargePanel.cs" />
     <Compile Include="Scr\Hall\SetPanel.cs" />
     <Compile Include="Scr\Hall\TaskPanel.cs" />
+    <Compile Include="Scr\Hall\UIMask.cs" />
     <Compile Include="Scr\Hall\UpdateBankPWPanel.cs" />
     <Compile Include="Scr\Hall\WaitPanel.cs" />
     <Compile Include="Scr\Hall\ZSCardPanel.cs" />

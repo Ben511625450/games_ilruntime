@@ -249,7 +249,7 @@ function JJPM_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function JJPM_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(JJPMEntry.gameObject);
+    --destroy(JJPMEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function JJPM_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

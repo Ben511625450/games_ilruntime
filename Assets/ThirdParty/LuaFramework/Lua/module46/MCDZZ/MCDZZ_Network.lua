@@ -209,7 +209,7 @@ function MCDZZ_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function MCDZZ_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(MCDZZEntry.gameObject);
+    --destroy(MCDZZEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function MCDZZ_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

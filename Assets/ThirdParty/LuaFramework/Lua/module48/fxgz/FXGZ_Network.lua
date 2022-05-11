@@ -189,7 +189,7 @@ function FXGZ_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function FXGZ_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(FXGZEntry.gameObject);
+    --destroy(FXGZEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function FXGZ_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

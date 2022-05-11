@@ -148,7 +148,7 @@ function JSYC_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function JSYC_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(JSYCEntry.gameObject);
+    --destroy(JSYCEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function JSYC_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

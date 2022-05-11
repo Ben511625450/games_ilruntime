@@ -499,7 +499,7 @@ function OneWPBY_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function OneWPBY_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(OneWPBYEntry.gameObject);
+    --destroy(OneWPBYEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function OneWPBY_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

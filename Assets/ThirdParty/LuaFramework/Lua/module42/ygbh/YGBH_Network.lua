@@ -206,7 +206,7 @@ function YGBH_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function YGBH_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(YGBHEntry.gameObject);
+    --destroy(YGBHEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function YGBH_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

@@ -164,7 +164,7 @@ namespace LuaFramework
                     {
                         string text2 = Util.DecryptDES(result, "89219417");
                         AppConst.csConfiger = JsonMapper.ToObject<CSConfiger>(text2);
-                        //AppConst.csConfiger.UpdateMode = false;
+                        // AppConst.csConfiger.UpdateMode = false;
                     }
 
                     taskTool.SetResult(true);

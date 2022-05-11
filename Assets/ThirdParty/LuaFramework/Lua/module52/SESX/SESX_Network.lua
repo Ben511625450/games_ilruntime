@@ -174,7 +174,7 @@ function SESX_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function SESX_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(SESXEntry.gameObject);
+    --destroy(SESXEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function SESX_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

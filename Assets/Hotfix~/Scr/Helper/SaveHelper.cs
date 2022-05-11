@@ -106,7 +106,7 @@ namespace Hotfix
         /// <typeparam name="T">类型，只适用于基础类型</typeparam>
         /// <param name="key">键</param>
         /// <param name="t">基础类型值</param>
-        public static void SaveCommon<T>(string key, T t) where T : struct, IComparable
+        public static void SaveCommon<T>(string key, T t)
         {
             ES3.Save<T>(key, t);
         }

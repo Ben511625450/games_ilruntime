@@ -204,7 +204,7 @@ function SGXML_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function SGXML_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(SGXMLEntry.gameObject);
+    --destroy(SGXMLEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function SGXML_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

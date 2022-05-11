@@ -247,7 +247,7 @@ namespace Hotfix.LTBY
             MissileSpineAward effect = GetEffectFromPool<MissileSpineAward>();
             int id = AllocateEffectId();
             effect.OnCreate(id, chairId, propId);
-            MissileList[chairId].Add(id,effect);
+            MissileList[chairId].Add(id, effect);
             return effect;
         }
 
@@ -557,7 +557,7 @@ namespace Hotfix.LTBY
 
         public void CreateBoostScoreBoardEffects(long score, params object[] args)
         {
-            EffectParamData data = args.Length > 0 ? (EffectParamData)args[0] : new EffectParamData();
+            EffectParamData data = args.Length > 0 ? (EffectParamData) args[0] : new EffectParamData();
             int chairId = data.chairId;
             Vector3 pos = data.pos;
             float scale = data.scale == 0 ? 1 : data.scale;
@@ -643,6 +643,8 @@ namespace Hotfix.LTBY
         public virtual void OnDestroy()
         {
             OnStored();
+            this.skeleton = null;
+            this.num = null;
         }
 
         public virtual void SettleAccount()
@@ -670,11 +672,8 @@ namespace Hotfix.LTBY
             base.OnCreate(args);
             this.name = nameof(FishAppear);
             LTBY_Audio.Instance.Play(SoundConfig.FishAppear);
-            if (effect == null)
-            {
-                this.effect =
-                    LTBY_PoolManager.Instance.GetUiItem("LTBY_FishAppear", LTBY_EffectManager.Instance.UiLayer);
-            }
+            this.effect =
+                LTBY_PoolManager.Instance.GetUiItem("LTBY_FishAppear", LTBY_EffectManager.Instance.UiLayer);
 
             this.effect.gameObject.SetActive(true);
             this.effect.localPosition = new Vector3(0, 0, 0);
@@ -683,18 +682,11 @@ namespace Hotfix.LTBY
             string BGBundle = string.IsNullOrEmpty(config.broadcastBgBundle) ? "res_effect" : config.broadcastBgBundle;
             string BGName = string.IsNullOrEmpty(config.broadcastBg) ? "ty_gc_di" : config.broadcastBg;
             Sprite appearBG = LTBY_Extend.Instance.LoadSprite(BGBundle, BGName);
-            if (imageBG == null)
-            {
-                this.imageBG = this.effect.FindChildDepth<Image>("Node/yu");
-            }
+            this.imageBG = this.effect.FindChildDepth<Image>("Node/yu");
 
             this.imageBG.sprite = appearBG;
             this.imageBG.SetNativeSize();
-
-            if (fishImage == null)
-            {
-                this.fishImage = this.effect.FindChildDepth("Node/yu/yu");
-            }
+            this.fishImage = this.effect.FindChildDepth("Node/yu/yu");
 
             fishImage.gameObject.SetActive(false);
             string imageBundle = FishConfig.GetFishImageBundle(config.fishOrginType);
@@ -705,10 +697,7 @@ namespace Hotfix.LTBY
             fishImage.GetComponent<RectTransform>().anchorMin = Vector2.one * 0.5f;
             fishImage.localPosition = new Vector3(-112, 10);
             fishImage.gameObject.SetActive(true);
-            if (text == null)
-            {
-                this.text = this.effect.FindChildDepth("Node/yu/text");
-            }
+            this.text = this.effect.FindChildDepth("Node/yu/text");
 
             this.text.GetComponent<Text>().text = config.broadcast;
 
@@ -773,7 +762,7 @@ namespace Hotfix.LTBY
                 Sequence tween = DOTween.Sequence();
                 tween.Append(this.text?.DOScale(new Vector3(this.scale, this.scale, 1), 0.4f).SetEase(Ease.OutElastic));
                 tween.Append(this.text?.DOScale(new Vector3(0, 0, 1), 0.4f).SetEase(Ease.InBack).SetDelay(0.2f));
-                tween.OnComplete(()=>
+                tween.OnComplete(() =>
                 {
                     LTBY_EffectManager.Instance.DestroyEffect<EffectText>(this.chairId, this.id);
                 });
@@ -840,33 +829,23 @@ namespace Hotfix.LTBY
             float existTime = args.Length >= 3 ? (float) args[2] : 0;
 
             this.hideFrame = 1;
-            if (this.light == null)
-            {
-                this.light = LTBY_PoolManager.Instance.GetGameItem("LTBY_Light", LTBY_EffectManager.Instance.FishLayer);
-            }
+            this.light = LTBY_PoolManager.Instance.GetGameItem("LTBY_Light", LTBY_EffectManager.Instance.FishLayer);
 
             this.light.gameObject.SetActive(false);
-
-            if (this.lineRenderer == null)
-            {
-                this.lineRenderer = this.light.GetComponent<LineRenderer>();
-            }
+            this.lineRenderer = this.light.GetComponent<LineRenderer>();
 
             this.lineRenderer.useWorldSpace = true;
             this.rendererPosList = new List<Vector3>();
 
             this.timerKey = new List<int>();
-            if (IlBehaviour == null)
-            {
-                IlBehaviour = this.light.gameObject.AddComponent<ILBehaviour>();
-            }
+            IlBehaviour = this.light.gameObject.AddComponent<ILBehaviour>();
 
             IlBehaviour.UpdateEvent = Update;
             // int key = LTBY_Extend.Instance.StartTimer(delegate() { Update(); });
             // this.timerKey.Add(key);
 
             int _key = LTBY_Extend.Instance.DelayRun(existTime <= 0 ? 1.5f : existTime,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<EffectLight>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<EffectLight>(this.chairId, this.id); });
             this.timerKey.Add(_key);
         }
 
@@ -935,6 +914,7 @@ namespace Hotfix.LTBY
             IlBehaviour = null;
             LTBY_PoolManager.Instance.RemoveGameItem("LTBY_Light", this.light);
             this.light = null;
+            this.lineRenderer = null;
         }
     }
 
@@ -1032,7 +1012,7 @@ namespace Hotfix.LTBY
             {
                 int index = i;
                 delay += 0.05f;
-                int key = LTBY_Extend.Instance.DelayRun(delay, ()=>
+                int key = LTBY_Extend.Instance.DelayRun(delay, () =>
                 {
                     if (fishList.Count <= index || fishList[index] == null) return;
                     EffectParamData _data = new EffectParamData()
@@ -1052,7 +1032,7 @@ namespace Hotfix.LTBY
             delay++;
 
             int _key = LTBY_Extend.Instance.DelayRun(delay,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<LightAccount>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<LightAccount>(this.chairId, this.id); });
             this.timerKey.Add(_key);
         }
 
@@ -1060,41 +1040,29 @@ namespace Hotfix.LTBY
         {
             int fishType = data.fishType;
             List<EffectParamData> fishList = data.fishList;
-            if (account == null)
-            {
-                this.account =
-                    LTBY_PoolManager.Instance.GetUiItem("LTBY_SpineLight", LTBY_EffectManager.Instance.UiLayer);
-            }
+            this.account =
+                LTBY_PoolManager.Instance.GetUiItem("LTBY_SpineLight", LTBY_EffectManager.Instance.UiLayer);
 
             this.account.gameObject.SetActive(true);
 
             this.skeleton = this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
-            if (this.skeleton != null)
-            {
-                this.skeleton.AnimationState.SetAnimation(0, "stand01", false);
-            }
+            this.skeleton.AnimationState.SetAnimation(0, "stand01", false);
 
             this.account.localScale = new Vector3(1, 1, 1);
 
             this.account.position = LTBY_GameView.GameInstance.GetEffectWorldPos(this.chairId);
+            Transform numtrans = this.account.FindChildDepth("Num");
+            this.num = numtrans.gameObject.GetILComponent<NumberRoller>();
             if (num == null)
             {
-                Transform numtrans = this.account.FindChildDepth("Num");
-                this.num = numtrans.gameObject.GetILComponent<NumberRoller>();
-                if (num == null)
-                {
-                    this.num = numtrans.gameObject.AddILComponent<NumberRoller>();
-                }
+                this.num = numtrans.gameObject.AddILComponent<NumberRoller>();
             }
 
             this.num.Init();
             this.num.text = "0";
             this.numPosition = this.num.transform.position;
 
-            if (image == null)
-            {
-                this.image = this.account.FindChildDepth("Image");
-            }
+            this.image = this.account.FindChildDepth("Image");
 
             this.image.GetComponent<Image>().sprite =
                 LTBY_Extend.Instance.LoadSprite("res_fishmodel", $"fish_{fishType}");
@@ -1103,7 +1071,7 @@ namespace Hotfix.LTBY
 
             float delay = 0.5f;
 
-            int key = LTBY_Extend.Instance.DelayRun(delay + 0.5f, ()=>
+            int key = LTBY_Extend.Instance.DelayRun(delay + 0.5f, () =>
             {
                 this.account?.gameObject.SetActive(true);
 
@@ -1120,7 +1088,7 @@ namespace Hotfix.LTBY
             {
                 delay += 0.05f;
                 int index = i;
-                int _key = LTBY_Extend.Instance.DelayRun(delay, ()=>
+                int _key = LTBY_Extend.Instance.DelayRun(delay, () =>
                 {
                     if (fishList.Count <= index || fishList[index] == null) return;
                     EffectParamData flyCoinData = new EffectParamData()
@@ -1129,10 +1097,7 @@ namespace Hotfix.LTBY
                         worldPos = fishList[index].pos,
                         aimPos = this.numPosition,
                         showText = true,
-                        callBack = ()=>
-                        {
-                            this.num.RollBy(fishList[index].score, 0.5f);
-                        }
+                        callBack = () => { this.num.RollBy(fishList[index].score, 0.5f); }
                     };
                     LTBY_EffectManager.Instance.CreateEffect<FlyCoin>(this.chairId, flyCoinData);
                     this.scoreList.Add(fishList[index].score);
@@ -1147,15 +1112,15 @@ namespace Hotfix.LTBY
             if (scoreNum >= EffectConfig.UseFireworkScore)
             {
                 int _key = LTBY_Extend.Instance.DelayRun(delay, () =>
-                 {
-                     EffectParamData _data = new EffectParamData()
-                     {
-                         chairId = this.chairId,
-                         pos = LTBY_GameView.GameInstance.GetEffectWorldPos(this.chairId),
-                         scale = 0.5f
-                     };
-                     LTBY_EffectManager.Instance.CreateBoostScoreBoardEffects(scoreNum, _data);
-                 });
+                {
+                    EffectParamData _data = new EffectParamData()
+                    {
+                        chairId = this.chairId,
+                        pos = LTBY_GameView.GameInstance.GetEffectWorldPos(this.chairId),
+                        scale = 0.5f
+                    };
+                    LTBY_EffectManager.Instance.CreateBoostScoreBoardEffects(scoreNum, _data);
+                });
                 this.timerKey.Add(_key);
                 delay += 5;
             }
@@ -1164,7 +1129,7 @@ namespace Hotfix.LTBY
                 delay++;
             }
 
-            int kkey = LTBY_Extend.Instance.DelayRun(delay, ()=>
+            int kkey = LTBY_Extend.Instance.DelayRun(delay, () =>
             {
                 float baseX = this.account.position.x;
                 float baseY = this.account.position.y;
@@ -1173,7 +1138,7 @@ namespace Hotfix.LTBY
                 float aimY = aimPos.y;
 
                 Sequence sequence = DOTween.Sequence();
-                sequence.Append(DOTween.To(value=>
+                sequence.Append(DOTween.To(value =>
                 {
                     if (this.account == null) return;
                     float t = value * 0.01f;
@@ -1181,13 +1146,13 @@ namespace Hotfix.LTBY
                     float _scale = 1 - t;
                     this.account.localScale = new Vector3(_scale, _scale, _scale);
                 }, 0, 100, 0.3f).SetEase(Ease.InBack));
-                sequence.OnComplete(()=>
+                sequence.OnComplete(() =>
                 {
                     this.account?.gameObject.SetActive(false);
                     for (int i = 0; i < this.scoreList.Count; i++)
                     {
                         int index = i;
-                        Tween tween = LTBY_Extend.DelayRun(index * 0.15f).OnComplete(()=>
+                        Tween tween = LTBY_Extend.DelayRun(index * 0.15f).OnComplete(() =>
                         {
                             if (scoreList.Count <= index) return;
                             LTBY_GameView.GameInstance.AddScore(this.chairId, scoreList[index]);
@@ -1233,13 +1198,13 @@ namespace Hotfix.LTBY
             this.chairId = _chairId;
             this.timerKey = new List<int>();
             float delay = 1;
-            int key = LTBY_Extend.Instance.DelayRun(delay, ()=> { LTBYEntry.Instance.ShakeFishLayer(4); });
+            int key = LTBY_Extend.Instance.DelayRun(delay, () => { LTBYEntry.Instance.ShakeFishLayer(4); });
             this.timerKey.Add(key);
             List<Vector3> poslist = args.Length >= 1 ? (List<Vector3>) args[0] : new List<Vector3>();
             for (int i = 0; i < poslist.Count; i++)
             {
                 int index = i;
-                int kkey = LTBY_Extend.Instance.DelayRun(delay, ()=>
+                int kkey = LTBY_Extend.Instance.DelayRun(delay, () =>
                 {
                     if (poslist.Count <= index) return;
                     EffectParamData paramData = new EffectParamData()
@@ -1258,9 +1223,11 @@ namespace Hotfix.LTBY
 
             if (LTBY_GameView.GameInstance.IsSelf(this.chairId))
             {
-                int kkey = LTBY_Extend.Instance.DelayRun(delay, ()=>
+                int kkey = LTBY_Extend.Instance.DelayRun(delay, () =>
                 {
-                    this.effect = this.effect != null ? this.effect : LTBY_PoolManager.Instance.GetUiItem("LTBY_DragonDeadEffect",
+                    this.effect = this.effect != null
+                        ? this.effect
+                        : LTBY_PoolManager.Instance.GetUiItem("LTBY_DragonDeadEffect",
                             LTBY_EffectManager.Instance.UiLayer);
                     this.effect?.gameObject.SetActive(true);
                     this.effect.localPosition = new Vector3(0, 0, 0);
@@ -1308,14 +1275,14 @@ namespace Hotfix.LTBY
             this.timerKey = new List<int>();
 
             float delay = 1;
-            int key = LTBY_Extend.Instance.DelayRun(delay, () =>{ LTBYEntry.Instance.ShakeFishLayer(4); });
+            int key = LTBY_Extend.Instance.DelayRun(delay, () => { LTBYEntry.Instance.ShakeFishLayer(4); });
             this.timerKey.Add(key);
             List<Vector3> poslist = args.Length >= 1 ? (List<Vector3>) args[0] : new List<Vector3>();
             EffectParamData data = args.Length >= 2 ? (EffectParamData) args[1] : new EffectParamData();
             for (int i = 0; i < poslist.Count; i++)
             {
                 int index = i;
-                int _key = LTBY_Extend.Instance.DelayRun(delay, ()=>
+                int _key = LTBY_Extend.Instance.DelayRun(delay, () =>
                 {
                     if (poslist.Count <= index) return;
                     EffectParamData param = new EffectParamData()
@@ -1334,17 +1301,17 @@ namespace Hotfix.LTBY
 
             if (LTBY_GameView.GameInstance.IsSelf(this.chairId))
             {
-                int _key = LTBY_Extend.Instance.DelayRun(delay, ()=>
+                int _key = LTBY_Extend.Instance.DelayRun(delay, () =>
                 {
-                    this.effect = this.effect!= null ? this.effect : LTBY_PoolManager.Instance.GetUiItem("LTBY_ElectricDragonDeadEffect",
-                            LTBY_EffectManager.Instance.UiLayer);
+                    this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_ElectricDragonDeadEffect",
+                        LTBY_EffectManager.Instance.UiLayer);
                     this.effect?.gameObject.SetActive(true);
                     this.effect.localPosition = new Vector3(0, 0, 0);
                     LTBY_Audio.Instance.Play(SoundConfig.DragonEffect1);
                 });
                 this.timerKey.Add(_key);
                 delay++;
-                int _delayKey = LTBY_Extend.Instance.DelayRun(delay - 0.4f, ()=>
+                int _delayKey = LTBY_Extend.Instance.DelayRun(delay - 0.4f, () =>
                 {
                     LTBY_EffectManager.Instance.CreateEffect<DoubleDragonEffect>(_chairId);
                     if (!LTBY_GameView.GameInstance.IsPlayerRunInBackground(this.chairId))
@@ -1358,7 +1325,7 @@ namespace Hotfix.LTBY
             }
             else
             {
-                int _delayKey = LTBY_Extend.Instance.DelayRun(delay - 0.4f, ()=>
+                int _delayKey = LTBY_Extend.Instance.DelayRun(delay - 0.4f, () =>
                 {
                     if (!LTBY_GameView.GameInstance.IsPlayerRunInBackground(this.chairId))
                     {
@@ -1370,10 +1337,8 @@ namespace Hotfix.LTBY
                 this.timerKey.Add(_delayKey);
             }
 
-            int delayKey = LTBY_Extend.Instance.DelayRun(delay, () =>
-                {
-                    LTBY_EffectManager.Instance.DestroyEffect<ElectricDragonDeadEffect>(this.chairId, this.id);
-                });
+            int delayKey = LTBY_Extend.Instance.DelayRun(delay,
+                () => { LTBY_EffectManager.Instance.DestroyEffect<ElectricDragonDeadEffect>(this.chairId, this.id); });
             this.timerKey.Add(delayKey);
         }
 
@@ -1437,7 +1402,7 @@ namespace Hotfix.LTBY
 
             this.timerKey = new List<int>();
             int key = LTBY_Extend.Instance.DelayRun(delay,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<ExplosionPoint>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<ExplosionPoint>(this.chairId, this.id); });
             this.timerKey.Add(key);
         }
 
@@ -1508,20 +1473,21 @@ namespace Hotfix.LTBY
                 _num--;
             }
 
-            int key = LTBY_Extend.Instance.DelayRun(0.5f, ()=>
+            int key = LTBY_Extend.Instance.DelayRun(0.5f, () =>
             {
                 for (int i = 0; i < coinList.Count; i++)
                 {
                     int index = i;
                     int _key = LTBY_Extend.Instance.DelayRun(0.1f * (index), () =>
+                    {
+                        if (coinList.Count <= index)
                         {
-                            if (coinList.Count <= index)
-                            {
-                                LTBY_EffectManager.Instance.DestroyEffect<FlyCoin>(this.chairId, this.id);
-                                return;
-                            }
-                            MoveAction(index, coinList[index]);
-                        });
+                            LTBY_EffectManager.Instance.DestroyEffect<FlyCoin>(this.chairId, this.id);
+                            return;
+                        }
+
+                        MoveAction(index, coinList[index]);
+                    });
                     timerKey.Add(_key);
                 }
             });
@@ -1541,7 +1507,7 @@ namespace Hotfix.LTBY
             float aimX = baseX + radius * Mathf.Cos(rad);
             float aimY = baseY + radius * Mathf.Sin(rad);
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(DOTween.To(value=>
+            sequence.Append(DOTween.To(value =>
             {
                 if (coin == null) return;
                 float t = value * 0.01f;
@@ -1567,7 +1533,7 @@ namespace Hotfix.LTBY
             float offsetY = aimY > baseY ? -15f : 15f;
 
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(DOTween.To(value=>
+            sequence.Append(DOTween.To(value =>
             {
                 if (coin == null) return;
                 float t = value * 0.01f;
@@ -1576,7 +1542,7 @@ namespace Hotfix.LTBY
                 coin.position = new Vector3(baseX + (x - baseX) * t, baseY + (y - baseY) * t, 0);
                 float _scale = 1 - 0.4f * t;
                 coin.localScale = new Vector3(_scale, _scale, _scale);
-            }, 0, 100, 0.7f).SetEase(Ease.OutSine).OnComplete(()=>
+            }, 0, 100, 0.7f).SetEase(Ease.OutSine).OnComplete(() =>
             {
                 if (index == 0) callBack?.Invoke();
                 if (index == coinNum - 1)
@@ -1633,25 +1599,23 @@ namespace Hotfix.LTBY
 
             this.actionKey = new List<int>();
 
-            this.item = this.item
-                ? this.item
-                : LTBY_Extend.Instance.LoadPrefab("LTBY_GetItem", LTBY_EffectManager.Instance.UiLayer);
+            this.item = LTBY_Extend.Instance.LoadPrefab("LTBY_GetItem", LTBY_EffectManager.Instance.UiLayer);
             this.item.gameObject.SetActive(true);
             if (string.IsNullOrEmpty(config.name))
             {
-                this.itemName = this.itemName ? this.itemName : this.item.FindChildDepth("Name");
+                this.itemName = this.item.FindChildDepth("Name");
                 this.itemName.gameObject.SetActive(true);
                 this.itemName.GetComponent<Text>().text = config.name;
             }
 
             if (config.num > 0)
             {
-                this.itemNum = this.itemNum ? this.itemNum : this.item.FindChildDepth("Num");
+                this.itemNum = this.item.FindChildDepth("Num");
                 this.itemNum.gameObject.SetActive(true);
                 this.itemNum.GetComponent<NumberRoller>().text = config.num.ToString();
             }
 
-            this.itemImage = this.itemImage ? this.itemImage : this.item.GetComponent<Image>();
+            this.itemImage = this.item.GetComponent<Image>();
             this.itemImage.sprite = LTBY_Extend.Instance.LoadSprite(config.imageBundleName, config.imageName);
             this.itemImage.SetNativeSize();
 
@@ -1660,7 +1624,7 @@ namespace Hotfix.LTBY
             Vector3 aimPos = LTBY_GameView.GameInstance.GetBatteryWorldPos(_chairId);
 
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(DOTween.To(value=>
+            sequence.Append(DOTween.To(value =>
             {
                 if (this.item == null) return;
                 float t = value * 0.01f;
@@ -1668,7 +1632,7 @@ namespace Hotfix.LTBY
                     worldPos.y + (aimPos.y - worldPos.y) * t, 0);
                 float _scale = 1 - t;
                 this.item.localScale = new Vector3(_scale, _scale, _scale);
-            }, 0, 100, 0.5f).SetDelay(0.5f).SetEase(Ease.Linear).OnComplete(()=>
+            }, 0, 100, 0.5f).SetDelay(0.5f).SetEase(Ease.Linear).OnComplete(() =>
             {
                 callBack?.Invoke();
                 LTBY_EffectManager.Instance.DestroyEffect<GetItem>(this.chairId, this.id);
@@ -1722,19 +1686,18 @@ namespace Hotfix.LTBY
                 this.worldPos = new Vector3(this.aimPos.x, this.aimPos.y + 6, 0);
             }
 
-            this.item = this.item
-                ? this.item
-                : LTBY_Extend.Instance.LoadPrefab("LTBY_FreeLotteryDropItem", LTBY_EffectManager.Instance.UiLayer);
+            this.item = LTBY_Extend.Instance.LoadPrefab("LTBY_FreeLotteryDropItem",
+                LTBY_EffectManager.Instance.UiLayer);
             this.item.gameObject.SetActive(true);
             this.item.position = this.worldPos;
 
-            this.FrameName = this.FrameName ? this.FrameName : this.item.FindChildDepth<Text>("Open/NameFrame/Name");
+            this.FrameName = this.item.FindChildDepth<Text>("Open/NameFrame/Name");
             this.FrameName.text = data.award.key;
-            this.OpenImage = this.OpenImage ? this.OpenImage : this.item.FindChildDepth<Image>("Open/Image");
+            this.OpenImage = this.item.FindChildDepth<Image>("Open/Image");
             this.OpenImage.sprite = LTBY_Extend.Instance.LoadSprite("res_view", data.award.value);
             this.OpenImage.SetNativeSize();
-            this.Open = this.Open ? this.Open : this.item.FindChildDepth("Open");
-            this.Close = this.Open ? this.Open : this.item.FindChildDepth("Close");
+            this.Open = this.item.FindChildDepth("Open");
+            this.Close = this.item.FindChildDepth("Close");
 
             float aimX = this.aimPos.x;
             float aimY = this.aimPos.y;
@@ -1748,7 +1711,7 @@ namespace Hotfix.LTBY
             sequence1.Append(item.DOBlendableRotateBy(Vector3.one * -16, 0.08f).SetEase(Ease.Linear));
             sequence1.Append(item.DOBlendableRotateBy(Vector3.one * 8, 0.04f).SetEase(Ease.Linear));
             sequence1.SetLoops(3);
-            sequence1.OnComplete(()=>
+            sequence1.OnComplete(() =>
             {
                 this.Open.gameObject.SetActive(true);
                 this.Close.gameObject.SetActive(false);
@@ -1762,7 +1725,7 @@ namespace Hotfix.LTBY
                 this.item.position = new Vector3(baseX + (aimX - baseX) * t, baseY + (aimY - baseY) * t, 0);
                 float _scale = 1 - t;
                 this.item.localScale = new Vector3(_scale, _scale, _scale);
-            }, 0, 100, 0.5f).SetEase(Ease.OutSine).OnComplete(()=>
+            }, 0, 100, 0.5f).SetEase(Ease.OutSine).OnComplete(() =>
             {
                 if (data == null) return;
                 int propId = data.award_cnt.id;
@@ -1776,7 +1739,7 @@ namespace Hotfix.LTBY
                 LTBY_EffectManager.Instance.DestroyEffect<FreeLotteryDropItem>(this.chairId, this.id);
             }).SetDelay(2));
             sequence2.SetLoops(3);
-            sequence2.OnComplete(()=>
+            sequence2.OnComplete(() =>
             {
                 this.Open.gameObject.SetActive(true);
                 this.Close.gameObject.SetActive(false);
@@ -1834,9 +1797,7 @@ namespace Hotfix.LTBY
             this.time = data.time;
             this.mul = data.mul;
 
-            this.item = this.item
-                ? this.item
-                : LTBY_Extend.Instance.LoadPrefab("LTBY_FreeDropItem", LTBY_EffectManager.Instance.UiLayer);
+            this.item = LTBY_Extend.Instance.LoadPrefab("LTBY_FreeDropItem", LTBY_EffectManager.Instance.UiLayer);
             this.item.localScale = Vector3.one;
             this.item.gameObject.SetActive(true);
             this.item.position = this.worldPos;
@@ -1876,7 +1837,7 @@ namespace Hotfix.LTBY
 
             sequence.Append(item.DOBlendableScaleBy(new Vector3(0.7f, 0.7f, 1), 0.2f).SetEase(Ease.Linear));
             sequence.Append(item.DOBlendableScaleBy(new Vector3(-0.5f, -0.5f, 1), 0.2f).SetEase(Ease.Linear));
-            sequence.Append(DOTween.To(value=>
+            sequence.Append(DOTween.To(value =>
             {
                 if (this.item == null) return;
                 float t = value * 0.01f;
@@ -1887,7 +1848,7 @@ namespace Hotfix.LTBY
                 float _scale = 1 - 0.5f * t;
                 this.item.localScale = new Vector3(_scale, _scale, _scale);
             }, 0, 100, 0.7f).SetDelay(0.6f));
-            sequence.OnComplete(()=>
+            sequence.OnComplete(() =>
             {
                 FreeBatteryClass aimBattery = LTBY_BatteryManager.Instance.GetFreeBattery(this.chairId);
                 if (aimBattery == null) return;
@@ -2003,7 +1964,7 @@ namespace Hotfix.LTBY
                 DebugHelper.LogError($"GC.EffectConfig.DropItem {this.itemType} 没有配置");
             }
 
-            this.item = this.item != null ? this.item : LTBY_Extend.Instance.LoadPrefab("LTBY_DropItem", LTBY_EffectManager.Instance.UiLayer);
+            this.item = LTBY_Extend.Instance.LoadPrefab("LTBY_DropItem", LTBY_EffectManager.Instance.UiLayer);
             this.item.localScale = Vector3.one;
             this.item.gameObject.SetActive(true);
             this.item.position = this.worldPos;
@@ -2033,7 +1994,7 @@ namespace Hotfix.LTBY
             Sequence sequence = DOTween.Sequence();
             sequence.Append(item.DOBlendableScaleBy(new Vector3(0.5f, 0.5f, 1), 0.2f).SetEase(Ease.Linear));
             sequence.Append(item.DOBlendableScaleBy(new Vector3(-0.5f, -0.5f, 1), 0.2f).SetEase(Ease.Linear));
-            sequence.Append(DOTween.To(value=>
+            sequence.Append(DOTween.To(value =>
             {
                 if (this.item == null) return;
                 float t = value * 0.01f;
@@ -2050,7 +2011,7 @@ namespace Hotfix.LTBY
             this.itemEffect.gameObject.SetActive(false);
             this.itemEffect.gameObject.SetActive(true);
             int key = LTBY_Extend.Instance.DelayRun(0.5f,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<DropItem>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<DropItem>(this.chairId, this.id); });
             this.timerKey.Add(key);
 
             switch (this.itemType)
@@ -2118,13 +2079,13 @@ namespace Hotfix.LTBY
 
             Vector3 pos = LTBY_GameView.GameInstance.GetEffectWorldPos(this.chairId);
 
-            this.effect = this.effect != null ? this.effect : LTBY_PoolManager.Instance.GetUiItem("LTBY_CoinOutburst", LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_CoinOutburst", LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
             this.effect.position = pos;
 
-            this.outburst1 = this.outburst1 != null ? this.outburst1 : this.effect.FindChildDepth("Effect1");
+            this.outburst1 = this.effect.FindChildDepth("Effect1");
             this.outburst1.gameObject.SetActive(false);
-            this.outburst2 = this.outburst2 != null ? this.outburst2 : this.effect.FindChildDepth("Effect2");
+            this.outburst2 = this.effect.FindChildDepth("Effect2");
             this.outburst2.gameObject.SetActive(false);
 
             this.devide = 10;
@@ -2137,7 +2098,8 @@ namespace Hotfix.LTBY
             sequence.Append(LTBY_Extend.DelayRun(0).OnComplete(() =>
             {
                 this.outburst1?.gameObject.SetActive(true);
-                LTBY_EffectManager.Instance.CreateEffect<FlyText>(this.chairId, "Outburst", 1, worldPos, GetCurShowScore());
+                LTBY_EffectManager.Instance.CreateEffect<FlyText>(this.chairId, "Outburst", 1, worldPos,
+                    GetCurShowScore());
             }));
             sequence.Append(LTBY_Extend.DelayRun(2).OnComplete(() => this.outburst2.gameObject.SetActive(false)));
             sequence.SetLoops(halfDevide);
@@ -2150,7 +2112,8 @@ namespace Hotfix.LTBY
                 Tween sequence1 = LTBY_Extend.DelayRun(0).OnComplete(() =>
                 {
                     this.outburst2?.gameObject.SetActive(true);
-                    LTBY_EffectManager.Instance.CreateEffect<FlyText>(this.chairId, "Outburst", 1, worldPos, GetCurShowScore());
+                    LTBY_EffectManager.Instance.CreateEffect<FlyText>(this.chairId, "Outburst", 1, worldPos,
+                        GetCurShowScore());
                 });
                 sq.Append(sequence1);
                 Tween sequence2 = LTBY_Extend.DelayRun(2).OnComplete(() => this.outburst2?.gameObject.SetActive(false));
@@ -2180,7 +2143,7 @@ namespace Hotfix.LTBY
                 lastScore -= _score;
             }
 
-            this.scoreList.Insert(Random.Range(1, this.scoreList.Count-1), lastScore);
+            this.scoreList.Insert(Random.Range(1, this.scoreList.Count - 1), lastScore);
         }
 
         private long GetCurShowScore()
@@ -2251,7 +2214,7 @@ namespace Hotfix.LTBY
             this.EffectPart = this.effect.FindChildDepth("Effect");
             this.EffectPart.gameObject.SetActive(!LTBY_EffectManager.Instance.CheckCanUseHundredMillion(this.score));
 
-            int key = LTBY_Extend.Instance.DelayRun(1, ()=>
+            int key = LTBY_Extend.Instance.DelayRun(1, () =>
             {
                 EffectParamData _data = new EffectParamData()
                 {
@@ -2267,7 +2230,7 @@ namespace Hotfix.LTBY
 
             float delay = 0.5f;
 
-            int _key = LTBY_Extend.Instance.DelayRun(delay, ()=>
+            int _key = LTBY_Extend.Instance.DelayRun(delay, () =>
             {
                 this.num?.transform.gameObject.SetActive(true);
                 this.num?.RollTo(this.score, 4);
@@ -2276,7 +2239,7 @@ namespace Hotfix.LTBY
 
             delay += 4;
 
-            int _key1 = LTBY_Extend.Instance.DelayRun(delay, ()=>
+            int _key1 = LTBY_Extend.Instance.DelayRun(delay, () =>
             {
                 Sequence sequence = DOTween.Sequence();
                 sequence.Append(num.transform.DOBlendableScaleBy(new Vector3(1, 1, 1), 0.1f).SetEase(Ease.Linear));
@@ -2288,10 +2251,10 @@ namespace Hotfix.LTBY
 
             delay++;
 
-            int _key2 = LTBY_Extend.Instance.DelayRun(delay, ()=>
+            int _key2 = LTBY_Extend.Instance.DelayRun(delay, () =>
             {
                 Sequence sequence = DOTween.Sequence();
-                sequence.Append(effect?.DOScale(new Vector3(0, 0, 1), 0.5f).SetEase(Ease.InBack).OnComplete(()=>
+                sequence.Append(effect?.DOScale(new Vector3(0, 0, 1), 0.5f).SetEase(Ease.InBack).OnComplete(() =>
                 {
                     LTBY_GameView.GameInstance.CreateAddUserScoreItem(this.chairId, this.score);
                     LTBY_GameView.GameInstance.AddScore(this.chairId, this.score);
@@ -2338,11 +2301,9 @@ namespace Hotfix.LTBY
             this.timerKey = new List<int>();
             this.settleAccountActionKey = -1;
 
-            this.account = this.account
-                ? this.account
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_MissileSpineAward", LTBY_EffectManager.Instance.UiLayer);
+            this.account = LTBY_PoolManager.Instance.GetUiItem("LTBY_MissileSpineAward", LTBY_EffectManager.Instance.UiLayer);
             this.account.gameObject.SetActive(true);
-            this.skeleton = this.skeleton!=null ? this.skeleton : this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
+            this.skeleton = this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
             if (this.skeleton != null)
             {
                 this.skeleton.AnimationState.SetAnimation(0, "stand01", false);
@@ -2362,11 +2323,11 @@ namespace Hotfix.LTBY
 
             this.num.transform.gameObject.SetActive(false);
 
-            this.image = this.image ? this.image : this.account.FindChildDepth("Image");
+            this.image = this.account.FindChildDepth("Image");
             this.image.localEulerAngles = new Vector3(0, 0, 0);
             this.image.localScale = new Vector3(1, 1, 1);
             DropItemData config = EffectConfig.DropItem["Missile"];
-            this.image2 = this.image2 ? this.image2 : this.image.FindChildDepth<Image>("Image");
+            this.image2 = this.image.FindChildDepth<Image>("Image");
             if (!string.IsNullOrEmpty(config.imageName[propId]))
             {
                 this.image2.sprite = LTBY_Extend.Instance.LoadSprite(config.imageBundleName, config.imageName[propId]);
@@ -2409,7 +2370,8 @@ namespace Hotfix.LTBY
                 }
 
                 Sequence sequence = DOTween.Sequence();
-                sequence.Append(num?.transform?.DOScale(new Vector3(this.numScale + 0.3f, this.numScale + 0.3f, 1), 0.1f)
+                sequence.Append(num?.transform
+                    ?.DOScale(new Vector3(this.numScale + 0.3f, this.numScale + 0.3f, 1), 0.1f)
                     .SetEase(Ease.Linear));
                 sequence.Append(num?.transform?.DOScale(new Vector3(this.numScale, this.numScale, 1), 0.1f)
                     .SetEase(Ease.Linear));
@@ -2436,14 +2398,14 @@ namespace Hotfix.LTBY
 
             LTBY_Extend.Instance.StopAction(this.settleAccountActionKey);
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(DOTween.To(value=>
+            sequence.Append(DOTween.To(value =>
             {
                 if (this.account == null) return;
                 float t = value * 0.01f;
                 this.account.position = new Vector3(baseX + (aimX - baseX) * t, baseY + (aimY - baseY) * t, 0);
                 float _scale = 1 - t;
                 this.account.localScale = new Vector3(_scale, _scale, _scale);
-            }, 0, 100, 0.3f).SetEase(Ease.InBack).OnComplete(()=>
+            }, 0, 100, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
             {
                 LTBY_GameView.GameInstance.CreateAddUserScoreItem(this.chairId, this.score);
                 LTBY_GameView.GameInstance.AddScore(this.chairId, this.score);
@@ -2570,7 +2532,8 @@ namespace Hotfix.LTBY
                 }
 
                 Sequence sequence = DOTween.Sequence();
-                sequence.Append(num?.transform?.DOScale(new Vector3(this.numScale + 0.3f, this.numScale + 0.3f, 1), 0.1f)
+                sequence.Append(num?.transform
+                    ?.DOScale(new Vector3(this.numScale + 0.3f, this.numScale + 0.3f, 1), 0.1f)
                     .SetEase(Ease.Linear));
                 sequence.Append(num?.transform?.DOScale(new Vector3(this.numScale, this.numScale, 1), 0.1f)
                     .SetEase(Ease.Linear));
@@ -2611,21 +2574,21 @@ namespace Hotfix.LTBY
             }
 
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(DOTween.To(value=>
+            sequence.Append(DOTween.To(value =>
             {
                 if (this.account == null) return;
                 float t = value * 0.01f;
                 this.account.position = new Vector3(baseX + (aimX - baseX) * t, baseY + (aimY - baseY) * t, 0);
                 float _scale = 1 - t;
                 this.account.localScale = new Vector3(_scale, _scale, _scale);
-            }, 0, 100, 0.5f).SetEase(Ease.InBack).SetDelay(delay).OnComplete(()=>
+            }, 0, 100, 0.5f).SetEase(Ease.InBack).SetDelay(delay).OnComplete(() =>
             {
                 this.isSettleAccount = true;
                 this.account?.gameObject.SetActive(false);
                 for (int i = 0; i < scoreList.Count; i++)
                 {
                     int index = i;
-                    Tween sequence1= LTBY_Extend.DelayRun(index * 0.15f).OnComplete(()=>
+                    Tween sequence1 = LTBY_Extend.DelayRun(index * 0.15f).OnComplete(() =>
                     {
                         LTBY_GameView.GameInstance.AddScore(this.chairId, scoreList[index]);
                         LTBY_GameView.GameInstance.CreateAddUserScoreItem(this.chairId, scoreList[index], true);
@@ -2750,7 +2713,7 @@ namespace Hotfix.LTBY
 
             if (this.score >= EffectConfig.UseFireworkScore)
             {
-                int key = LTBY_Extend.Instance.DelayRun(0, ()=>
+                int key = LTBY_Extend.Instance.DelayRun(0, () =>
                 {
                     EffectParamData _data = new EffectParamData()
                     {
@@ -2815,7 +2778,7 @@ namespace Hotfix.LTBY
 
             if (this.score >= EffectConfig.UseFireworkScore)
             {
-                int key = LTBY_Extend.Instance.DelayRun(1, ()=>
+                int key = LTBY_Extend.Instance.DelayRun(1, () =>
                 {
                     EffectParamData _data = new EffectParamData()
                     {
@@ -2827,22 +2790,22 @@ namespace Hotfix.LTBY
                 this.timerKey.Add(key);
             }
 
-            int _key = LTBY_Extend.Instance.DelayRun(delay, ()=>
+            int _key = LTBY_Extend.Instance.DelayRun(delay, () =>
             {
                 LTBY_Audio.Instance.Play(SoundConfig.SpineAward2);
 
                 LTBY_Audio.Instance.Play(SoundConfig.SpineAwardText4);
 
-            this.account = this.account != null ? this.account : LTBY_PoolManager.Instance.GetUiItem("LTBY_SpineAwardFullScreen",
+                this.account = LTBY_PoolManager.Instance.GetUiItem("LTBY_SpineAwardFullScreen",
                         LTBY_EffectManager.Instance.UiLayer);
                 this.account.gameObject.SetActive(true);
                 this.account.position = new Vector3(0, 0, 0);
 
-                this.JinBiPart = this.JinBiPart != null ? this.JinBiPart : this.account.FindChildDepth("Particle System/JinBiPart");
+                this.JinBiPart = this.account.FindChildDepth("Particle System/JinBiPart");
 
                 this.JinBiPart.gameObject.SetActive(!LTBY_EffectManager.Instance.CheckCanUseHundredMillion(this.score));
 
-                this.skeleton = this.skeleton!=null ? this.skeleton : this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
+                this.skeleton = this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
                 if (this.skeleton != null)
                 {
                     this.skeleton.AnimationState.SetAnimation(0, "stand01", false);
@@ -2850,13 +2813,13 @@ namespace Hotfix.LTBY
 
                 this.account.localScale = new Vector3(1, 1, 1);
 
-                this.num = this.num!=null ? this.num : this.account.FindChildDepth("Num").GetILComponent<NumberRoller>();
-                this.num = this.num!=null ? this.num : this.account.FindChildDepth("Num").AddILComponent<NumberRoller>();
+                this.num = this.account.FindChildDepth("Num").GetILComponent<NumberRoller>();
+                this.num = num != null ? num : this.account.FindChildDepth("Num").AddILComponent<NumberRoller>();
                 this.num.Init();
                 this.num.text = "0";
                 this.num.RollTo(this.score, 3);
 
-                this.image = this.image!=null ? this.image : this.account.FindChildDepth("Image");
+                this.image = this.account.FindChildDepth("Image");
                 this.image.GetComponent<Image>().sprite =
                     LTBY_Extend.Instance.LoadSprite("res_fishmodel", $"fish_{fishType}");
                 this.image.localEulerAngles = new Vector3(0, 0, 0);
@@ -2936,9 +2899,9 @@ namespace Hotfix.LTBY
             this.actionKey = new List<int>();
             this.timerKey = new List<int>();
 
-            this.account = this.account != null ? this.account : LTBY_PoolManager.Instance.GetUiItem("LTBY_DragonSpineAward", LTBY_EffectManager.Instance.UiLayer);
+            this.account = LTBY_PoolManager.Instance.GetUiItem("LTBY_DragonSpineAward", LTBY_EffectManager.Instance.UiLayer);
             this.account.gameObject.SetActive(true);
-            this.skeleton = this.skeleton!= null ? this.skeleton : this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
+            this.skeleton = this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
             this.skeleton.AnimationState.SetAnimation(0, "stand01", false);
 
             if (LTBY_GameView.GameInstance.IsSelf(this.chairId))
@@ -2960,14 +2923,15 @@ namespace Hotfix.LTBY
             }
 
 
-            this.numNode = this.numNode!=null ? this.numNode : this.account.FindChildDepth("Num");
+            this.numNode = this.account.FindChildDepth("Num");
             this.numNode.gameObject.SetActive(false);
-            this.num = this.num!=null ? this.num : this.numNode.GetILComponent<NumberRoller>();
-            this.num = this.num!=null ? this.num : this.numNode.AddILComponent<NumberRoller>();
+            this.num = this.numNode.GetILComponent<NumberRoller>();
+            this.num = this.num != null ? this.num : this.numNode.AddILComponent<NumberRoller>();
             this.num.Init();
             this.num.text = "0";
 
-            int key = LTBY_Extend.Instance.DelayRun(2, ()=> { this.skeleton?.AnimationState?.SetAnimation(1, "stand02", true); });
+            int key = LTBY_Extend.Instance.DelayRun(2,
+                () => { this.skeleton?.AnimationState?.SetAnimation(1, "stand02", true); });
             this.timerKey.Add(key);
 
             RollNum();
@@ -3056,7 +3020,9 @@ namespace Hotfix.LTBY
                         EffectParamData _data = new EffectParamData()
                         {
                             chairId = this.chairId,
-                            pos = this.isSelf ? new Vector3(0, 0, 0) : LTBY_GameView.GameInstance.GetEffectWorldPos(this.chairId),
+                            pos = this.isSelf
+                                ? new Vector3(0, 0, 0)
+                                : LTBY_GameView.GameInstance.GetEffectWorldPos(this.chairId),
                             scale = this.isSelf ? 1f : 0.5f
                         };
                         LTBY_EffectManager.Instance.CreateBoostScoreBoardEffects(this.score, _data);
@@ -3177,21 +3143,18 @@ namespace Hotfix.LTBY
                 LTBY_Audio.Instance.Play(SoundConfig.Wheel);
             }
 
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_Wheel", LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_Wheel", LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
             this.effect.localScale = new Vector3(0.5f, 0.5f, 1);
             this.effect.position = data.pos;
 
-            this.skeleton =
-                this.skeleton !=null? this.skeleton : this.effect.FindChildDepth<SkeletonGraphic>("Node/Skeleton");
-            if (this.skeleton!=null)
+            this.skeleton = this.effect.FindChildDepth<SkeletonGraphic>("Node/Skeleton");
+            if (this.skeleton != null)
             {
                 this.skeleton.AnimationState.SetAnimation(0, "stand01", false);
             }
 
-            this.effectMul = this.effectMul!=null ? this.effectMul : this.effect.FindChildDepth<Text>("Mul");
+            this.effectMul = this.effect.FindChildDepth<Text>("Mul");
 
             if (data.useMul > 0)
             {
@@ -3205,10 +3168,12 @@ namespace Hotfix.LTBY
             }
 
 
-            this.num = this.num!=null ? this.num : this.effect.FindChildDepth("Node/Num").GetILComponent<NumberRoller>();
-            this.num = this.num!=null ? this.num : this.effect.FindChildDepth("Node/Num").AddILComponent<NumberRoller>();
+            this.num = this.effect.FindChildDepth("Node/Num").GetILComponent<NumberRoller>();
+            this.num = this.num != null
+                ? this.num
+                : this.effect.FindChildDepth("Node/Num").AddILComponent<NumberRoller>();
             this.num.Init();
-            this.nodeText = this.nodeText!=null ? this.nodeText : this.effect.FindChildDepth("Node/Text");
+            this.nodeText = this.effect.FindChildDepth("Node/Text");
             if (this.showType.Equals("Score"))
             {
                 this.num.gameObject.SetActive(true);
@@ -3223,7 +3188,7 @@ namespace Hotfix.LTBY
 
             this.num.transform.localEulerAngles = new Vector3(0, 0, 0);
 
-            this.image = this.image!=null ? this.image : this.effect.FindChildDepth<Image>("Node/Image");
+            this.image = this.effect.FindChildDepth<Image>("Node/Image");
             this.image.sprite = LTBY_Extend.Instance.LoadSprite("res_fishmodel", $"fish_{data.fishType}");
             this.image.transform.localEulerAngles = new Vector3(0, 0, 0);
 
@@ -3343,22 +3308,18 @@ namespace Hotfix.LTBY
                 this.score = 0;
             }
 
-            this.textNode = this.textNode!=null
-                ? this.textNode
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_TextNode", LTBY_EffectManager.Instance.UiLayer);
+            this.textNode = LTBY_PoolManager.Instance.GetUiItem("LTBY_TextNode", LTBY_EffectManager.Instance.UiLayer);
             this.textNode.gameObject.SetActive(true);
             this.textNode.localScale = new Vector3(1, 1, 1);
             this.textNode.position = worldPos;
-            this.numRoller = this.numRoller!=null
-                ? this.numRoller
-                : this.textNode.FindChildDepth("Num").GetILComponent<NumberRoller>();
-            this.numRoller = this.numRoller!=null
+            this.numRoller = this.textNode.FindChildDepth("Num").GetILComponent<NumberRoller>();
+            this.numRoller = this.numRoller != null
                 ? this.numRoller
                 : this.textNode.FindChildDepth("Num").AddILComponent<NumberRoller>();
             this.numRoller.Init();
             this.numRoller.text = this.score.ToString();
 
-            this.text = this.text!=null ? this.text : this.textNode.FindChildDepth("Text");
+            this.text = this.textNode.FindChildDepth("Text");
             switch (textType)
             {
                 case "Outburst":
@@ -3434,15 +3395,13 @@ namespace Hotfix.LTBY
             this.id = _id;
             this.chairId = _chairId;
             Vector3 pos = args.Length > 0 ? (Vector3) args[0] : Vector3.zero;
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetGameItem("LTBY_SummonAppear", LTBY_EffectManager.Instance.FishLayer);
+            this.effect = LTBY_PoolManager.Instance.GetGameItem("LTBY_SummonAppear", LTBY_EffectManager.Instance.FishLayer);
             this.effect.gameObject.SetActive(true);
             this.effect.position = pos;
 
             this.timerKey = new List<int>();
             int key = LTBY_Extend.Instance.DelayRun(2,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<SummonAppear>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<SummonAppear>(this.chairId, this.id); });
             this.timerKey.Add(key);
         }
 
@@ -3513,7 +3472,7 @@ namespace Hotfix.LTBY
             {
                 int index = i;
                 EffectParamData v = fishList[index];
-                int key = LTBY_Extend.Instance.DelayRun(delay,  ()=>
+                int key = LTBY_Extend.Instance.DelayRun(delay, () =>
                 {
                     Check();
                     if (v?.callBack != null)
@@ -3538,7 +3497,7 @@ namespace Hotfix.LTBY
                         fishType = v.fishType,
                         aimPos = this.effect == null ? Vector3.zero : this.effect.GetNumWorldPos(),
                         useMul = this.useMul,
-                        playSound = index == 0 || index == lastIndex-1,
+                        playSound = index == 0 || index == lastIndex - 1,
                         callBack = () =>
                         {
                             if (this.effect != null)
@@ -3624,9 +3583,7 @@ namespace Hotfix.LTBY
                 LTBY_Audio.Instance.Play(SoundConfig.AcedLink);
             }
 
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetGameItem("LTBY_AcedLink", LTBY_EffectManager.Instance.FishLayer);
+            this.effect = LTBY_PoolManager.Instance.GetGameItem("LTBY_AcedLink", LTBY_EffectManager.Instance.FishLayer);
             this.effect.gameObject.SetActive(true);
             Vector3 startPos = args.Length > 0 ? (Vector3) args[0] : Vector3.zero;
             Vector3 endPos = args.Length > 0 ? (Vector3) args[1] : Vector3.zero;
@@ -3639,12 +3596,12 @@ namespace Hotfix.LTBY
             Vector3 pos2 = new Vector3(midPos.x - dis * Mathf.Cos(rad) * 0.5f, midPos.y + dis * Mathf.Sin(rad) * 0.5f,
                 0);
 
-            this.Dot1 = this.Dot1 ? this.Dot1 : this.effect.FindChildDepth("Dot1");
-            this.Dot2 = this.Dot2 ? this.Dot2 : this.effect.FindChildDepth("Dot2");
+            this.Dot1 = this.effect.FindChildDepth("Dot1");
+            this.Dot2 = this.effect.FindChildDepth("Dot2");
             this.Dot1.position = pos1;
             this.Dot2.position = pos2;
 
-            this.line = this.line ? this.line : this.effect.FindChildDepth<LineRenderer>("Line");
+            this.line = this.effect.FindChildDepth<LineRenderer>("Line");
             this.line.useWorldSpace = true;
 
             this.line.positionCount = 2;
@@ -3653,7 +3610,7 @@ namespace Hotfix.LTBY
 
             this.timerKey = new List<int>();
             int key = LTBY_Extend.Instance.DelayRun(1,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<AcedLink>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<AcedLink>(this.chairId, this.id); });
             this.timerKey.Add(key);
         }
 
@@ -3739,9 +3696,7 @@ namespace Hotfix.LTBY
                 LTBY_Audio.Instance.Play(SoundConfig.DialFishText);
             }
 
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_DialEffect", LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_DialEffect", LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
             this.effect.localScale = new Vector3(1, 1, 1);
             Vector3 _pos = LTBY_GameView.GameInstance.GetBatteryWorldPos(this.chairId);
@@ -3775,6 +3730,7 @@ namespace Hotfix.LTBY
             {
                 LTBY_Audio.Instance.Play(SoundConfig.DialFishGet);
             }
+
             if (this.dialList.Count <= i) return;
             DialFishData config = this.dialList[i];
             if (config == null) return;
@@ -3844,6 +3800,7 @@ namespace Hotfix.LTBY
                     {
                         LTBY_Audio.Instance.Play(SoundConfig.DialFishRoll);
                     }
+
                     if (this.dialList.Count > index) this.dialList[index].mul.gameObject.SetActive(true);
                     int kkey = LTBY_Extend.Instance.StartTimer(() => UpdateDial(index));
                     this.timerKey.Add(kkey);
@@ -3876,7 +3833,7 @@ namespace Hotfix.LTBY
                     ? this.dialList[i].dial.position
                     : LTBY_GameView.GameInstance.GetBatteryWorldPos(this.chairId);
                 this.dialList[i].dial.position = this.basePos;
-                int key = LTBY_Extend.Instance.DelayRun(i * 0.3f + 0.5f, ()=> { MoveAction(index); });
+                int key = LTBY_Extend.Instance.DelayRun(i * 0.3f + 0.5f, () => { MoveAction(index); });
                 this.timerKey.Add(key);
             }
         }
@@ -3901,13 +3858,13 @@ namespace Hotfix.LTBY
 
             this.dialList = new List<DialFishData>();
 
-            this.mask = this.mask!=null ? this.mask : this.effect.FindChildDepth<RectTransform>("Mask");
+            this.mask = this.effect.FindChildDepth<RectTransform>("Mask");
             this.mask.sizeDelta = new Vector2(0, 0);
 
             this.shine = this.mask.FindChildDepth("Shine");
             this.shine.gameObject.SetActive(false);
 
-            if (this.hadSpecialBattery=="FreeBattery")
+            if (this.hadSpecialBattery == "FreeBattery")
             {
                 this.mask.FindChildDepth("ExtraMul").gameObject.SetActive(true);
                 this.mask.FindChildDepth<Text>("ExtraMul").text = $"x{data.multiple}";
@@ -4251,14 +4208,12 @@ namespace Hotfix.LTBY
 
             this.score = args.Length > 0 ? (long) args[0] : 0;
 
-            this.account = this.account!=null
-                ? this.account
-                : LTBY_PoolManager.Instance.GetUiItem($"LTBY_SpineDialFish", LTBY_EffectManager.Instance.UiLayer);
+            this.account = LTBY_PoolManager.Instance.GetUiItem($"LTBY_SpineDialFish", LTBY_EffectManager.Instance.UiLayer);
             this.account.gameObject.SetActive(true);
 
-            this.EffectSelf = this.EffectSelf!=null ? this.EffectSelf : this.account.FindChildDepth("EffectSelf");
-            this.EffectOther = this.EffectOther!=null ? this.EffectOther : this.account.FindChildDepth("EffectOther");
-            this.JinBiPart = JinBiPart != null ? JinBiPart : this.EffectSelf.FindChildDepth($"JinBiPart");
+            this.EffectSelf = this.account.FindChildDepth("EffectSelf");
+            this.EffectOther = this.account.FindChildDepth("EffectOther");
+            this.JinBiPart = this.EffectSelf.FindChildDepth($"JinBiPart");
 
             if (this.isSelf)
             {
@@ -4281,8 +4236,8 @@ namespace Hotfix.LTBY
                 this.curScale = 0.8f;
             }
 
-            this.SelfGQ = this.SelfGQ!=null ? this.SelfGQ : this.account.FindChildDepth("EffectSelf/guaquan");
-            this.OtherGQ = this.OtherGQ!=null ? this.OtherGQ : this.account.FindChildDepth("EffectOther/guaquan");
+            this.SelfGQ = this.account.FindChildDepth("EffectSelf/guaquan");
+            this.OtherGQ = this.account.FindChildDepth("EffectOther/guaquan");
 
             if (this.score >= EffectConfig.UseFireworkScore)
             {
@@ -4306,14 +4261,14 @@ namespace Hotfix.LTBY
 
             this.account.localScale = new Vector3(this.curScale, this.curScale, this.curScale);
 
-            this.skeleton = this.skeleton!=null ? this.skeleton : this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
+            this.skeleton = this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
             if (this.skeleton != null)
             {
                 this.skeleton.AnimationState.SetAnimation(0, "stand01", false);
             }
 
-            this.num = this.num!=null ? this.num : this.account.FindChildDepth("Num").GetILComponent<NumberRoller>();
-            this.num = this.num!=null ? this.num : this.account.FindChildDepth("Num").AddILComponent<NumberRoller>();
+            this.num = this.account.FindChildDepth("Num").GetILComponent<NumberRoller>();
+            this.num = this.num != null ? this.num : this.account.FindChildDepth("Num").AddILComponent<NumberRoller>();
             this.num.Init();
             this.num.text = "0";
             this.num.RollTo(this.score, 3);
@@ -4377,9 +4332,7 @@ namespace Hotfix.LTBY
 
             EffectParamData data = args.Length > 0 ? (EffectParamData) args[0] : new EffectParamData();
 
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_FireworkEffect", LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_FireworkEffect", LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
             this.effect.position = data.pos;
             float _scale = data.scale != 0 ? data.scale : 1;
@@ -4387,7 +4340,7 @@ namespace Hotfix.LTBY
 
             this.timerKey = new List<int>();
             int key = LTBY_Extend.Instance.DelayRun(data.delay == 0 ? 5 : data.delay,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<Firework>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<Firework>(this.chairId, this.id); });
             this.timerKey.Add(key);
         }
 
@@ -4419,9 +4372,7 @@ namespace Hotfix.LTBY
 
             EffectParamData data = args.Length > 0 ? (EffectParamData) args[0] : new EffectParamData();
 
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_PandaDanceEffect", LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_PandaDanceEffect", LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
             this.effect.position = data.pos;
             float _scale = data.scale != 0 ? data.scale : 1;
@@ -4430,7 +4381,7 @@ namespace Hotfix.LTBY
             this.timerKey = new List<int>();
 
             int key = LTBY_Extend.Instance.DelayRun(data.delay == 0 ? 3.2f : data.delay,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<PandaDance>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<PandaDance>(this.chairId, this.id); });
             this.timerKey.Add(key);
         }
 
@@ -4480,25 +4431,23 @@ namespace Hotfix.LTBY
             int num2 = args.Length >= 3 ? (int) args[2] : 0;
 
             this.MulConfig = EffectConfig.ElectriBallMul;
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_DragonBalls", LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_DragonBalls", LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
 
-            this.ball_1 = this.ball_1!=null ? this.ball_1 : this.effect.FindChildDepth("ElectricBall1");
-            this.ball_2 = this.ball_2!=null ? this.ball_2 : this.effect.FindChildDepth($"ElectricBall2");
+            this.ball_1 = this.effect.FindChildDepth("ElectricBall1");
+            this.ball_2 = this.effect.FindChildDepth($"ElectricBall2");
             this.ball_1.gameObject.SetActive(true);
             this.ball_2.gameObject.SetActive(true);
             this.ball_1.localPosition = new Vector3(0, 0, 0);
             this.ball_2.localPosition = new Vector3(0, 0, 0);
 
-            this.multiplier_1 = multiplier_1 != null ? multiplier_1 : this.ball_1.FindChildDepth<Text>("multiplier");
-            this.multiplier_2 = this.multiplier_2!=null ? this.multiplier_2 : this.ball_2.FindChildDepth<Text>("multiplier");
+            this.multiplier_1 = this.ball_1.FindChildDepth<Text>("multiplier");
+            this.multiplier_2 = this.ball_2.FindChildDepth<Text>("multiplier");
             this.multiplier_1.gameObject.SetActive(false);
             this.multiplier_2.gameObject.SetActive(false);
 
-            this.zip_1 = this.zip_1!=null ? this.zip_1 : this.ball_1.FindChildDepth<ParticleSystem>("ZipEffect");
-            this.zip_2 = this.zip_2!=null ? this.zip_2 : this.ball_2.FindChildDepth<ParticleSystem>("ZipEffect");
+            this.zip_1 = this.ball_1.FindChildDepth<ParticleSystem>("ZipEffect");
+            this.zip_2 = this.ball_2.FindChildDepth<ParticleSystem>("ZipEffect");
 
             float timer = 0;
             float phaseOneTime = 1;
@@ -4550,7 +4499,7 @@ namespace Hotfix.LTBY
                 int action_2 = LTBY_Extend.Instance.RunAction(tween);
                 this.actionKey.Add(action_2);
                 timer += 0.3f;
-                int delayKey = LTBY_Extend.Instance.DelayRun(timer, ()=> { RollMultipliers(num1, num2); });
+                int delayKey = LTBY_Extend.Instance.DelayRun(timer, () => { RollMultipliers(num1, num2); });
                 this.timerKey.Add(delayKey);
             }
             else
@@ -4578,7 +4527,7 @@ namespace Hotfix.LTBY
                 int moveAll = LTBY_Extend.Instance.RunAction(tween2);
                 this.actionKey.Add(moveAll);
                 timer += phaseOneTime + 0.3f;
-                int delayKey = LTBY_Extend.Instance.DelayRun(timer, ()=> { RollMultipliers(num1, num2); });
+                int delayKey = LTBY_Extend.Instance.DelayRun(timer, () => { RollMultipliers(num1, num2); });
                 this.timerKey.Add(delayKey);
             }
         }
@@ -4642,7 +4591,7 @@ namespace Hotfix.LTBY
             this.actionKey.Add(scaleBallUp);
 
             //电球2等待0.3秒后再开始动作
-            int delayKey = LTBY_Extend.Instance.DelayRun(scaleTime + 0.3f, ()=>
+            int delayKey = LTBY_Extend.Instance.DelayRun(scaleTime + 0.3f, () =>
             {
                 //缩放电球2大小，并播放小闪电
                 Sequence seq = DOTween.Sequence();
@@ -4683,7 +4632,7 @@ namespace Hotfix.LTBY
             });
             this.timerKey.Add(delayKey);
             //等待所有动作完成，进入融合阶段
-            int _delayKey = LTBY_Extend.Instance.DelayRun(phaseTwoTime, ()=> { Fusion(mul_end_1 * mul_end_2); });
+            int _delayKey = LTBY_Extend.Instance.DelayRun(phaseTwoTime, () => { Fusion(mul_end_1 * mul_end_2); });
             this.timerKey.Add(_delayKey);
         }
 
@@ -4743,7 +4692,7 @@ namespace Hotfix.LTBY
             timer += fusionTime;
 
             //融合之后电球1进行震动并缩放
-            int delayTimerKey = LTBY_Extend.Instance.DelayRun(timer, ()=>
+            int delayTimerKey = LTBY_Extend.Instance.DelayRun(timer, () =>
             {
                 Sequence _seq = DOTween.Sequence();
                 _seq.Append(mulText_1?.transform?.DOScale(new Vector2(1.7f, 1.7f), 0.3f));
@@ -4761,7 +4710,7 @@ namespace Hotfix.LTBY
 
 
             timer += hoverShakingTime;
-            int delayTimerKey1 = LTBY_Extend.Instance.DelayRun(timer, ()=>
+            int delayTimerKey1 = LTBY_Extend.Instance.DelayRun(timer, () =>
             {
                 ball_2.localPosition = new Vector3(0, 0, 0);
                 if (this.isMyDragon)
@@ -4784,7 +4733,7 @@ namespace Hotfix.LTBY
         private void OnFinish(long _score = 0, int multiplier = 0)
         {
             float _scale = this.isMyDragon ? 80 : 40;
-            int delayKey = LTBY_Extend.Instance.DelayRun(0.6f, ()=>
+            int delayKey = LTBY_Extend.Instance.DelayRun(0.6f, () =>
             {
                 Tween tween = DOTween.To(value =>
                 {
@@ -4844,16 +4793,14 @@ namespace Hotfix.LTBY
                 return;
             }
 
-            this.account = this.account != null
-                ? this.account
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_ElectricDragonSpineAward",
+            this.account = LTBY_PoolManager.Instance.GetUiItem("LTBY_ElectricDragonSpineAward",
                     LTBY_EffectManager.Instance.UiLayer);
             this.account.gameObject.SetActive(true);
 
-            this.skeleton = this.skeleton!=null ? this.skeleton : this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
+            this.skeleton = this.account.FindChildDepth<SkeletonGraphic>("Skeleton");
             this.skeleton.AnimationState.SetAnimation(0, "stand", false);
 
-            this.multipleText = this.multipleText!=null ? this.multipleText : this.account.FindChildDepth<Text>("Multiple");
+            this.multipleText = this.account.FindChildDepth<Text>("Multiple");
             if (args.Length > 0)
             {
                 this.multipleText.gameObject.SetActive(true);
@@ -4883,16 +4830,16 @@ namespace Hotfix.LTBY
 
             this.effect1.gameObject.SetActive(false);
             this.effect2.gameObject.SetActive(false);
-            this.numNode = this.numNode!=null ? this.numNode : this.account.FindChildDepth("Num");
+            this.numNode = this.account.FindChildDepth("Num");
             this.numNode.gameObject.SetActive(true);
             this.numPosition = this.numNode.position;
-            this.num = this.num!=null ? this.num : this.numNode.GetILComponent<NumberRoller>();
-            this.num = this.num!=null ? this.num : this.numNode.AddILComponent<NumberRoller>();
+            this.num = this.numNode.GetILComponent<NumberRoller>();
+            this.num = this.num != null ? this.num : this.numNode.AddILComponent<NumberRoller>();
             this.num.Init();
             this.num.RollFromTo(0, 0, 0.1f);
             this.numScale = 0.65f;
             int delay = LTBY_Extend.Instance.DelayRun(1,
-                ()=> { this.skeleton?.AnimationState.SetAnimation(0, "stand1", true); });
+                () => { this.skeleton?.AnimationState.SetAnimation(0, "stand1", true); });
             this.timerKey.Add(delay);
         }
 
@@ -4921,7 +4868,7 @@ namespace Hotfix.LTBY
             bool showEffect2 = (!_isSelf) || (!LTBY_EffectManager.Instance.CheckCanUseHundredMillion(this.score));
             this.effect2.gameObject.SetActive(showEffect2);
 
-            int key = LTBY_Extend.Instance.DelayRun(1.2f,  ()=>
+            int key = LTBY_Extend.Instance.DelayRun(1.2f, () =>
             {
                 this.effect1?.gameObject.SetActive(true);
                 if (this.score < EffectConfig.UseFireworkScore) return;
@@ -4941,7 +4888,7 @@ namespace Hotfix.LTBY
                 LTBYEntry.Instance.ShakeFishLayer(4);
             }
 
-            int key1 = LTBY_Extend.Instance.DelayRun(5.4f, ()=>
+            int key1 = LTBY_Extend.Instance.DelayRun(5.4f, () =>
             {
                 if (this.isSelf)
                 {
@@ -5026,21 +4973,19 @@ namespace Hotfix.LTBY
             this.id = _id;
             this.chairId = _chairId;
             this.timerKey = new List<int>();
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetGameItem("LTBY_DoubleDragonEffect",
+            this.effect = LTBY_PoolManager.Instance.GetGameItem("LTBY_DoubleDragonEffect",
                     LTBY_EffectManager.Instance.FishLayer);
             this.effect.gameObject.SetActive(true);
             this.effect.localPosition = new Vector3(0, 0, 0);
             this.playTime = 10;
-            this.animator_1 = this.animator_1!=null ? this.animator_1 : this.effect.FindChildDepth<Animator>("model");
-            this.animator_2 = this.animator_2!=null ? this.animator_2 : this.effect.FindChildDepth<Animator>("model2");
+            this.animator_1 = this.effect.FindChildDepth<Animator>("model");
+            this.animator_2 = this.effect.FindChildDepth<Animator>("model2");
 
             this.animator_1.SetTrigger($"move");
             this.animator_2.SetTrigger($"move");
 
             int key = LTBY_Extend.Instance.DelayRun(this.playTime,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<DoubleDragonEffect>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<DoubleDragonEffect>(this.chairId, this.id); });
             this.timerKey.Add(key);
         }
 
@@ -5069,9 +5014,7 @@ namespace Hotfix.LTBY
             this.id = _id;
             this.chairId = _chairId;
 
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_yifenbaojiang", LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_yifenbaojiang", LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
             this.effect.position = new Vector3(0, 0, 0);
             float _scale = 1;
@@ -5095,7 +5038,7 @@ namespace Hotfix.LTBY
             LTBY_Audio.Instance.Play(SoundConfig.HundredMillion);
 
             int key = LTBY_Extend.Instance.DelayRun(6,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<HundredMillionMoney>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<HundredMillionMoney>(this.chairId, this.id); });
             this.timerKey.Add(key);
         }
 
@@ -5149,12 +5092,12 @@ namespace Hotfix.LTBY
                 this.totalNums.Enqueue(value2 + value1);
             }
 
-            this.effect = this.effect != null ? this.effect : LTBY_PoolManager.Instance.GetUiItem(this.effectName, LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem(this.effectName, LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
-            this.skeleton = this.skeleton != null ? this.skeleton : this.effect.FindChildDepth<SkeletonGraphic>("Skeleton");
+            this.skeleton = this.effect.FindChildDepth<SkeletonGraphic>("Skeleton");
             this.skeleton.AnimationState.SetAnimation(0, "stand01", false);
             int key = LTBY_Extend.Instance.DelayRun(1.4f,
-                ()=> { this.skeleton?.AnimationState.SetAnimation(1, "stand02", true); });
+                () => { this.skeleton?.AnimationState.SetAnimation(1, "stand02", true); });
             this.timerKey.Add(key);
 
             if (LTBY_GameView.GameInstance.IsSelf(this.chairId))
@@ -5197,8 +5140,8 @@ namespace Hotfix.LTBY
 
             this.numNode = this.effect.FindChildDepth("Num");
             this.numNode.gameObject.SetActive(true);
-            this.num = this.num!=null ? this.num : this.numNode.GetILComponent<NumberRoller>();
-            this.num = this.num!=null ? this.num : this.numNode.AddILComponent<NumberRoller>();
+            this.num = this.numNode.GetILComponent<NumberRoller>();
+            this.num = this.num != null ? this.num : this.numNode.AddILComponent<NumberRoller>();
             this.num.Init();
             this.num.text = "0";
 
@@ -5243,7 +5186,9 @@ namespace Hotfix.LTBY
                         EffectParamData _data = new EffectParamData()
                         {
                             chairId = chairId,
-                            pos = this.isSelf ? Vector3.zero : LTBY_GameView.GameInstance.GetEffectWorldPos(this.chairId),
+                            pos = this.isSelf
+                                ? Vector3.zero
+                                : LTBY_GameView.GameInstance.GetEffectWorldPos(this.chairId),
                             scale = this.isSelf ? 0.7f : 0.4f
                         };
                         LTBY_EffectManager.Instance.CreateBoostScoreBoardEffects(this.score, _data);
@@ -5352,26 +5297,24 @@ namespace Hotfix.LTBY
             this.actionKey = new List<int>();
             this.timerKey = new List<int>();
 
-            this.effect = this.effect!=null
-                ? this.effect
-                : LTBY_PoolManager.Instance.GetUiItem("LTBY_JBPSpineAward4", LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem("LTBY_JBPSpineAward4", LTBY_EffectManager.Instance.UiLayer);
             this.effect.gameObject.SetActive(true);
 
-            this.topEffect = this.topEffect!=null ? this.topEffect : this.effect.FindChildDepth("TopEffect");
-            this.BottomEffect = this.BottomEffect!=null ? this.BottomEffect : this.effect.FindChildDepth("BottomEffect");
+            this.topEffect = this.effect.FindChildDepth("TopEffect");
+            this.BottomEffect = this.effect.FindChildDepth("BottomEffect");
 
-            this.skeleton = this.skeleton!=null ? this.skeleton : this.effect.FindChildDepth<SkeletonGraphic>("Skeleton");
-            this.TopRoot = TopRoot != null ? TopRoot : this.effect.FindChildDepth("Top");
+            this.skeleton = this.effect.FindChildDepth<SkeletonGraphic>("Skeleton");
+            this.TopRoot = this.effect.FindChildDepth("Top");
             this.TopRoot.gameObject.SetActive(false);
             this.TopRoot.FindChildDepth<Text>("topText").text = $"+{data.accum_money}";
 
-            this.BottomRoot = this.BottomRoot!=null ? this.BottomRoot : this.effect.FindChildDepth("Bottom");
+            this.BottomRoot = this.effect.FindChildDepth("Bottom");
             this.BottomRoot.gameObject.SetActive(false);
-            this.bottomText = this.bottomText!=null ? this.bottomText : this.BottomRoot.FindChildDepth<Text>("bottomText");
+            this.bottomText = this.BottomRoot.FindChildDepth<Text>("bottomText");
             this.bottomText.text = $"x{data.fish_value}";
 
-            this.TopMul = this.TopMul!=null ? this.TopMul : TopRoot.FindChildDepth<Text>("topText/TopMul");
-            this.BottomMul = this.BottomMul!=null ? this.BottomMul : this.BottomRoot.FindChildDepth<Text>("BottomMul");
+            this.TopMul = TopRoot.FindChildDepth<Text>("topText/TopMul");
+            this.BottomMul = this.BottomRoot.FindChildDepth<Text>("BottomMul");
             string multipleText = data.display_multiple ? $"x{data.multiple}" : "";
             this.TopMul.text = multipleText;
             this.BottomMul.text = multipleText;
@@ -5404,7 +5347,7 @@ namespace Hotfix.LTBY
 
             this.skeleton?.AnimationState.SetAnimation(0, "stand01", false);
             int key = LTBY_Extend.Instance.DelayRun(1.4f,
-                ()=> { this.skeleton?.AnimationState.SetAnimation(0, "stand02", true); });
+                () => { this.skeleton?.AnimationState.SetAnimation(0, "stand02", true); });
             this.timerKey.Add(key);
 
             float startX = startPos.x;
@@ -5427,7 +5370,7 @@ namespace Hotfix.LTBY
 
             if (this.isSelf)
             {
-                key = LTBY_Extend.Instance.DelayRun(startTime, ()=>
+                key = LTBY_Extend.Instance.DelayRun(startTime, () =>
                 {
                     LTBY_Audio.Instance.Play(SoundConfig.JBPCoinDrop);
                     string EffectName = "Effect_Jubaopen_jinbidiaoluo";
@@ -5439,7 +5382,7 @@ namespace Hotfix.LTBY
             }
 
             startTime += 0.4f;
-            key = LTBY_Extend.Instance.DelayRun(startTime, ()=>
+            key = LTBY_Extend.Instance.DelayRun(startTime, () =>
             {
                 this.BottomRoot?.gameObject.SetActive(true);
                 this.BottomEffect?.gameObject.SetActive(false);
@@ -5460,7 +5403,7 @@ namespace Hotfix.LTBY
 
             startTime += 1.4f;
 
-            key = LTBY_Extend.Instance.DelayRun(startTime, ()=>
+            key = LTBY_Extend.Instance.DelayRun(startTime, () =>
             {
                 this.TopRoot?.gameObject.SetActive(true);
                 this.topEffect?.gameObject.SetActive(false);
@@ -5481,7 +5424,7 @@ namespace Hotfix.LTBY
             this.actionKey.Add(key);
 
             startTime += 2;
-            key = LTBY_Extend.Instance.DelayRun(startTime, ()=>
+            key = LTBY_Extend.Instance.DelayRun(startTime, () =>
             {
                 LTBY_EffectManager.Instance.DestroyEffect<TreasureBowlEffect1>(this.chairId, this.id);
                 LTBY_EffectManager.Instance.CreateEffect<TreasureBowlEffect2>(this.chairId, this.data, 3);
@@ -5521,7 +5464,7 @@ namespace Hotfix.LTBY
             this.EffectName = data.EffectName;
             this.callBack = data.callBack;
 
-            this.effect = this.effect != null ? this.effect : LTBY_PoolManager.Instance.GetUiItem(this.EffectName, LTBY_EffectManager.Instance.UiLayer);
+            this.effect = LTBY_PoolManager.Instance.GetUiItem(this.EffectName, LTBY_EffectManager.Instance.UiLayer);
             float _scale = data.scale;
             this.effect.localScale = Mathf.Abs(_scale) > 0 ? new Vector3(_scale, _scale, _scale) : Vector3.one;
             this.effect.position = data.position;
@@ -5531,7 +5474,7 @@ namespace Hotfix.LTBY
             this.effect.gameObject.SetActive(true);
 
             int key = LTBY_Extend.Instance.DelayRun(data.lifeTime,
-                ()=> { LTBY_EffectManager.Instance.DestroyEffect<BaoJinBi>(this.chairId, this.id); });
+                () => { LTBY_EffectManager.Instance.DestroyEffect<BaoJinBi>(this.chairId, this.id); });
             this.timerKey.Add(key);
         }
 

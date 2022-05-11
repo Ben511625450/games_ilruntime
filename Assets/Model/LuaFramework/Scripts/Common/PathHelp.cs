@@ -104,6 +104,7 @@ namespace LuaFramework
             get
             {
                 string result = string.Empty;
+#if !UNITY_EDITOR
                 RuntimePlatform platform = Application.platform;
                 if (platform != RuntimePlatform.Android)
                 {
@@ -113,7 +114,9 @@ namespace LuaFramework
                 {
                     result = "jar:file://" + Application.dataPath + "!/assets/";
                 }
-
+#else
+                result = Application.streamingAssetsPath + "/";
+#endif
                 return result;
             }
         }

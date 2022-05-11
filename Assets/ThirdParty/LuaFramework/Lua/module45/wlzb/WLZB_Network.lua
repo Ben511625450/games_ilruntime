@@ -175,7 +175,7 @@ function WLZB_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function WLZB_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(WLZBEntry.gameObject);
+    --destroy(WLZBEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function WLZB_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

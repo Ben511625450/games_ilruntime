@@ -230,7 +230,7 @@ function SHT_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function SHT_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(SHTEntry.gameObject);
+    --destroy(SHTEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function SHT_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

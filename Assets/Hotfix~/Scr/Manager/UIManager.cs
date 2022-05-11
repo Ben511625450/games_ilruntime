@@ -44,9 +44,6 @@ namespace Hotfix
         private Transform TipPanel;
         private readonly List<PanelBase> uiList = new List<PanelBase>();
         private readonly Dictionary<string, PanelBase> uiMap = new Dictionary<string, PanelBase>();
-        
-        public const string ScreenOrientation = "ScreenOrientation";
-        private string lastOrientation;
 
         protected override void Awake()
         {
@@ -66,12 +63,14 @@ namespace Hotfix
 
             if (Util.isPc)
             {
-                ES3.Save<string>(ScreenOrientation, UnityEngine.ScreenOrientation.Portrait.ToString());
+                GameLocalMode.Instance.SetScreen(UnityEngine.ScreenOrientation.Landscape);
             }
 
             OpenUI<LogonScenPanel>();
         }
 
+        public const string ScreenOrientation = "ScreenOrientation";
+        private string lastOrientation;
         protected override void Update()
         {
             base.Update();

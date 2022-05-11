@@ -148,7 +148,7 @@ function TGG_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function TGG_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(TGGEntry.gameObject);
+    --destroy(TGGEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function TGG_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

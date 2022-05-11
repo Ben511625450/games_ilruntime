@@ -187,7 +187,7 @@ end
 function Module16_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
     Module16_SmallGamePanel.StopCon()
-    destroy(Module16Entry.gameObject);
+    --destroy(Module16Entry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function Module16_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

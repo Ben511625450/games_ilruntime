@@ -798,6 +798,9 @@ namespace LuaFramework
         {
             get
             {
+#if UNITY_EDITOR
+                return "win";
+#endif
                 string result = string.Empty;
                 int platform = (int) Application.platform;
 

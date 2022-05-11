@@ -79,23 +79,29 @@ namespace Hotfix
 
         private void HotfixActionHelper_LeaveGame()
         {
-            GameLocalMode.Instance.IsInGame = false;
-            ILMusicManager.Instance.Init();
-            rootContent.gameObject.SetActive(true);
-            AppFacade.Instance.GetManager<MusicManager>().KillAllSoundEffect();
-            AudioSource source = AppFacade.Instance.GetManager<MusicManager>().transform.GetComponent<AudioSource>();
-            if (source != null)
+            UIMask.Enable(true, () =>
             {
-                HallExtend.Destroy(source);
-            }
+                GameLocalMode.Instance.SetScreen(ScreenOrientation.Landscape);
+                GameLocalMode.Instance.IsInGame = false;
+                ILMusicManager.Instance.Init();
+                rootContent.gameObject.SetActive(true);
+                AppFacade.Instance.GetManager<MusicManager>().KillAllSoundEffect();
+                AudioSource source = AppFacade.Instance.GetManager<MusicManager>().transform
+                    .GetComponent<AudioSource>();
+                if (source != null)
+                {
+                    HallExtend.Destroy(source);
+                }
 
-            ILMusicManager.Instance.PlayBackgroundMusic();
-            DebugHelper.Log($"退出游戏");
-            HotfixGameComponent.Instance.Send(DataStruct.UserDataStruct.MDM_GR_USER,
-                DataStruct.UserDataStruct.SUB_GR_USER_LEFT_GAME_REQ, new ByteBuffer(), SocketType.Game);
-            SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
-            Util.Unload(GameLocalMode.Instance.CurrentGame);
-            HotfixGameComponent.Instance.CloseNetwork(SocketType.Game);
+                ILMusicManager.Instance.PlayBackgroundMusic();
+                DebugHelper.Log($"退出游戏");
+                HotfixGameComponent.Instance.Send(DataStruct.UserDataStruct.MDM_GR_USER,
+                    DataStruct.UserDataStruct.SUB_GR_USER_LEFT_GAME_REQ, new ByteBuffer(), SocketType.Game);
+                SceneManager.UnloadSceneAsync(GameLocalMode.Instance.CurrentGame);
+                Util.Unload(GameLocalMode.Instance.CurrentGame);
+                HotfixGameComponent.Instance.CloseNetwork(SocketType.Game);
+                ToolHelper.DelayRun(0.5f, () => { UIMask.Enable(false); });
+            });
         }
 
         private void HotfixActionHelper_OnEnterGame()

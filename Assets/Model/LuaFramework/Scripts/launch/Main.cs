@@ -51,6 +51,9 @@ namespace LuaFramework
 //            DebugTool.logErrorEnabled = false;
 //#endif
 
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+            ES3.Save<string>(ScreenOrientation,UnityEngine.ScreenOrientation.Landscape.ToString());
+#endif
 #if !UNITY_EDITOR
             //try
             //{
@@ -63,6 +66,27 @@ namespace LuaFramework
 #endif
             this.InitGameMangager();
         }
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        public const string ScreenOrientation = "ScreenOrientation";
+        private string lastOrientation;
+        private void Update()
+        {
+            bool hasKey = ES3.KeyExists(ScreenOrientation);
+            if (!hasKey) return;
+            string orientation = ES3.Load<string>(ScreenOrientation);
+            if (lastOrientation == orientation) return;
+            if (orientation == UnityEngine.ScreenOrientation.Portrait.ToString())
+            {
+                AspectRatioController.Instance.SetAspectRatio(9, 16, true);
+            }
+            else
+            {
+                AspectRatioController.Instance.SetAspectRatio(16, 9, true);
+            }
+
+            lastOrientation = orientation;
+        }
+#endif
         public void InitConfiger()
         {
             this.CsConfiger = Resources.Load<TextAsset>("CsConfiger");

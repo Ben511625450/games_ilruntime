@@ -144,7 +144,7 @@ function WSZS_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function WSZS_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(WSZSEntry.gameObject);
+    --destroy(WSZSEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function WSZS_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

@@ -19,6 +19,8 @@ namespace Hotfix.Hall
 
         private List<IState> states;
         private HierarchicalStateMachine hsm;
+        private Transform mainPanel;
+        private Button maskCloseBtn;
 
         public DownLoadGamePanel() : base(UIType.Top, nameof(DownLoadGamePanel))
         {
@@ -53,10 +55,11 @@ namespace Hotfix.Hall
         protected override void FindComponent()
         {
             base.FindComponent();
-            closeBtn = this.transform.FindChildDepth<Button>("Content/Close");
-            downloadValue = this.transform.FindChildDepth<Text>("Content/ProgressValue");
-            downloadDesc = this.transform.FindChildDepth<Text>("Content/Desc");
-            downProgress = this.transform.FindChildDepth<Slider>("Content/Progress");
+            mainPanel = transform.FindChildDepth("Content");
+            closeBtn = mainPanel.FindChildDepth<Button>("Close");
+            downloadValue = mainPanel.FindChildDepth<Text>("ProgressValue");
+            downloadDesc = mainPanel.FindChildDepth<Text>("Desc");
+            downProgress = mainPanel.FindChildDepth<Slider>("Progress");
         }
 
         protected override void AddListener()
@@ -109,11 +112,14 @@ namespace Hotfix.Hall
                 {
                     if (GameLocalMode.Instance.GWData.isUseDefence)
                     {
-                        GameLocalMode.Instance.GameHost = Util.isPc ? GameLocalMode.Instance.GWData.DefenceGameIP : GameLocalMode.Instance.GWData.DefencePCGameIP;
+                        GameLocalMode.Instance.GameHost = Util.isPc || Util.isEditor
+                            ? GameLocalMode.Instance.GWData.DefencePCGameIP
+                            : GameLocalMode.Instance.GWData.DefenceGameIP;
                     }
                     else
                     {
-                        GameLocalMode.Instance.HallHost = Util.isPc ? GameLocalMode.Instance.GWData.PCGameIP
+                        GameLocalMode.Instance.HallHost = Util.isPc || Util.isEditor
+                            ? GameLocalMode.Instance.GWData.PCGameIP
                             : GameLocalMode.Instance.GWData.GameIP;
                     }
                 }
@@ -121,7 +127,9 @@ namespace Hotfix.Hall
                 {
                     if (GameLocalMode.Instance.GWData.isUseDefence)
                     {
-                        GameLocalMode.Instance.HallHost = Util.isPc ? GameLocalMode.Instance.GWData.DefenceGameIP : GameLocalMode.Instance.GWData.DefencePCGameIP;
+                        GameLocalMode.Instance.HallHost = Util.isPc || Util.isEditor
+                            ? GameLocalMode.Instance.GWData.DefencePCGameIP
+                            : GameLocalMode.Instance.GWData.DefenceGameIP;
                     }
                 }
                 HotfixGameComponent.Instance.ConnectGameServer(isSuccess =>
@@ -158,53 +166,70 @@ namespace Hotfix.Hall
             public LoadGameState(DownLoadGamePanel owner, HierarchicalStateMachine hsm) : base(owner, hsm)
             {
             }
-            GameData data;
+            GameData _data;
             public override void OnEnter()
             {
                 base.OnEnter();
                 owner.closeBtn.gameObject.SetActive(false);
                 owner.downloadDesc.text = $"正在加载游戏……";
-                data = GameConfig.GetGameData(owner.info._2wGameID);
-                ILGameManager.Instance.LoadScene(data.scenName, (isdone,apt) =>
-                 {
-                     if (!isdone)
-                     {
-                         owner.downProgress.value = apt.progress;
-                         owner.downloadValue.text = $"{Mathf.Ceil(apt.progress * 100)}%";
-                     }
-                     else
-                     {
-                         owner.downProgress.value = 1;
-                         owner.downloadValue.text = $"100%";
-                         hsm?.ChangeState(nameof(IdleState));
-                         OnLoadComplete();
-                     }
-                 });
+                _data = GameConfig.GetGameData(owner.info._2wGameID);
+                UIMask.Enable(true, () =>
+                {
+                    GameLocalMode.Instance.SetScreen(_data.Orientation);
+                    ILGameManager.Instance.LoadScene(_data.scenName, (isdone, apt) =>
+                    {
+                        if (!isdone)
+                        {
+                            if (apt.progress < 0.9f)
+                            {
+                                if (apt.allowSceneActivation) apt.allowSceneActivation = false;
+                            }
+                            else
+                            {
+                                if (!apt.allowSceneActivation)
+                                {
+                                    apt.allowSceneActivation = true;
+                                }
+                            }
+
+                            owner.downProgress.value = apt.progress;
+                            owner.downloadValue.text = $"{Mathf.Ceil(apt.progress * 100)}%";
+                        }
+                        else
+                        {
+                            owner.downProgress.value = 1;
+                            owner.downloadValue.text = $"100%";
+                            hsm?.ChangeState(nameof(IdleState));
+                            OnLoadComplete();
+                            ToolHelper.DelayRun(0.5f, () => { UIMask.Enable(false); });
+                        }
+                    });
+                });
             }
 
             private void OnLoadComplete()
             {
-                UIManager.Instance.Close();
+                UIManager.Instance.CloseUI<DownLoadGamePanel>();
                 ILMusicManager.Instance.StopMusic();
                 HotfixActionHelper.DispatchOnEnterGame();
-                GameLocalMode.Instance.CurrentGame = data.scenName;
-                if (data.configer.driveType == ScriptType.Lua)
+                GameLocalMode.Instance.CurrentGame = _data.scenName;
+                if (_data.configer.driveType == ScriptType.Lua)
                 {
                     GameObject go = GameObject.FindGameObjectWithTag(LaunchTag._01gameTag);
                     if (go == null)
                     {
-                        go = GameObject.Find(data.configer.luaRootName);
+                        go = GameObject.Find(_data.configer.luaRootName);
                         if (go == null)
                         {
-                            DebugHelper.LogError($"没有找到根节点 {data.configer.luaRootName} 0");
+                            DebugHelper.LogError($"没有找到根节点 {_data.configer.luaRootName} 0");
                             return;
                         }
                     }
                     else
                     {
-                        if (go.name != data.configer.luaRootName)
+                        if (go.name != _data.configer.luaRootName)
                         {
-                            Transform child = go.transform.FindChildDepth(data.configer.luaRootName);
+                            Transform child = go.transform.FindChildDepth(_data.configer.luaRootName);
                             if (child != null)
                             {
                                 go = child.gameObject;
@@ -219,7 +244,7 @@ namespace Hotfix.Hall
                 }
                 else
                 {
-                    EventHelper.DispatchOnEnterGame(data.scenName);
+                    EventHelper.DispatchOnEnterGame(_data.scenName);
                 }
             }
         }

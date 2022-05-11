@@ -202,7 +202,7 @@ function FLM_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function FLM_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(FLMEntry.gameObject);
+    --destroy(FLMEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function FLM_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

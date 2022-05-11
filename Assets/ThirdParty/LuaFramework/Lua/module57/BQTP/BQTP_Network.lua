@@ -161,7 +161,7 @@ function BQTP_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function BQTP_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(BQTPEntry.gameObject);
+    --destroy(BQTPEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function BQTP_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

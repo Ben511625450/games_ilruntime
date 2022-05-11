@@ -889,6 +889,7 @@ namespace Hotfix.Hall
             {
                 base.OnEnter();
                 Init();
+                CountDownComplete();
                 owner.LoginGroup.gameObject.SetActive(false);
                 FindPwdMobileNumInput.text = "";
                 FindPwdPasswordInput.text = "";

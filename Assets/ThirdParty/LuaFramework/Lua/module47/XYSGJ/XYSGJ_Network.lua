@@ -214,7 +214,7 @@ function XYSGJ_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function XYSGJ_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(XYSGJEntry.gameObject);
+    --destroy(XYSGJEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function XYSGJ_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

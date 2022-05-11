@@ -180,7 +180,7 @@ function JZSF_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function JZSF_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(JZSFEntry.gameObject);
+    --destroy(JZSFEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function JZSF_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

@@ -208,7 +208,7 @@ function AJDMX_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function AJDMX_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(AJDMXEntry.gameObject);
+    --destroy(AJDMXEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function AJDMX_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

@@ -204,7 +204,7 @@ function LGDDY_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function LGDDY_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(LGDDYEntry.gameObject);
+    --destroy(LGDDYEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function LGDDY_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

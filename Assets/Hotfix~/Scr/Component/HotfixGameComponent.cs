@@ -545,9 +545,39 @@ namespace Hotfix
                     break;
                 case DataStruct.LoginStruct.SUB_3D_SC_LOGIN_FAILE:
                 {
+                    isUseILRuntime = false;
+                    isConnectGameNet = false;
+                    isConnectHallNet = false;
+                    CloseNetwork(SocketType.Game);
+                    CloseNetwork(SocketType.Hall);
+                    GameLocalMode.Instance.AccountList.isAuto = false;
+                    GameLocalMode.Instance.SaveAccount();
                     var logFile = new HallStruct.ACP_SC_LOGIN_FAILE(buffer);
                     DebugHelper.LogError(logFile.Error);
-                    ToolHelper.PopSmallWindow(logFile.Error);
+                    ToolHelper.PopBigWindow(new BigMessage()
+                    {
+                        content = $"{logFile.Error}",
+                        okCall = () =>
+                        {
+                            if (GameLocalMode.Instance.IsInGame)
+                            {
+                                EventHelper.DispatchLeaveGame();
+                            }
+
+                            UIManager.Instance.CloseAllUI();
+                            UIManager.Instance.OpenUI<LogonScenPanel>();
+                        },
+                        cancelCall = () =>
+                        {
+                            if (GameLocalMode.Instance.IsInGame)
+                            {
+                                EventHelper.DispatchLeaveGame();
+                            }
+
+                            UIManager.Instance.CloseAllUI();
+                            UIManager.Instance.OpenUI<LogonScenPanel>();
+                        }
+                    });
                     HallEvent.DispatchLogonResult(false);
                     break;
                 }

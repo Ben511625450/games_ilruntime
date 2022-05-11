@@ -156,7 +156,7 @@ function JPM_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function JPM_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(JPMEntry.gameObject);
+    --destroy(JPMEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function JPM_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

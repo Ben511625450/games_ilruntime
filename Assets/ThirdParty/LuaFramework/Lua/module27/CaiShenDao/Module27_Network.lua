@@ -163,7 +163,7 @@ function Module27_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function Module27_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(Module27.gameObject);
+    --destroy(Module27.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function Module27_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)

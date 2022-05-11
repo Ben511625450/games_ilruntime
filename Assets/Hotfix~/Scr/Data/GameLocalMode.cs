@@ -236,6 +236,27 @@ namespace Hotfix
             AccountList.Accounts.Add(Account);
             SaveHelper.Save(AccountKey, AccountList);
         }
+        public const string ScreenOrientation = "ScreenOrientation";
+        public void SetScreen(ScreenOrientation orientation)
+        {
+            if (orientation == UnityEngine.ScreenOrientation.Portrait)
+            {
+                Screen.orientation = UnityEngine.ScreenOrientation.Portrait;
+                Screen.autorotateToLandscapeLeft = false;
+                Screen.autorotateToLandscapeRight = false;
+                Screen.autorotateToPortrait = true;
+                Screen.autorotateToPortraitUpsideDown = false;
+            }
+            else
+            {
+                Screen.orientation = UnityEngine.ScreenOrientation.Landscape;
+                Screen.autorotateToLandscapeLeft = true;
+                Screen.autorotateToLandscapeRight = true;
+                Screen.autorotateToPortrait = false;
+                Screen.autorotateToPortraitUpsideDown = false;
+            }
+            SaveHelper.SaveCommon(ScreenOrientation,orientation.ToString());
+        }
     }
 
     public enum Prop_Id

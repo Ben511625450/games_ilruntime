@@ -14,99 +14,113 @@ namespace Hotfix
             {
                 scenName = "module03", uiName = "开心牛牛", serverId = "21", clientId = 3,
                 configer = GameModuleConfiger.GetModule("module03"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
                 rootName = "",
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module05", uiName = "金蟾捕鱼", serverId = "21", clientId = 5,
                 configer = GameModuleConfiger.GetModule("module05"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module06", uiName = "万炮捕鱼", serverId = "21", clientId = 6,
                 configer = GameModuleConfiger.GetModule("module06"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { go.AddILComponent<WPBY.WPBYEntry>(); }
             },
             new GameData()
             {
                 scenName = "module07", uiName = "李逵劈鱼", serverId = "21", clientId = 7,
                 configer = GameModuleConfiger.GetModule("module07"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
+                BL = new List<string>() {"1", "10", "100", "10000"},
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module08", uiName = "飞禽走兽", serverId = "21", clientId = 9,
                 configer = GameModuleConfiger.GetModule("module08"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
+                BL = new List<string>() {"1", "10", "100", "10000"},
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module13", uiName = "功夫熊猫", serverId = "21", clientId = 13,
                 configer = GameModuleConfiger.GetModule("module13"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
+                BL = new List<string>() {"1", "10", "100", "10000"},
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module14", uiName = "白蛇传", serverId = "21", clientId = 14,
                 configer = GameModuleConfiger.GetModule("module14"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
+                BL = new List<string>() {"1", "10", "100", "10000"},
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module16", uiName = "纸牌老虎机", serverId = "21", clientId = 16,
                 configer = GameModuleConfiger.GetModule("module16"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module17", uiName = "楚河汉界", serverId = "21", clientId = 17,
                 configer = GameModuleConfiger.GetModule("module17"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module18", uiName = "水浒传", serverId = "21", clientId = 18,
                 configer = GameModuleConfiger.GetModule("module18"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module19", uiName = "决胜21点", serverId = "21", clientId = 19,
                 configer = GameModuleConfiger.GetModule("module19"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module20", uiName = "百家乐", serverId = "21", clientId = 20,
                 configer = GameModuleConfiger.GetModule("module20"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module51", uiName = "水果小玛丽", serverId = "21", clientId = 21, otherClientId = 51,
                 configer = GameModuleConfiger.GetModule("module51"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module22", uiName = "水果777", serverId = "21", clientId = 22,
                 configer = GameModuleConfiger.GetModule("module22"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 rootName = "SG777Entry",
                 entry = go => { go.AddILComponent<SG777.SG777Entry>(); }
             },
@@ -114,7 +128,8 @@ namespace Hotfix
             {
                 scenName = "module24", uiName = "龙珠探宝", serverId = "21", clientId = 8, otherClientId = 24,
                 configer = GameModuleConfiger.GetModule("module24"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
@@ -122,49 +137,56 @@ namespace Hotfix
                 scenName = "module25", uiName = "草莓老虎机", serverId = "21", clientId = 25,
                 rootName = "CMLHJEntry",
                 configer = GameModuleConfiger.GetModule("module25"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
-                entry = go => { go.AddILComponent<CMLHJ.CMLHJEntry>();}
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
+                entry = go => { go.AddILComponent<CMLHJ.CMLHJEntry>(); }
             },
             new GameData()
             {
                 scenName = "module27", uiName = "财神到", serverId = "21", clientId = 27,
                 configer = GameModuleConfiger.GetModule("module27"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module28", uiName = "福临门", serverId = "21", clientId = 28,
                 configer = GameModuleConfiger.GetModule("module28"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module32", uiName = "点球大战", serverId = "21", clientId = 32,
                 configer = GameModuleConfiger.GetModule("module32"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module33", uiName = "虎啸龙吟", serverId = "21", clientId = 33,
                 configer = GameModuleConfiger.GetModule("module33"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module38", uiName = "战国史记", serverId = "21", clientId = 38,
                 configer = GameModuleConfiger.GetModule("module38"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module39", uiName = "淘金者", serverId = "21", clientId = 39,
                 configer = GameModuleConfiger.GetModule("module39"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 rootName = "TJZEntry",
                 entry = go => { go.AddILComponent<TJZ.TJZEntry>(); }
             },
@@ -172,253 +194,289 @@ namespace Hotfix
             {
                 scenName = "module40", uiName = "跳高高", serverId = "21", clientId = 40,
                 configer = GameModuleConfiger.GetModule("module40"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { go.AddILComponent<TGG.TGGEntry>(); }
             },
             new GameData()
             {
                 scenName = "module41", uiName = "金瓶梅", serverId = "21", clientId = 41,
                 configer = GameModuleConfiger.GetModule("module41"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module42", uiName = "月光宝盒", serverId = "21", clientId = 42,
                 configer = GameModuleConfiger.GetModule("module42"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { go.AddILComponent<YGBH.YGBHEntry>(); }
             },
             new GameData()
             {
-                scenName = "module43", uiName = "百人牛牛", serverId = "21", clientId = 43,
+                scenName = "module43", uiName = "百人牛牛", serverId = "21", clientId = 43, rootName = "Game71Panel",
                 configer = GameModuleConfiger.GetModule("module43"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module44", uiName = "乐高大电影", serverId = "21", clientId = 44,
                 configer = GameModuleConfiger.GetModule("module44"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module45", uiName = "五龙争霸", serverId = "21", clientId = 45,
                 configer = GameModuleConfiger.GetModule("module45"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module46", uiName = "萌宠大作战", serverId = "21", clientId = 46,
                 configer = GameModuleConfiger.GetModule("module46"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module47", uiName = "幸运水果机", serverId = "21", clientId = 47,
                 configer = GameModuleConfiger.GetModule("module47"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module48", uiName = "福星高照", serverId = "21", clientId = 48,
                 configer = GameModuleConfiger.GetModule("module48"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module49", uiName = "武士斩杀", serverId = "21", clientId = 49,
                 configer = GameModuleConfiger.GetModule("module49"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module50", uiName = "上海滩", serverId = "21", clientId = 50,
                 configer = GameModuleConfiger.GetModule("module50"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module51", uiName = "水果小玛丽", serverId = "21", clientId = 51, otherClientId = 21,
                 configer = GameModuleConfiger.GetModule("module51"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module52", uiName = "十二生肖", serverId = "21", clientId = 52,
                 configer = GameModuleConfiger.GetModule("module52"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module53", uiName = "街机赛马", serverId = "21", clientId = 53,
                 configer = GameModuleConfiger.GetModule("module53"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module54", uiName = "埃及大冒险", serverId = "21", clientId = 54,
                 configer = GameModuleConfiger.GetModule("module54"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module55", uiName = "通比牛牛", serverId = "21", clientId = 55,
                 configer = GameModuleConfiger.GetModule("module55"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module56", uiName = "金鼠迎春", serverId = "21", clientId = 56,
                 configer = GameModuleConfiger.GetModule("module56"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module57", uiName = "冰球突破", serverId = "21", clientId = 57,
                 configer = GameModuleConfiger.GetModule("module57"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module58", uiName = "金猪送福", serverId = "21", clientId = 58,
                 configer = GameModuleConfiger.GetModule("module58"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module59", uiName = "竹子熊猫", serverId = "21", clientId = 59,
                 configer = GameModuleConfiger.GetModule("module59"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => { }
             },
             new GameData()
             {
                 scenName = "module60", uiName = "街头劲舞", serverId = "21", clientId = 60,
                 configer = GameModuleConfiger.GetModule("module60"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<JTJW.JWEntry>()
             },
             new GameData()
             {
                 scenName = "module61", uiName = "偷窥", serverId = "21", clientId = 61,
                 configer = GameModuleConfiger.GetModule("module61"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TouKui.TouKuiEntry>()
             },
             new GameData() //龙腾捕鱼
             {
-                scenName = "module62", uiName = "万炮捕鱼", serverId = "21", clientId = 62,
+                scenName = "module62", uiName = "龙腾捕鱼", serverId = "21", clientId = 62,
                 configer = GameModuleConfiger.GetModule("module62"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<LTBY.LTBYEntry>()
             },
+
             new GameData()
             {
-                scenName = "module63", uiName = "西游降魔", serverId = "21", clientId = 63,
+                scenName = "module63", uiName = "麻将胡了", serverId = "21", clientId = 63,
                 configer = GameModuleConfiger.GetModule("module63"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
-                entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Portrait,
+                entry = go => go.AddILComponent<MJHL.MJHLEntry>()
             },
-            
+
             new GameData()
             {
                 scenName = "module64", uiName = "麻将胡了", serverId = "21", clientId = 64,
                 configer = GameModuleConfiger.GetModule("module64"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
-                entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Portrait,
+                entry = go => go.AddILComponent<MJHL.MJHLEntry>()
             },
             new GameData()
             {
                 scenName = "module65", uiName = "跳跳糖果", serverId = "21", clientId = 65,
                 configer = GameModuleConfiger.GetModule("module65"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module66", uiName = "嘻哈熊猫", serverId = "21", clientId = 66,
                 configer = GameModuleConfiger.GetModule("module66"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module67", uiName = "神龙戏珠", serverId = "21", clientId = 67,
                 configer = GameModuleConfiger.GetModule("module67"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module68", uiName = "风情果园", serverId = "21", clientId = 68,
                 configer = GameModuleConfiger.GetModule("module68"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module69", uiName = "深海捕鱼", serverId = "21", clientId = 69,
                 configer = GameModuleConfiger.GetModule("module69"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module70", uiName = "玉蒲团", serverId = "21", clientId = 70,
                 configer = GameModuleConfiger.GetModule("module70"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module71", uiName = "愤怒的小鸟", serverId = "21", clientId = 71,
                 configer = GameModuleConfiger.GetModule("module71"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module72", uiName = "僵尸先生", serverId = "21", clientId = 72,
                 configer = GameModuleConfiger.GetModule("module72"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module73", uiName = "心动女主播", serverId = "21", clientId = 73,
                 configer = GameModuleConfiger.GetModule("module73"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module74", uiName = "炸金花", serverId = "21", clientId = 74,
                 configer = GameModuleConfiger.GetModule("module74"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
+                Orientation = ScreenOrientation.Landscape,
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
             new GameData()
             {
                 scenName = "module255", uiName = "敬请期待", serverId = "21", clientId = 255,
                 configer = GameModuleConfiger.GetModule("module255"),
-                BL = new List<string>(){"1", "10", "100", "10000"},
+                BL = new List<string>() {"1", "10", "100", "10000"},
                 entry = go => go.AddILComponent<TiaoTiaoTangGuo.TTTGEntry>()
             },
         };
@@ -457,6 +515,7 @@ namespace Hotfix
         public string scenName;
         public string serverId;
         public string uiName;
+        public ScreenOrientation Orientation;
         public List<string> BL;
     }
 
@@ -1174,19 +1233,17 @@ namespace Hotfix
                     },
                 }
             },
-            
             {
                 "module63", new ModuleConfiger() //龙腾捕鱼
                 {
                     luaPath = "Module63",
-                    luaRootName = "LTBYEntry",
+                    luaRootName = "MJHLEntry",
                     driveType = ScriptType.ILRuntime,
-                    gameName = "西游降魔",
-                    uiName = "西游降魔",
+                    gameName = "麻将胡了",
+                    uiName = "麻将胡了",
                     downFiles = new List<string>()
                     {
-                        "module62/module62.unity3d",
-                        "module62/prefab.unity3d",
+                        "module63/module63.unity3d",
                     },
                 }
             },
@@ -1194,14 +1251,13 @@ namespace Hotfix
                 "module64", new ModuleConfiger() //龙腾捕鱼
                 {
                     luaPath = "Module64",
-                    luaRootName = "LTBYEntry",
+                    luaRootName = "MJHLEntry",
                     driveType = ScriptType.ILRuntime,
                     gameName = "麻将胡了",
                     uiName = "麻将胡了",
                     downFiles = new List<string>()
                     {
-                        "module62/module62.unity3d",
-                        "module62/prefab.unity3d",
+                        "module64/module64.unity3d",
                     },
                 }
             },

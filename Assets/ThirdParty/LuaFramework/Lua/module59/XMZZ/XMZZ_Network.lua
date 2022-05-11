@@ -169,7 +169,7 @@ function XMZZ_Network.OnHandleUserScore(wMainID, wSubID, buffer, wSize)
 end
 function XMZZ_Network.OnHandleGameQuit(wMainID, wSubID, buffer, wSize)
     --退出游戏
-    destroy(XMZZEntry.gameObject);
+    --destroy(XMZZEntry.gameObject);
     GameSetsBtnInfo.LuaGameQuit();
 end
 function XMZZ_Network.OnHandleSitSeat(wMainID, wSubID, buffer, wSize)
